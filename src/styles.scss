@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+@use '../node_modules/@taiga-ui/core/styles/variables/media';
+@use '../node_modules/@taiga-ui/core/styles/mixins/mixins';
+
+:host {
+  // Use TuiThemeColorService instead, this is just for demo purposes
+  --tui-theme-color: #003139;
+}
+
+aside::before {
+  display: none;
+}
+
+// Add custom styles for side navigation
+.side-nav {
+  height: 100svh; /* Extend to full viewport height */
+}
