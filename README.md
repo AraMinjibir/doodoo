@@ -1,4 +1,15 @@
 # Doodoo
+  A brief discription and/or background about the project would be filled out here soon.
+
+ # Components / Style Utility Library
+
+In this project, the component library of choice is [`Taiga UI`](https://taiga-ui.dev/). Below is the URL to the documentation for reference and furrther reading.
+
+
+The accompanying css utility [`PrimeFlex`](https://primeflex.org/) is also from the same ecosystem as PrimeNG. It's documentation could be access via 
+
+### Prime VS Code Extension
+https://marketplace.visualstudio.com/items?itemName=yigitfindikli.primeflexsnippets
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.5.
 

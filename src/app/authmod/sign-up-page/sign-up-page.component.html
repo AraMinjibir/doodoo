@@ -1,1 +1,33 @@
-<p>sign-up-page works!</p>
+<form [formGroup]="form" class="border-3 w-5 mx-auto py-5">
+    <tui-textfield>
+        <label tuiLabel>Card number</label>
+        <input
+            formControlName="card"
+            tuiInputCard
+            [icon]="card"
+            (binChange)="onBinChange($event)"
+        />
+    </tui-textfield>
+    <section>
+        <tui-textfield>
+            <label tuiLabel>Expires</label>
+            <input
+                formControlName="expire"
+                tuiInputExpire
+            />
+        </tui-textfield>
+        <tui-textfield>
+            <label tuiLabel>CVC/CVV</label>
+            <input
+                formControlName="cvc"
+                tuiInputCVC
+            />
+        </tui-textfield>
+    </section>
+    <tui-error
+        formControlName="card"
+        [error]="[] | tuiFieldError | async"
+    />
+</form>
+<p>{{ form.value | json }}</p>
+
