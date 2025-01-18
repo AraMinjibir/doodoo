@@ -1,33 +1,53 @@
-<form [formGroup]="form" class="border-3 w-5 mx-auto py-5">
-    <tui-textfield>
-        <label tuiLabel>Card number</label>
-        <input
-            formControlName="card"
-            tuiInputCard
-            [icon]="card"
-            (binChange)="onBinChange($event)"
-        />
-    </tui-textfield>
-    <section>
-        <tui-textfield>
-            <label tuiLabel>Expires</label>
-            <input
-                formControlName="expire"
-                tuiInputExpire
-            />
-        </tui-textfield>
-        <tui-textfield>
-            <label tuiLabel>CVC/CVV</label>
-            <input
-                formControlName="cvc"
-                tuiInputCVC
-            />
-        </tui-textfield>
-    </section>
-    <tui-error
-        formControlName="card"
-        [error]="[] | tuiFieldError | async"
-    />
-</form>
-<p>{{ form.value | json }}</p>
+<div class="border-3 h-screen flex justify-content-center align-items-center bg-gray-300 ">
 
+    <div tuiAppearance="floating" tuiCardLarge class="max-w-30rem">
+        <header tuiHeader class="flex-column align-items-center">
+            <div class="w-10rem h-9rem border-circle border-3 mb-3"></div>
+            <h2 tuiTitle>Create an Account</h2>
+        </header>
+        <form [formGroup]="testForm">
+            <p>
+                <tui-input
+                    formControlName="testValue"
+                    [tuiTextfieldCleaner]="true"
+                >
+                    Type an email here
+                    <input
+                        placeholder="mail@mail.ru"
+                        tuiTextfieldLegacy
+                        type="email"
+                    />
+                </tui-input>
+            </p>
+            <p>
+                <tui-input
+                    formControlName="password"
+                    [tuiTextfieldCleaner]="true"
+                >
+                    Type password here
+                    <input
+                        placeholder="password"
+                        tuiTextfieldLegacy
+                        type="password"
+                    />
+                </tui-input>
+            </p>
+            <p>
+                <tui-input
+                    formControlName="cpassword"
+                    [tuiTextfieldCleaner]="true"
+                >
+                    Confirm password here
+                    <input
+                        placeholder="Confirm password"
+                        tuiTextfieldLegacy
+                        type="Confirm password"
+                    />
+                </tui-input>
+            </p>
+            <button type="submit">Submit</button>
+            <span>Already have an Account? <a routerLink = "authmod/login">Login</a></span>
+        </form>
+    </div>
+
+</div>

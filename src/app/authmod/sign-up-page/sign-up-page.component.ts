@@ -1,75 +1,27 @@
 import { Component } from '@angular/core';
-import {AsyncPipe, JsonPipe} from '@angular/common';
-import {inject} from '@angular/core';
+import {TuiAppearance, TuiButton, TuiTextfield, TuiTitle} from '@taiga-ui/core';
+import {TuiCardLarge, TuiHeader} from '@taiga-ui/layout';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {
-    tuiCreateLuhnValidator,
-    TuiInputCard,
-    tuiInputCardOptionsProvider,
-    TuiInputCVC,
-    TuiInputExpire,
-} from '@taiga-ui/addon-commerce';
-import {
-    TuiAlertService,
-    TuiError,
-    TuiTextfield,
-    tuiTextfieldOptionsProvider,
-} from '@taiga-ui/core';
-import {TuiFieldErrorPipe} from '@taiga-ui/kit';
+import {TuiInputModule} from '@taiga-ui/legacy';
  
 
 @Component({
   selector: 'sign-up',
-  imports: [ AsyncPipe,
-    JsonPipe,
-    ReactiveFormsModule,
-    TuiError,
-    TuiFieldErrorPipe,
-    TuiInputCard,
-    TuiInputCVC,
-    TuiInputExpire,
-    TuiTextfield,],
+  imports: [ TuiAppearance,
+    TuiCardLarge,
+    TuiHeader,
+    TuiTitle,
+    TuiTextfield,
+    ReactiveFormsModule, 
+    TuiInputModule, TuiButton],
   templateUrl: './sign-up-page.component.html',
   styleUrl: './sign-up-page.component.scss'
   
 })
 export class SignUpPageComponent {
-
-  private readonly alerts = inject(TuiAlertService);
- 
-  protected readonly form = new FormGroup({
-      card: new FormControl('', tuiCreateLuhnValidator('Card number is invalid')),
-      expire: new FormControl(''),
-      cvc: new FormControl(''),
-  });
-
-  protected get card(): string | null {
-      const value: string | null | undefined = this.form.get('card')?.value;
-
-      if ((value?.length ?? 0) < 7) {
-          return null;
-      }
-
-      switch (value?.charAt(0)) {
-          case '0':
-          case '1':
-          case '2':
-              return 'https://ng-web-apis.github.io/dist/assets/images/common.svg';
-          case '3':
-          case '4':
-          case '5':
-              return 'https://ng-web-apis.github.io/dist/assets/images/geolocation.svg';
-          case '6':
-          case '7':
-              return 'https://ng-web-apis.github.io/dist/assets/images/intersection-observer.svg';
-          case '8':
-          case '9':
-          default:
-              return 'https://ng-web-apis.github.io/dist/assets/images/payment-request.svg';
-      }
-  }
-
-  protected onBinChange(bin: string | null): void {
-      this.alerts.open(String(bin), {label: '(binChange)'}).subscribe();
-  }
+    protected readonly testForm = new FormGroup({
+        testValue: new FormControl('mail@mail.ru'),
+        password: new FormControl(),
+        cpassword: new FormControl()
+    });
 }
