@@ -6,8 +6,7 @@
             <h2 tuiTitle>Create an Account</h2>
         </header>
         <form [formGroup]="testForm">
-            <p>
-                <tui-input
+            <tui-input
                     formControlName="testValue"
                     [tuiTextfieldCleaner]="true"
                 >
@@ -17,26 +16,23 @@
                         tuiTextfieldLegacy
                         type="email"
                     />
-                </tui-input>
-            </p>
-            <p>
-                <tui-input-password
+            </tui-input>
+            
+            <tui-input-password
                     formControlName="password"
                     [tuiTextfieldCleaner]="true"
                     
             >
             Enter your password here
-                </tui-input-password>
-            </p>
-            <p>
-                <tui-input-password
+            </tui-input-password>
+
+            <tui-input-password
                     formControlName="cpassword"
                     [tuiTextfieldCleaner]="true"
                     
             >
             Confirm your password here
-                </tui-input-password>
-            </p>
+            </tui-input-password>
 
             <tui-combo-box
                 tuiDropdownMobile
