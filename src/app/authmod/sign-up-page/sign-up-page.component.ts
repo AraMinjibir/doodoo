@@ -4,11 +4,9 @@ import {TuiCardLarge, TuiHeader} from '@taiga-ui/layout';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {TuiInputModule, TuiInputPasswordModule} from '@taiga-ui/legacy';
 import {FormsModule} from '@angular/forms';
-import {TuiAmountPipe} from '@taiga-ui/addon-commerce';
 import {TuiDropdownMobile} from '@taiga-ui/addon-mobile';
 import {TuiDropdown} from '@taiga-ui/core';
-import {TuiAvatar, TuiDataListWrapper, TuiFilterByInputPipe} from '@taiga-ui/kit';
-import {TuiCell} from '@taiga-ui/layout';
+import { TuiDataListWrapper, TuiFilterByInputPipe} from '@taiga-ui/kit';
 import {
     TuiComboBoxModule,
     TuiMultiSelectModule,
@@ -31,7 +29,6 @@ interface User {
     ReactiveFormsModule, 
     TuiInputModule, TuiButton,
     FormsModule,
-    TuiButton,
     TuiComboBoxModule,
     TuiDataListWrapper,
     TuiDropdown,
