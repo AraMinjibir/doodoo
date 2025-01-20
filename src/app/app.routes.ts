@@ -1,11 +1,21 @@
 import { Routes } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HomePageComponent } from './home-page/home-page.component';
 
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: 'auth',
+        redirectTo: 'home-page',
         pathMatch:'full'
+    },
+    {
+      path: 'home-page',
+      component: HomePageComponent,
+      
+    },
+    {
+      path: 'home',
+      loadChildren: () => import('./home-page/homemod/homemod.module').then((mod) => (mod).HomemodModule)
     },
     {
        path:'auth',
