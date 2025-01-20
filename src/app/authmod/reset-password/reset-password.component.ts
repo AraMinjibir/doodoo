@@ -19,8 +19,12 @@ import { TuiInputModule, TuiTextfieldControllerModule } from '@taiga-ui/legacy';
 })
 export class ResetPasswordComponent {
 
-  protected readonly testForm = new FormGroup({
-        treset: new FormControl(),
+  protected readonly resetForm = new FormGroup({
+    reset: new FormControl(),
              
     });
+
+    onFormSubmitting(){
+      this.resetForm.reset()
+    }
 }

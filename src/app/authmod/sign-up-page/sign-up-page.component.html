@@ -1,14 +1,16 @@
-<div class="border-3 h-screen flex justify-content-center align-items-center bg-gray-300 ">
-
-    <div tuiAppearance="floating" tuiCardLarge class="max-w-30rem bg-info ">
+<div class="h-screen flex justify-content-center align-items-center bg-gray-300 ">
+    <form [formGroup]="signForm" 
+        tuiAppearance="floating" 
+        tuiCardLarge 
+        class="max-w-30rem bg-info "
+        (ngSubmit) = "onFormSubmitting()">
         <header tuiHeader class="flex-column align-items-center">
             <div class="w-10rem h-9rem border-circle border-3 mb-3"></div>
             <h2 tuiTitle>Create an Account</h2>
         </header>
-        <form [formGroup]="testForm">
-            <tui-input
-                    formControlName="testValue"
-                    [tuiTextfieldCleaner]="true"
+        <tui-input
+                formControlName="email"
+                [tuiTextfieldCleaner]="true"
                 >
                 Enter your Email address
                     <input
@@ -16,25 +18,22 @@
                         tuiTextfieldLegacy
                         type="email"
                     />
-            </tui-input>
-            
-            <tui-input-password
-                    formControlName="password"
-                    [tuiTextfieldCleaner]="true"
+        </tui-input>
+        <tui-input-password
+                formControlName="password"
+                [tuiTextfieldCleaner]="true"
                     
             >
             Enter your password here
-            </tui-input-password>
-
-            <tui-input-password
-                    formControlName="cpassword"
-                    [tuiTextfieldCleaner]="true"
+        </tui-input-password>
+        <tui-input-password
+            formControlName="cpassword"
+            [tuiTextfieldCleaner]="true"
                     
             >
             Confirm your password here
-            </tui-input-password>
-
-            <tui-combo-box
+        </tui-input-password>
+        <tui-combo-box
                 tuiDropdownMobile
                 [tuiTextfieldCleaner]="true"
                 formControlName="role"
@@ -44,15 +43,17 @@
                     *tuiDataList
                     [items]="roles | tuiFilterByInput"
                 />
-            </tui-combo-box>
-            <button
+        </tui-combo-box>
+        <button
              appearance = "outline"
              tuiAppearanceMode = "checked"
              tuiButton
              type="submit"
-             >Submit</button>
-            <span>Already have an Account? <a href="" class="no-underline">Login</a></span>
-        </form>
-    </div>
-
+         >Submit</button>
+        <span>Already have an Account?
+             <a 
+            routerLink="/auth/login-page"
+             class="no-underline"
+             >Login</a></span>
+    </form>
 </div>

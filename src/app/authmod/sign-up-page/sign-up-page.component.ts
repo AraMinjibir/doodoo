@@ -13,6 +13,7 @@ import {
     TuiSelectModule,
     TuiTextfieldControllerModule,
 } from '@taiga-ui/legacy';
+import { RouterLink } from '@angular/router';
 
 interface User {
   readonly url: string;
@@ -38,15 +39,16 @@ interface User {
     TuiSelectModule,
     TuiTextfieldControllerModule,
     TuiTitle,
-    TuiInputPasswordModule],
+    TuiInputPasswordModule,
+    RouterLink],
 
   templateUrl: './sign-up-page.component.html',
   styleUrl: './sign-up-page.component.scss'
   
 })
 export class SignUpPageComponent {
-    protected readonly testForm = new FormGroup({
-        testValue: new FormControl('mail@mail.ru'),
+    protected readonly signForm = new FormGroup({
+        email: new FormControl('mail@mail.ru'),
         password: new FormControl(),
         cpassword: new FormControl(),
         role: new FormControl()
@@ -67,5 +69,7 @@ export class SignUpPageComponent {
 
     ]
 
-    
+    onFormSubmitting(){
+      this.signForm.reset()
+    } 
 }
