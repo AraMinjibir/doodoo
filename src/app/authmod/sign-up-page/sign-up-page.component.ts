@@ -48,6 +48,7 @@ interface User {
 })
 export class SignUpPageComponent {
     router: Router = inject(Router);
+           
     protected readonly signForm = new FormGroup({
         email: new FormControl('mail@mail.ru'),
         password: new FormControl(),
@@ -72,6 +73,6 @@ export class SignUpPageComponent {
 
     onFormSubmitting(){
       this.signForm.reset();
-      this.router.navigate(["home/admin"])
+      this.router.navigate(["home/admin"]);
     } 
 }
