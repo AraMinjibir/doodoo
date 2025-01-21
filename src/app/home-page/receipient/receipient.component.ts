@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-receipient',
+  selector: 'receipient',
   imports: [],
   templateUrl: './receipient.component.html',
   styleUrl: './receipient.component.scss'

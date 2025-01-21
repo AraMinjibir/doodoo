@@ -1,21 +1,18 @@
 import { Routes } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { HomePageComponent } from './home-page/home-page.component';
+import { AppLayoutComponent } from './app-layout/app-layout.component';
 
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: 'home-page',
+        redirectTo: 'app-layout',
         pathMatch:'full'
     },
     {
-      path: 'home-page',
-      component: HomePageComponent,
+      path: 'app-layout',
+      component: AppLayoutComponent,
+      loadChildren: () => import('./app-layout/appmod/appmod.module').then((mod) => (mod).AppmodModule)
       
-    },
-    {
-      path: 'home',
-      loadChildren: () => import('./home-page/homemod/homemod.module').then((mod) => (mod).HomemodModule)
     },
     {
        path:'auth',

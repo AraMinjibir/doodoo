@@ -1,11 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'home-page',
-  imports: [HeaderComponent, FooterComponent],
+  imports: [],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'
 })
@@ -19,7 +17,6 @@ export class HomePageComponent {
     })
   }
   jumpToView(section:any){
-    console.log('do')
     document.getElementById(section)?.scrollIntoView({behavior:'smooth'})
   }
 }
