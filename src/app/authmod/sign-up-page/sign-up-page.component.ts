@@ -73,6 +73,5 @@ export class SignUpPageComponent {
 
     onFormSubmitting(){
       this.signForm.reset();
-      this.router.navigate(["home/admin"]);
     } 
 }
