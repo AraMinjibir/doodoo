@@ -26,6 +26,7 @@ export class ForgotPasswordComponent {
   });
   onFormSubmitting(){
     this.forgotForm.reset();
-    this.router.navigate(['auth/reset-password'])
+    this.router.navigate(['auth/reset-password']);
+    
   }
 }

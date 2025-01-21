@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {TuiAppearance, TuiButton, TuiTextfield, TuiTitle} from '@taiga-ui/core';
 import {TuiCardLarge, TuiHeader} from '@taiga-ui/layout';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
@@ -13,7 +13,7 @@ import {
     TuiSelectModule,
     TuiTextfieldControllerModule,
 } from '@taiga-ui/legacy';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 interface User {
   readonly url: string;
@@ -47,6 +47,8 @@ interface User {
   
 })
 export class SignUpPageComponent {
+    router: Router = inject(Router);
+           
     protected readonly signForm = new FormGroup({
         email: new FormControl('mail@mail.ru'),
         password: new FormControl(),
@@ -70,6 +72,7 @@ export class SignUpPageComponent {
     ]
 
     onFormSubmitting(){
-      this.signForm.reset()
+      this.signForm.reset();
+      this.router.navigate(["home/admin"]);
     } 
 }
