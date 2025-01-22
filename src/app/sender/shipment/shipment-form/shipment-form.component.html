@@ -1,0 +1,58 @@
+<div tuiAppearance="floating" 
+tuiCardLarge 
+class="max-w-30rem mx-auto" 
+(showShipmentForm) 
+= "onShowShipmentForm()">
+    <form [formGroup]="form">
+        <div class="text-right">
+            <button
+            appearance="flat"
+            tuiAppearanceMode = "checked"
+            tuiButton
+            type="submit"
+            (click) = "OnCollapseForm()"> x
+        </button>
+        </div> 
+        <h3>Create Shipment</h3>
+        <div class="my-2" *ngFor="let field of fields">
+            <tui-input>
+                {{field.placeholder}}
+                <input translate="no" 
+                tuiTextfieldLegacy
+                field.type
+                field.formControlName />
+            </tui-input>
+        </div>  
+        <div class="flex justify-content-between mb-2">
+            <tui-input formControlName="weight">
+                 Package weight in kg
+                <input inputmode="numeric" tuiTextfieldLegacy />
+            </tui-input>
+            <tui-input
+            formControlName="dimensions"
+            >
+            Package  dimensions
+            <input
+                inputmode="numeric"
+                tuiTextfieldLegacy
+            />
+        </tui-input>
+        </div>
+        <div class="flex justify-content-between">
+            <button
+            appearance="primary"
+            tuiAppearanceMode = "checked"
+            tuiButton
+            type="submit"
+           >Calculate cost
+        </button>
+        <button
+            appearance="secondary"
+            tuiAppearanceMode = "checked"
+            tuiButton
+            type="submit"
+           >Review & Confirm
+        </button>
+        </div>
+    </form>
+</div>
