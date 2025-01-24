@@ -15,15 +15,19 @@
             </button>
         </div> 
         <h3>Create Shipment</h3>
-        <div class="my-2" *ngFor="let field of fields">
-            <tui-input
-            [formControlName]="field.formControlName"
-        >
-        {{ field.placeholder }}
-        <input [type]="field.type" tuiTextfieldLegacy />
-            </tui-input>
-        </div>  
-        <div class="flex justify-content-between mb-2">
+        <h4>Sender Details</h4>
+        <tui-input
+                formControlName="senderName"
+                [tuiTextfieldCleaner]="true"
+                >
+                Provide us with your Name
+                    <input
+                        placeholder="Enter your Name"
+                        tuiTextfieldLegacy
+                        type="text"
+                    />
+        </tui-input>
+        <div class="flex justify-content-between my-2">
             <tui-input formControlName="weight">
                  Package weight in kg
                 <input inputmode="numeric" tuiTextfieldLegacy />
@@ -38,6 +42,25 @@
             />
         </tui-input>
         </div>
+        <tui-input
+                formControlName="pckCont"
+                [tuiTextfieldCleaner]="true"
+                >
+                Provide us with package contents
+                    <input
+                        tuiTextfieldLegacy
+                        type="text"
+                    />
+        </tui-input>
+        <h4>Recipient Details</h4>
+        <div class="my-2" *ngFor="let field of fields">
+            <tui-input
+            [formControlName]="field.formControlName"
+        >
+        {{ field.placeholder }}
+        <input [type]="field.type" tuiTextfieldLegacy />
+            </tui-input>
+        </div>  
         <button
             appearance="primary"
             tuiAppearanceMode = "checked"

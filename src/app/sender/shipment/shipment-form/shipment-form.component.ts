@@ -3,7 +3,7 @@ import {TuiAppearance, TuiButton} from '@taiga-ui/core';
 import {TuiCardLarge} from '@taiga-ui/layout';
 import {FormControl,  FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TuiDataListWrapper} from '@taiga-ui/kit';
-import {TuiInputModule} from '@taiga-ui/legacy';
+import {TuiInputModule, TuiTextfieldControllerModule} from '@taiga-ui/legacy';
 import { NgFor, NgIf } from '@angular/common';
 
 @Component({
@@ -15,7 +15,8 @@ import { NgFor, NgIf } from '@angular/common';
         ReactiveFormsModule,
         TuiDataListWrapper,
         TuiInputModule,
-        NgFor,NgIf                
+        NgFor,NgIf,
+        TuiTextfieldControllerModule              
   ],
   templateUrl: './shipment-form.component.html',
   styleUrl: './shipment-form.component.scss'
@@ -23,14 +24,14 @@ import { NgFor, NgIf } from '@angular/common';
 export class ShipmentFormComponent {
   // input form array
   fields = [
-    {type: "text", placeholder: "Enter Recipient Name", formControlName: "recipientName"},
-    {type: "text", placeholder: "Enter Recipient Address", formControlName: "recipientAdd"},
-    {type: "email", placeholder: "Enter Recipient Email", formControlName: "recipientEm"},
-    {type: "text", placeholder: "Enter Recipient Phone", formControlName: "recipientPh"},
-    {type: "text", placeholder: "Enter Package Contents", formControlName: "pckCont"}
+    {type: "text", placeholder: "Provide us with Recipient Name", formControlName: "recipientName"},
+    {type: "text", placeholder: "Provide us with Recipient Address", formControlName: "recipientAdd"},
+    {type: "email", placeholder: "Provide us with Recipient Email", formControlName: "recipientEm"},
+    {type: "text", placeholder: "Provide us with Recipient Phone", formControlName: "recipientPh"},
   ]
   
   protected readonly form = new FormGroup({
+        senderName: new FormControl('', Validators.required),
         recipientName: new FormControl('', Validators.required),
         recipientAdd: new FormControl('',Validators.required),
         recipientEm: new FormControl('',Validators.email),
@@ -95,6 +96,7 @@ export class ShipmentFormComponent {
     ngOnChanges(changes: SimpleChanges){
       if(changes['shipmentDetails'] && this.shipmentDetails){
         this.form.patchValue({
+          senderName: this.shipmentDetails.senderName,
           recipientName: this.shipmentDetails.recipientName,
           recipientEm: this.shipmentDetails.recipientEm,
           recipientAdd: this.shipmentDetails.recipientAdd,
