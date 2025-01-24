@@ -1,0 +1,20 @@
+<div tuiAppearance="floating" 
+    tuiCardLarge
+    class="max-w-30rem mx-auto border-2">
+    <h3>Review Shipment Details</h3>
+    <div>
+      <p><strong>Recipient Name:</strong> {{ shipmentDetails.recipientName }} </p>
+      <p><strong>Recipient Address:</strong> {{ shipmentDetails.recipientAdd }}</p>
+      <p><strong>Email:</strong> {{ shipmentDetails.recipientEm }}</p>
+      <p><strong>Phone:</strong> {{ shipmentDetails.recipientPh }}</p>
+      <p><strong>Package Contents:</strong> {{ shipmentDetails.pckCont }}</p>
+      <p><strong>Weight:</strong> {{ shipmentDetails.weight }} kg</p>
+      <p><strong>Dimensions:</strong> {{ shipmentDetails.dimensions }}</p>
+      <p><strong>Estimated Cost:</strong> ${{ shipmentDetails.cost }}</p>
+    </div>
+    <div class="flex justify-content-between mt-4">
+      <button appearance="secondary" (click)="onEditDetails()" tuiButton>Edit</button>
+      <button appearance="primary" tuiButton (click)="onConfirmShipment()">Confirm</button>
+    </div>
+</div>
+  
