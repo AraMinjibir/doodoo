@@ -66,10 +66,10 @@ export class ShipmentFormComponent {
     }     
 
     // calculate cost method
-    calculateCost() {
+    calculateCost() {   
       if (this.form.valid) {
-        const weight = this.form.get('weight')?.value ?? '0'; // Default to '0' if null or undefined
-        const dimension = this.form.get('dimensions')?.value ?? '0'; // Default to '0' if null or undefined
+        const weight = this.form.get('weight')?.value ?? '0'; 
+        const dimension = this.form.get('dimensions')?.value ?? '0'; 
     
         // Parse the values to numbers
         const parsedWeight = parseFloat(weight.toString());
@@ -77,23 +77,21 @@ export class ShipmentFormComponent {
     
         if (!isNaN(parsedWeight) && !isNaN(parsedDimension)) {
           this.shippingCost = parsedWeight * 5 + parsedDimension * 2;
-          console.log('Calculated Shipping Cost:', this.shippingCost); // Debugging log
+          
         } else {
-          this.shippingCost = 0; // Fallback for invalid input
-          console.log('Invalid weight or dimension provided');
+          this.shippingCost = 0;
         }
     
         // Include cost in shipment details
         const shipmentDetails = { ...this.form.value, cost: this.shippingCost };
-        this.showSummary.emit(shipmentDetails); // Emit the details
-        console.log('Shipment Details Emitted:', shipmentDetails);
-    
-        this.form.reset(); // Reset the form after calculation
+        this.showSummary.emit(shipmentDetails); 
+        
+        this.form.reset(); 
       } else {
         console.log('Form is invalid');
       }
     }
-    
+  
     ngOnChanges(changes: SimpleChanges){
       if(changes['shipmentDetails'] && this.shipmentDetails){
         this.form.patchValue({

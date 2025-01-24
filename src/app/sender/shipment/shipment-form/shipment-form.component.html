@@ -7,12 +7,12 @@
     <form [formGroup]="form" (ngSubmit)="calculateCost()">
         <div class="text-right">
             <button
-            appearance="flat"
-            tuiAppearanceMode = "checked"
-            tuiButton
-            type="submit"
-            (click) = "OnCollapseForm()"> x
-        </button>
+                appearance="flat"
+                tuiAppearanceMode = "checked"
+                tuiButton
+                type="button"
+                (click) = "OnCollapseForm()"> x
+            </button>
         </div> 
         <h3>Create Shipment</h3>
         <div class="my-2" *ngFor="let field of fields">
@@ -21,7 +21,7 @@
         >
         {{ field.placeholder }}
         <input [type]="field.type" tuiTextfieldLegacy />
-      </tui-input>
+            </tui-input>
         </div>  
         <div class="flex justify-content-between mb-2">
             <tui-input formControlName="weight">
