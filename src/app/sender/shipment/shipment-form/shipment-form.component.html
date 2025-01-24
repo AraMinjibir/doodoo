@@ -1,9 +1,10 @@
 <div tuiAppearance="floating" 
-tuiCardLarge 
-class="max-w-30rem mx-auto" 
-(showShipmentForm) 
-= "onShowShipmentForm()">
-    <form [formGroup]="form">
+        tuiCardLarge 
+        class="max-w-30rem mx-auto" 
+        (showShipmentForm) 
+        = "onShowShipmentForm()"
+    >
+    <form [formGroup]="form" (ngSubmit)="calculateCost()">
         <div class="text-right">
             <button
             appearance="flat"
@@ -15,13 +16,12 @@ class="max-w-30rem mx-auto"
         </div> 
         <h3>Create Shipment</h3>
         <div class="my-2" *ngFor="let field of fields">
-            <tui-input>
-                {{field.placeholder}}
-                <input translate="no" 
-                tuiTextfieldLegacy
-                field.type
-                field.formControlName />
-            </tui-input>
+            <tui-input
+            [formControlName]="field.formControlName"
+        >
+        {{ field.placeholder }}
+        <input [type]="field.type" tuiTextfieldLegacy />
+      </tui-input>
         </div>  
         <div class="flex justify-content-between mb-2">
             <tui-input formControlName="weight">
@@ -31,28 +31,23 @@ class="max-w-30rem mx-auto"
             <tui-input
             formControlName="dimensions"
             >
-            Package  dimensions
+            Package dimensions
             <input
                 inputmode="numeric"
                 tuiTextfieldLegacy
             />
         </tui-input>
         </div>
-        <div class="flex justify-content-between">
-            <button
+        <button
             appearance="primary"
             tuiAppearanceMode = "checked"
             tuiButton
             type="submit"
-           >Calculate cost
+            class="w-full"
+            > Calculate cost
         </button>
-        <button
-            appearance="secondary"
-            tuiAppearanceMode = "checked"
-            tuiButton
-            type="submit"
-           >Review & Confirm
-        </button>
+        <div class="my-4" *ngIf="shippingCost !== null">
+            <h4>Estimated Shipping Cost: ${{ shippingCost }}</h4>
         </div>
     </form>
 </div>

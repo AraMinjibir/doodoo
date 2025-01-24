@@ -3,7 +3,8 @@
         <button appearance="flat" tuiAppearanceMode="checked" tuiButton type="submit" class="mx-2"
             (click)="onShowShipmentForm()">Create Shipment
         </button>
-        <button appearance="flat" tuiAppearanceMode="checked" tuiButton type="submit" class="mx-2">Track Shipment
+        <button appearance="flat" tuiAppearanceMode="checked"
+         tuiButton type="submit" class="mx-2">Track Shipment
         </button>
     </div>
     <div class="text-center my-5" *ngIf="showWelcomeNote">
@@ -17,5 +18,11 @@
     <shipment-form *ngIf=" showShipmentForm" 
     (showShipmentFormToHome)="onShowShipmentForm($event)"
     (showShipmentFormToHome) = "onShowFormToHome($event)"
-></shipment-form>
+    (showSummary) = "handleShowSummary($event)"
+    [shipmentDetails]="shipmentToEdit"
+    
+>
+    </shipment-form>
+    <summary *ngIf="showSummary" [shipmentDetails]="shipmentDetails"
+    (editDetails) = "handleEditDetails($event)" (confirmShipment)="handleConfirmShipment($event)"></summary>
 </div>
