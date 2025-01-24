@@ -30,7 +30,10 @@ onCollapseTrackForm(){
   this.collapseTrackForm.emit()
 }
 onSubmitId(){
-  this.form.reset();
-  alert("Track sent successfully")
+  if(this.form.valid){
+    this.form.reset();
+    alert("Track sent successfully")
+  }else
+    console.log('Form is invalid')
 }
 }

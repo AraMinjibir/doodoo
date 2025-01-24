@@ -26,7 +26,7 @@
     </shipment-form>
     <app-track *ngIf="showTrackForm"
      (collapseTrackForm)="handleCollapseTrackForm($event)"
-     class="flex justify-content-center align-items-center h-screen"></app-track>
+     class="flex justify-content-center align-items-center"></app-track>
     <summary *ngIf="showSummary" [shipmentDetails]="shipmentDetails"
     (editDetails) = "handleEditDetails($event)" (confirmShipment)="handleConfirmShipment($event)"></summary>
 </div>
