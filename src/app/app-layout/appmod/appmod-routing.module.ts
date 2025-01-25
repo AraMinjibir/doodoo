@@ -4,8 +4,8 @@ import { AdminComponent } from '../../admin/admin.component';
 import { CustomerCareComponent } from '../../customer-care/customer-care.component';
 import { ReceipientComponent } from '../../recipient/recipient.component';
 import { SenderComponent } from '../../sender/sender.component';
-import { ServiceProviderComponent } from '../../home-page/service-provider/service-provider.component';
 import { HomePageComponent } from '../../home-page/home-page.component';
+import { ServiceProviderComponent } from '../../service-provider/service-provider.component';
 
 const routes: Routes = [
     {
@@ -34,9 +34,9 @@ const routes: Routes = [
       component: SenderComponent,
     },
     {
-      path: 'service',
-      component: ServiceProviderComponent,
-    },
+      path: 'service-provider',
+      component:ServiceProviderComponent,
+    }
   ];
   
 
