@@ -1,5 +1,6 @@
 <div class="text-center w-full h-screen my-5">
-    <div class="flex justify-content-end mr-8" 
+    <div class="flex justify-content-end mr-8"
+    *ngIf="showWelcomeNote" 
     >
         <button appearance="flat" 
         tuiAppearanceMode="checked" 
@@ -7,6 +8,13 @@
         (click)="onShowPickUpCard()"
          class="mx-2"
             >Request
+        </button>
+        <button appearance="flat" 
+            tuiAppearanceMode="checked" 
+            tuiButton type="button"
+            class="mx-2"
+            (click)="onShowDeliveryCard()"
+                >Deliver Package
         </button>
     </div>
     <div class="text-center my-5" *ngIf="showWelcomeNote">
@@ -20,4 +28,6 @@
 
     <picking-up *ngIf="showPickUpCard"
     (collapseCard)="handleOnCollapseCard($event)"></picking-up>
+    <delivery *ngIf="showDeliveryCard"
+    (collapseDeliveryCard)="handleOnCollapseDeliveryCard($event)"></delivery>
 </div>

@@ -17,4 +17,8 @@ export class PickingUpDeliveryComponent {
     onCollapseCard(){
       this.collapseCard.emit();
     }
+
+    accept(){
+      this.onCollapseCard();
+    }
 }
