@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { TuiButton } from '@taiga-ui/core';
 import { ShipmentFormComponent } from './shipment-form/shipment-form.component';
 import { NgIf } from '@angular/common';

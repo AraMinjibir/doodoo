@@ -1,0 +1,29 @@
+<div class="text-center w-full h-screen my-5 border-2">
+    <div class="flex justify-content-end mr-8 my-2 border-2">
+        <button appearance="flat" 
+            tuiAppearanceMode="checked" 
+            tuiButton type="button" 
+            (click)="onShowPackageForm()"
+            > Receive Package
+        </button>
+        <button appearance="flat" 
+            tuiAppearanceMode="checked" 
+            tuiButton type="button"
+            (click)="onShowConfirmDelivery()" 
+            > Confirm Delivery
+        </button>
+    </div>
+    <div *ngIf="showWelcomeNote">
+        <h2>
+            Welcome to Recipient part
+        </h2>
+        <p>
+            Where you can be able to receive package and 
+            confirm delivery from service provider.
+        </p>
+    </div>
+    <receive-package *ngIf="showReceivePackageForm"
+    (collapseForm)="handleOncollapseForm($event)"></receive-package>
+    <confirm-delivery *ngIf="showConfirmDelivery"
+    (closeForm)="handleOnCloseForm($event)"></confirm-delivery>
+</div>
