@@ -1,0 +1,29 @@
+<div tuiAppearance="floating" 
+    tuiCardLarge class="max-w-30rem mx-auto"
+    >
+    <form [formGroup]="form" (ngSubmit)="onSubmitId()">
+        <div class="text-right">
+            <button
+                appearance="flat"
+                tuiAppearanceMode = "checked"
+                tuiButton
+                type="button"
+             (click)="onCollapseTrackForm()"
+             class="bg-gray-300 border-circle"   > x
+            </button>
+        </div> 
+        <h3>Track Shipment</h3>
+        <tui-input formControlName="id">
+            Enter the Tracking number
+           <input inputmode="numeric" tuiTextfieldLegacy />
+       </tui-input>
+       <button
+                appearance="primary"
+                tuiAppearanceMode = "checked"
+                tuiButton
+                type="submit"
+                class="my-3"
+                > Track shipment
+            </button>
+    </form>
+</div>
