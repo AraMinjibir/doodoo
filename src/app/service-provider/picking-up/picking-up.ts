@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { TuiAppearance, TuiButton } from '@taiga-ui/core';
 import { TuiCardLarge } from '@taiga-ui/layout';
 
@@ -7,10 +6,9 @@ import { TuiCardLarge } from '@taiga-ui/layout';
   selector: 'picking-up',
   imports: [TuiAppearance,
             TuiButton,
-            TuiCardLarge,
-            ReactiveFormsModule],
-  templateUrl: './picking-up-delivery.component.html',
-  styleUrl: './picking-up-delivery.component.scss'
+            TuiCardLarge],
+  templateUrl: './picking-up.html',
+  styleUrl: './picking-up.scss'
 })
 export class PickingUpDeliveryComponent {
   @Output()

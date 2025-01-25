@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TuiButton } from '@taiga-ui/core';
-import { PickingUpDeliveryComponent } from './picking-up-delivery/picking-up-delivery.component';
+import { PickingUpDeliveryComponent } from './picking-up/picking-up';
 import { NgIf } from '@angular/common';
 
 @Component({
