@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AppmodRoutingModule} from './appmod-routing.module';
 import { HomePageComponent } from '../../home-page/home-page.component';
 import { AdminComponent } from '../../admin/admin.component';
 import { CustomerCareComponent } from '../../customer-care/customer-care.component';
 import { ReceipientComponent } from '../../recipient/recipient.component';
 import { SenderComponent } from '../../sender/sender.component';
-import { ServiceProviderComponent } from '../../home-page/service-provider/service-provider.component';
+import { ServiceProviderComponent } from '../../service-provider/service-provider.component';
+
 
 
 @NgModule({
