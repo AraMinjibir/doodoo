@@ -1,0 +1,25 @@
+<div tuiAppearance="floating" 
+        tuiCardLarge 
+        class="max-w-30rem mx-auto" 
+    >
+    <form [formGroup]="form">
+        <div class="text-right">
+            <button
+                appearance="flat"
+                tuiAppearanceMode = "checked"
+                tuiButton
+                type="button"
+                (click)="onCollapseForm()"
+             > x
+            </button>
+        </div> 
+        <h4>
+            Dear Recipient, i would like to inform you about the arrival of your package
+        </h4>
+        <button appearance="primary" 
+        tuiAppearanceMode="checked" 
+        tuiButton type="submit" 
+        > Confirm Delivery
+        </button>
+    </form>
+</div>

@@ -1,0 +1,34 @@
+<div tuiAppearance="floating" 
+        tuiCardLarge 
+        class="max-w-30rem mx-auto" 
+    >
+    <form [formGroup]="form">
+        <div class="text-right">
+            <button
+                appearance="flat"
+                tuiAppearanceMode = "checked"
+                tuiButton
+                type="button"
+               (click)="handleOncollapseForm()"
+             > x
+            </button>
+        </div> 
+        <tui-input
+                formControlName="sign"
+                
+                >
+               Signature / Identification
+                    <input
+                        placeholder="sign here please"
+                        tuiTextfieldLegacy
+                        type="text"
+                    />
+        </tui-input>
+        <button appearance="primary" 
+        tuiAppearanceMode="checked" 
+        tuiButton type="submit" 
+        class="my-3"
+        > Confirm Delivery
+        </button>
+    </form>
+</div>
