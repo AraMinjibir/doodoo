@@ -1,0 +1,54 @@
+<div class="">
+    <div class="text-right mr-8 px-8">
+        <button appearance="flat" tuiAppearanceMode="checked"
+         tuiButton type="button" class="" (click)="onshowCard()"
+        >Inquiries
+    </button>
+    </div>
+    <div class="text-center">
+        <h2>
+            Welcome to Customer Support  Section
+        </h2>
+        <p>
+            Where you can be able to receive and responds to customers' inquiries.
+        </p>
+    </div>
+    <div tuiAppearance="floating"
+     tuiCardLarge class="max-w-30rem mx-auto my-8"
+    *ngIf="showCard" >
+    <h1>Received User Inquiries</h1>
+    <div *ngFor="let inquiry of inquiries" class="p-4 border rounded shadow">
+      <p><strong>Name:</strong> {{ inquiry.name }}</p>
+      <p><strong>Email:</strong> {{ inquiry.email }}</p>
+      <p><strong>Inquiry:</strong> {{ inquiry.inquiry }}</p>
+      <button tuiButton appearance="primary" (click)="respondToInquiry()">
+        Respond
+      </button>
+    </div>
+
+</div>
+<div tuiAppearance="floating"
+        tuiCardLarge 
+        class="max-w-30rem mx-auto my-8"
+        *ngIf="showResponseCard">  
+        <form [formGroup]="responseForm" 
+            class="max-w-30rem"
+            tuiAppearance="floating"
+            tuiCardLarge
+        >
+            <header tuiHeader class="flex-column align-items-center">
+                <h2 tuiTitle>Response</h2>
+            </header>
+            <tui-textarea
+                #textarea
+                formControlName="testValue3"
+                class="tui-space_top-4"
+                [expandable]="textarea.focused"
+            >
+                Type Response here.
+            </tui-textarea>
+            <button tuiButton appearance="primary" type="button" (click)="sendResponse()">
+            Send Response
+            </button>
+        </form>
+    </div>
