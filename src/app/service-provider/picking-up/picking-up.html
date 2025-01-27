@@ -1,25 +1,50 @@
 <div tuiAppearance="floating" 
-        tuiCardLarge 
-        class="max-w-30rem mx-auto" 
+    tuiCardLarge 
+    class="max-w-30rem mx-auto"> 
+    <div class="flex justify-content-between" 
     >
-     <div class="text-right">
         <button
-            appearance="flat"
-            tuiAppearanceMode = "checked"
-            tuiButton
-             type="button"
-            (click)="onCollapseCard()"
-             > x
-        </button>
-    </div> 
-    <h4>
-        Dear Service Provider, i would like to inform you that you have so,so request now.
-    </h4>
-    <button appearance="primary" 
-        tuiAppearanceMode="checked" 
-        tuiButton 
-        type="button" 
-        > Accept
+        size="m"
+        tuiButton
+        type="button"
+        (click)="showDialog()"
+    >
+        Receive a Request
     </button>
-    
+     <button
+        tuiButton
+        tuiHintDirection="top"
+        type="button"
+        (click)="show()"
+>
+    Collect a Package
+</button>
+<ng-template
+    let-observer
+    [tuiDialogOptions]="{label: 'Collect Package from Sender', size: 's'}"
+    [(tuiDialog)]="open"
+>
+    <form
+        [formGroup]="exampleForm"
+        (ngSubmit)="observer.complete()"
+    >
+        <tui-input
+            formControlName="exampleControl"
+            tuiAutoFocus
+        >
+            Enter Yes to confirm package collection
+        </tui-input>
+        <p>
+            <button
+                tuiButton
+                type="submit"
+            >
+                Update status
+            </button>
+        </p>
+    </form>
+</ng-template>
+
+
+    </div>
 </div>

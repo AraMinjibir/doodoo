@@ -1,13 +1,12 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, inject, EventEmitter, Output} from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TuiAppearance, TuiButton,TuiDialog,TuiDialogService } from '@taiga-ui/core';
+import { TuiAppearance, TuiButton,TuiDialog,TuiDialogService} from '@taiga-ui/core';
 import { TuiCardLarge } from '@taiga-ui/layout';
 import {TuiAutoFocus, TuiThemeColorService} from '@taiga-ui/cdk';
 import { TuiInputModule } from '@taiga-ui/legacy';
 
-
 @Component({
-  selector: 'picking-up',
+  selector: 'request',
   imports: [TuiButton, 
         TuiAppearance, 
         TuiCardLarge,
@@ -15,15 +14,13 @@ import { TuiInputModule } from '@taiga-ui/legacy';
         TuiAutoFocus,
         TuiButton,
         TuiDialog,
-        TuiInputModule,
-  ],
-  templateUrl: './picking-up.html',
-  styleUrl: './picking-up.scss'
+        TuiInputModule],
+  templateUrl: './request.component.html',
+  styleUrl: './request.component.scss'
 })
-export class PickingUpDeliveryComponent {
+export class RequestComponent {
   @Output()
-  collapseCard:EventEmitter<boolean> = new EventEmitter<boolean>();
-
+  collapseRequestModal: EventEmitter<boolean> = new EventEmitter<boolean>()
   private readonly dialogs = inject(TuiDialogService);
   private readonly theme = inject(TuiThemeColorService);
 
@@ -32,14 +29,15 @@ export class PickingUpDeliveryComponent {
       this.dialogs
           .open(
               'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
-              {label: 'Pick Up Request'},
+              {label: 'Delivery Request'},
           )
           .subscribe({
               complete: () => {
                   this.theme.color = '#ff7043';
+                 
               },
-          });
-          this.collapseCard.emit();
+          });this.collapseRequestModal.emit()
+          
   }
 
   protected exampleForm = new FormGroup({
@@ -53,5 +51,4 @@ protected show(): void {
   
     
 }
-  
 }
