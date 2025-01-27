@@ -1,0 +1,33 @@
+<div tuiAppearance="floating" 
+    tuiCardLarge 
+    class="max-w-30rem mx-auto my-4">
+<h1>Manage Users</h1>
+<button tuiButton (click)="addUser()">Add User</button>
+<table 
+    tuiTable
+    class="tables"
+    [columns]="columns">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.status }}</td>
+        <td class="flex justify-content-between">
+          <button tuiButton class="mx-1" (click)="editUser(user)">Edit</button>
+          <button tuiButton class="mx-1" (click)="deleteUser(user)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
