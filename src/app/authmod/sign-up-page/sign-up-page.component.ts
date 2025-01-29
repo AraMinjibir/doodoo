@@ -1,12 +1,11 @@
 import { Component, inject } from '@angular/core';
-import {TuiAppearance, TuiButton, TuiTextfield, TuiTitle} from '@taiga-ui/core';
+import {TuiAppearance, TuiButton, TuiTitle} from '@taiga-ui/core';
 import {TuiCardLarge, TuiHeader} from '@taiga-ui/layout';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {TuiInputModule, TuiInputPasswordModule} from '@taiga-ui/legacy';
 import {FormsModule} from '@angular/forms';
 import {TuiDropdownMobile} from '@taiga-ui/addon-mobile';
-import {TuiDropdown} from '@taiga-ui/core';
-import { TuiDataListWrapper, TuiFilterByInputPipe} from '@taiga-ui/kit';
+import { TuiFilterByInputPipe} from '@taiga-ui/kit';
 import {
     TuiComboBoxModule,
     TuiMultiSelectModule,
@@ -14,6 +13,8 @@ import {
     TuiTextfieldControllerModule,
 } from '@taiga-ui/legacy';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../Service/auth.service';
+
 
 interface User {
   readonly url: string;
@@ -26,13 +27,10 @@ interface User {
     TuiCardLarge,
     TuiHeader,
     TuiTitle,
-    TuiTextfield,
     ReactiveFormsModule, 
     TuiInputModule, TuiButton,
     FormsModule,
     TuiComboBoxModule,
-    TuiDataListWrapper,
-    TuiDropdown,
     TuiDropdownMobile,
     TuiFilterByInputPipe,
     TuiMultiSelectModule,
@@ -40,7 +38,8 @@ interface User {
     TuiTextfieldControllerModule,
     TuiTitle,
     TuiInputPasswordModule,
-    RouterLink],
+    RouterLink,
+  ],
 
   templateUrl: './sign-up-page.component.html',
   styleUrl: './sign-up-page.component.scss'
@@ -48,8 +47,9 @@ interface User {
 })
 export class SignUpPageComponent {
     router: Router = inject(Router);
-           
-    protected readonly signForm = new FormGroup({
+    authService: AuthService = inject(AuthService);
+
+   signForm = new FormGroup({
         email: new FormControl('mail@mail.ru'),
         password: new FormControl(),
         cpassword: new FormControl(),
@@ -72,6 +72,13 @@ export class SignUpPageComponent {
     ]
 
     onFormSubmitting(){
+      const email = this.signForm.value.email;
+      const password = this.signForm.value.password;
+
+      this.authService.signUp(email, password).subscribe({
+        next: (res) => (console.log(res)),
+        error: (err) => (console.log(err))
+      })
       this.signForm.reset();
     } 
 }
