@@ -74,11 +74,31 @@ export class SignUpPageComponent {
     onFormSubmitting(){
       const email = this.signForm.value.email;
       const password = this.signForm.value.password;
-
+      const role = this.signForm.value.role;
+    
       this.authService.signUp(email, password).subscribe({
-        next: (res) => (console.log(res)),
-        error: (err) => (console.log(err))
-      })
-      this.signForm.reset();
-    } 
+        next: (res) => {
+          console.log(res);
+          
+          // Store the user object correctly
+          const user = { email, role }; 
+          localStorage.setItem('user', JSON.stringify([email, role]));
+ 
+          
+          const formattedRole = role.toLowerCase().replace(/\s+/g, '-');
+    
+          // Redirect user to the correct role page
+          if (role) {
+            this.router.navigate([`/app-layout/${formattedRole}`]); 
+          } else {
+            this.router.navigate(['/home']);  
+          }
+        },
+        error: (err) => console.log(err)
+      });
+
+      this.signForm.reset()
+    }
+    
+     
 }

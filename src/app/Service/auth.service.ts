@@ -67,7 +67,10 @@ export class AuthService {
         break;
       case 'EMAIL_NOT_FOUND':
         errorMessage = 'There is no user record corresponding to this identifier';
-        break 
+        break ;
+      case 'USER_DISABLED':
+        errorMessage = 'The user account has been disabled by an administrator';
+        break;
       case 'EXPIRED_OOB_CODE':
           errorMessage = 'The action code has expired';
           break
