@@ -7,6 +7,7 @@ import { ReceipientComponent } from '../../recipient/recipient.component';
 import { SenderComponent } from '../../sender/sender.component';
 import { ServiceProviderComponent } from '../../service-provider/service-provider.component';
 import { CustomerSupportComponent } from '../../customer-support/customer-support.component';
+import { ContactFormComponent } from '../../contact-form/contact-form.component';
 
 
 
@@ -19,6 +20,7 @@ import { CustomerSupportComponent } from '../../customer-support/customer-suppor
     ReceipientComponent,
     SenderComponent,
     ServiceProviderComponent,
+    ContactFormComponent,
     CommonModule,
     AppmodRoutingModule
   ]

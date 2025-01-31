@@ -21,6 +21,10 @@
                         
                 />
         </tui-input>
+        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+            <span *ngIf="loginForm.get('email')?.errors?.['required']">Email field Mustn't be empty.</span>
+            <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email.</span>
+        </div>
         <tui-input-password
             formControlName="password"
                 [tuiTextfieldCleaner]="true"
@@ -28,6 +32,12 @@
                  >
                 Enter your password here
         </tui-input-password>
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            <span *ngIf="loginForm.get('password')?.errors?.['required']">Password field Mustn't be empty.</span>
+            <span *ngIf="loginForm.get('password')?.errors?.['minlength']">
+              Password must be at least 6 characters long.
+            </span>
+          </div>
         <div class="flex justify-content-between">
             <div class="flex align-items-center">
                 <input
@@ -44,6 +54,7 @@
                 tuiAppearanceMode = "checked"
                 tuiButton
                 type="submit"
+                [disabled]="loginForm.invalid"
                 class="w-full my-3"
            >Login
         </button>

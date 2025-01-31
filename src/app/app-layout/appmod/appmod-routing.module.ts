@@ -6,6 +6,8 @@ import { SenderComponent } from '../../sender/sender.component';
 import { HomePageComponent } from '../../home-page/home-page.component';
 import { ServiceProviderComponent } from '../../service-provider/service-provider.component';
 import { CustomerSupportComponent } from '../../customer-support/customer-support.component';
+import { AuthGuard} from '../../Service/auth-guard.service';
+import { ContactFormComponent } from '../../contact-form/contact-form.component';
 
 const routes: Routes = [
     {
@@ -18,24 +20,33 @@ const routes: Routes = [
       component: HomePageComponent,
     },
     {
-      path: 'admin',
+      path: 'administrator',
       component: AdminComponent,
+      canActivate: [AuthGuard], data:{role: 'Administrator'}
     },
     {
-      path: 'customer',
+      path: 'customer-support-agent',
       component: CustomerSupportComponent,
+      canActivate:[AuthGuard], data:{role: 'Customer Support Agent'}
     },
     {
       path: 'recipient',
       component: ReceipientComponent,
+      canActivate:[AuthGuard], data:{role: 'Recipient'}
     },
     {
       path: 'sender',
       component: SenderComponent,
+      canActivate: [AuthGuard], data:{role: 'Sender'}
     },
     {
       path: 'service-provider',
       component:ServiceProviderComponent,
+      canActivate: [AuthGuard], data:{role: 'Service Provider'}
+    },
+    {
+      path: 'contact-form',
+      component: ContactFormComponent
     }
   ];
   
