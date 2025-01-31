@@ -1,59 +1,77 @@
-<div class="h-screen flex justify-content-center align-items-center bg-gray-300 ">
-    <form [formGroup]="signForm" 
-        tuiAppearance="floating" 
-        tuiCardLarge 
-        class="max-w-30rem bg-info "
-        (ngSubmit) = "onFormSubmitting()">
-        <header tuiHeader class="flex-column align-items-center">
-            <div class="w-10rem h-9rem border-circle border-3 mb-3"></div>
-            <h2 tuiTitle>Create an Account</h2>
-        </header>
-        <tui-input
-                formControlName="email"
-                [tuiTextfieldCleaner]="true"
-                >
-                Enter your Email address
-                    <input
-                        placeholder="mail@mail.ru"
-                        tuiTextfieldLegacy
-                        type="email"
-                    />
-        </tui-input>
-        <tui-input-password
-                formControlName="password"
-                [tuiTextfieldCleaner]="true"
-                    
-            >
-            Enter your password here
-        </tui-input-password>
-        <tui-input-password
-            formControlName="cpassword"
-            [tuiTextfieldCleaner]="true"
-                    
-            >
-            Confirm your password here
-        </tui-input-password>
-        <tui-combo-box
-                tuiDropdownMobile
-                [tuiTextfieldCleaner]="true"
-                formControlName="role"
-            >
-                Select Role
-                <tui-data-list-wrapper
-                    *tuiDataList
-                    [items]="roles | tuiFilterByInput"
-                />
-        </tui-combo-box>
-        <button
-             appearance = "outline"
-             tuiAppearanceMode = "checked"
-             tuiButton
-             type="submit"
-         >Submit</button>
-        <span>Already have an Account?
-             <a 
-            routerLink="/auth/login-page"
-             class="no-underline"
-             >Login</a></span>
+<div class="h-screen flex justify-content-center align-items-center bg-gray-300">
+    <form
+      [formGroup]="signForm"
+      tuiAppearance="floating"
+      tuiCardLarge
+      class="max-w-30rem bg-info"
+      (ngSubmit)="onFormSubmitting()"
+    >
+      <header tuiHeader class="flex-column align-items-center">
+        <div class="w-10rem h-9rem border-circle border-3 mb-3"></div>
+        <h2 tuiTitle>Create an Account</h2>
+      </header>
+  
+      <!-- Email Field -->
+      <tui-input formControlName="email" [tuiTextfieldCleaner]="true">
+        Enter your Email address
+        <input placeholder="mail@mail.ru" tuiTextfieldLegacy type="email" />
+      </tui-input>
+      <div *ngIf="signForm.get('email')?.invalid && signForm.get('email')?.touched">
+        <span *ngIf="signForm.get('email')?.errors?.['required']">Email field Mustn't be empty.</span>
+        <span *ngIf="signForm.get('email')?.errors?.['email']">Please enter a valid email.</span>
+      </div>
+  
+      <!-- Password Field -->
+      <tui-input-password formControlName="password" [tuiTextfieldCleaner]="true">
+        Enter your password here
+      </tui-input-password>
+      <div *ngIf="signForm.get('password')?.invalid && signForm.get('password')?.touched">
+        <span *ngIf="signForm.get('password')?.errors?.['required']">Password field Mustn't be empty.</span>
+        <span *ngIf="signForm.get('password')?.errors?.['minlength']">
+          Password must be at least 6 characters long.
+        </span>
+      </div>
+  
+      <!-- Confirm Password Field -->
+      <tui-input-password formControlName="cpassword" [tuiTextfieldCleaner]="true">
+        Confirm your password here
+      </tui-input-password>
+      <div *ngIf="signForm.get('cpassword')?.invalid && signForm.get('cpassword')?.touched">
+        <span *ngIf="signForm.get('cpassword')?.errors?.['required']">
+          Confirm Password is required.
+        </span>
+        <span *ngIf="signForm.get('cpassword')?.errors?.['mismatch']">
+          Passwords do not match.
+        </span>
+      </div>
+  
+      <!-- Role Field -->
+      <tui-combo-box
+        tuiDropdownMobile
+        [tuiTextfieldCleaner]="true"
+        formControlName="role"
+      >
+        Select Role
+        <tui-data-list-wrapper *tuiDataList [items]="roles | tuiFilterByInput" />
+      </tui-combo-box>
+      <div *ngIf="signForm.get('role')?.invalid && signForm.get('role')?.touched">
+        <span *ngIf="signForm.get('role')?.errors?.['required']">Role is required.</span>
+      </div>
+  
+      <!-- Submit Button -->
+      <button
+        appearance="outline"
+        tuiAppearanceMode="checked"
+        tuiButton
+        type="submit"
+        [disabled]="signForm.invalid"
+      >
+        Submit
+      </button>
+  
+      <span
+        >Already have an Account?
+        <a routerLink="/auth/login-page" class="no-underline">Login</a></span
+      >
     </form>
-</div>
+  </div>

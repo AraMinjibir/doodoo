@@ -1,12 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { TuiAppearance, TuiButton } from '@taiga-ui/core';
 import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TuiHint, TuiTextfield } from '@taiga-ui/core';
 import { TuiInputModule, TuiInputPasswordModule, TuiTextfieldControllerModule } from '@taiga-ui/legacy';
 import { TuiTitle } from '@taiga-ui/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../Service/auth.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'login-page',
@@ -23,6 +24,7 @@ import { AuthService } from '../../Service/auth.service';
     TuiTitle,
     TuiButton,
     RouterLink,
+    NgIf
   ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
@@ -32,15 +34,26 @@ export class LoginPageComponent {
   authService: AuthService = inject(AuthService);
 
   protected readonly loginForm = new FormGroup({
-    email: new FormControl(),
-    password: new FormControl(),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     rememberMe: new FormControl(false),
   });
 
   onFormSubmitting() {
-    const email = this.loginForm.value.email;
-    const password = this.loginForm.value.password;
-  
+    if (this.loginForm.invalid) {
+      return;
+    }
+    const { email, password, rememberMe } = this.loginForm.value;
+
+    // Save credentials to localStorage if "Remember Me" is checked
+    if (rememberMe) {
+      localStorage.setItem('rememberedEmail', email || '');
+      localStorage.setItem('rememberedPassword', password || '');
+    } else {
+      // Clear saved credentials if "Remember Me" is unchecked
+      localStorage.removeItem('rememberedEmail');
+      localStorage.removeItem('rememberedPassword');
+    }
     this.authService.login(email, password).subscribe({
       next: (res) => {
         console.log("Login Response:", res);

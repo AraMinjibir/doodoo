@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import {TuiAppearance, TuiButton, TuiTitle} from '@taiga-ui/core';
 import {TuiCardLarge, TuiHeader} from '@taiga-ui/layout';
-import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TuiInputModule, TuiInputPasswordModule} from '@taiga-ui/legacy';
 import {FormsModule} from '@angular/forms';
 import {TuiDropdownMobile} from '@taiga-ui/addon-mobile';
@@ -14,6 +14,7 @@ import {
 } from '@taiga-ui/legacy';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../Service/auth.service';
+import { NgIf } from '@angular/common';
 
 
 interface User {
@@ -23,7 +24,9 @@ interface User {
 
 @Component({
   selector: 'sign-up',
-  imports: [ TuiAppearance,
+  imports: [ 
+    NgIf,
+    TuiAppearance,
     TuiCardLarge,
     TuiHeader,
     TuiTitle,
@@ -39,6 +42,7 @@ interface User {
     TuiTitle,
     TuiInputPasswordModule,
     RouterLink,
+   
   ],
 
   templateUrl: './sign-up-page.component.html',
@@ -50,16 +54,26 @@ export class SignUpPageComponent {
     authService: AuthService = inject(AuthService);
 
    signForm = new FormGroup({
-        email: new FormControl('mail@mail.ru'),
-        password: new FormControl(),
-        cpassword: new FormControl(),
-        role: new FormControl()
-    });
-    isPasswordVisible = false;
+        email: new FormControl('', [Validators.required, Validators.email]),
+        password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+        cpassword: new FormControl('', [Validators.required]),
+        role: new FormControl('', [Validators.required])
+    },
+    { validators: this.passwordMatchValidator }
+  );
+  passwordMatchValidator(form: FormGroup) {
+    const password = form.get('password')?.value;
+    const cpassword = form.get('cpassword')?.value;
 
-  togglePasswordVisibility() {
-    this.isPasswordVisible = !this.isPasswordVisible;
+    if (password !== cpassword) {
+      form.get('cpassword')?.setErrors({ mismatch: true });
+    } else {
+      form.get('cpassword')?.setErrors(null);
+    }
+    return null;
   }
+
+    
     protected role = null; 
     protected readonly roles = [
       'Administrator',

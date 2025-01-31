@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TuiAppearance, TuiButton, TuiTextfield} from '@taiga-ui/core';
 import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout';
 import { TuiInputModule, TuiTextfieldControllerModule } from '@taiga-ui/legacy';
 import { AuthService } from '../../Service/auth.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'forgot-password',
@@ -15,7 +16,8 @@ import { AuthService } from '../../Service/auth.service';
       TuiInputModule,
       TuiTextfield,
       TuiTextfieldControllerModule, 
-      TuiButton],
+      TuiButton,
+      NgIf],
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.scss'
 })
@@ -24,7 +26,7 @@ export class ForgotPasswordComponent {
   authService: AuthService = inject(AuthService);
 
   protected readonly forgotForm = new FormGroup({
-      email: new FormControl(),
+      email: new FormControl('', [Validators.required, Validators.email]),
            
   });
   onFormSubmitting(){
