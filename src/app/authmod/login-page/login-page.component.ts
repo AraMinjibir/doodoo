@@ -40,37 +40,33 @@ export class LoginPageComponent {
   onFormSubmitting() {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
-
+  
     this.authService.login(email, password).subscribe({
       next: (res) => {
-        console.log(res);
-
-        // Fetch the stored user data from localStorage
-        const userData = JSON.parse(localStorage.getItem('user') || '[]');
-        const storedEmail = userData[0];
-        const storedRole = userData[1];
-
-        // Validate the email and role
-        if (email === storedEmail) {
-          // Store the role in localStorage or a service for later use
-          localStorage.setItem('currentRole', storedRole);
-
-          // Redirect based on the role
-          this.redirectBasedOnRole(storedRole);
+        console.log("Login Response:", res);
+        const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+          
+        if (storedUser) {
+          // Extract role
+          const extractedRole = storedUser?.role || null;
+      
+          if (extractedRole) {
+            this.redirectBasedOnRole(extractedRole); 
+          } else {
+            this.router.navigate(['app-layout/home-page']);
+            console.log("User role mismatch");
+          }
         } else {
-          console.error('User role mismatch');
-          this.router.navigate(['app-layout/home-page']); // Redirect to home if the role doesn't match
+          this.router.navigate(['app-layout/home-page']);
+          console.log("No user found");
         }
       },
-      error: (err) => {
-        console.error('Login failed:', err);
-        this.router.navigate(['app-layout/home-page']); // Redirect to home on error
-      },
+      error: (err) => console.log("Login Error:", err)
     });
-
+  
     this.loginForm.reset();
   }
-
+  
   private redirectBasedOnRole(role: string) {
     switch (role) {
       case 'Administrator':
@@ -93,4 +89,6 @@ export class LoginPageComponent {
         break;
     }
   }
+  
+
 }

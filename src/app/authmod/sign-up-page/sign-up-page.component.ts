@@ -79,22 +79,21 @@ export class SignUpPageComponent {
       this.authService.signUp(email, password).subscribe({
         next: (res) => {
           console.log(res);
-          
-          // Store the user object correctly
+
+          // Store the user object 
           const user = { email, role }; 
-          localStorage.setItem('user', JSON.stringify([email, role]));
- 
-          
+          localStorage.setItem('user', JSON.stringify([email, role]));          
           const formattedRole = role.toLowerCase().replace(/\s+/g, '-');
     
           // Redirect user to the correct role page
           if (role) {
             this.router.navigate([`/app-layout/${formattedRole}`]); 
           } else {
-            this.router.navigate(['/home']);  
+            this.router.navigate(['/app-layout/home-page']);  
           }
         },
-        error: (err) => console.log(err)
+        error: (err) => console.log(err),
+        
       });
 
       this.signForm.reset()

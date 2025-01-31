@@ -3,7 +3,7 @@ import { Router,NavigationEnd} from '@angular/router';
 import { TuiLink } from '@taiga-ui/core';
 import { AuthmodRoutingModule } from '../authmod/authmod-routing.module';
 import { NgIf } from '@angular/common';
-import { filter } from 'rxjs';
+import { AuthService } from '../Service/auth.service';
 
 @Component({
   selector: 'header',
@@ -12,30 +12,27 @@ import { filter } from 'rxjs';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  
-  isNotHomePage: boolean = false;  // New flag to track if we are NOT on home page
+  authService: AuthService = inject(AuthService);
+  isNotHomePage: boolean = false;  
   user: any = null;
   constructor(private router: Router) {}
 
-  ngOnInit(): void {
-    // Subscribe to router events
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: NavigationEnd) => {
-      // If the current URL is not the home page URL, show the Home link
-      this.isNotHomePage = event.urlAfterRedirects !== '/home-page';
-    });
-    const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
-
-    console.log("Stored User:", storedUser);
-    
-    if (Array.isArray(storedUser)) {
-      this.user = { email: storedUser[0], role: storedUser[1] };
-    } else {
-      this.user = storedUser;
-    }
+  ngOnInit() {
+    const storedUser = localStorage.getItem('user');
+    console.log("Stored User in Header:", storedUser);
   
-    console.log("Extracted Role:", this.user?.role);
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      console.log("Extracted Role:", Array.isArray(user) ? user[1] : user?.role);
+    } else {
+      console.log("No user found in storage");
+    }
+  }
+  
+  
+
+  logout() {
+    this.authService.logout();
   }
 
   navigateIfAuthenticated(role: string, path: string) {
@@ -51,9 +48,6 @@ export class HeaderComponent {
   }
   
   
-  logout() {
-    localStorage.removeItem('user');
-    this.router.navigate(['app-layout/home-page'])
-  }
+  
 
 }

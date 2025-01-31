@@ -1,42 +1,44 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard {
-
+export class AuthGuard implements CanActivate {
   router: Router = inject(Router);
+  authService: AuthService = inject(AuthService);
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
-  
-    console.log("Stored User:", storedUser);
-  
-    let user;
-    if (Array.isArray(storedUser)) {
-      user = { email: storedUser[0], role: storedUser[1] };
-    } else {
-      user = storedUser;
-    }
-  
-    console.log("Extracted Role:", user?.role);
-  
-    if (!user || !user.role) {
-      this.router.navigate(['/sign-up']);
+    const storedUser = this.getStoredUser();
+    
+    if (!storedUser) {
+      this.router.navigate(['/auth/sign-up']);
       return false;
     }
-  
+
+    const { email, role } = storedUser;
     const requiredRole = route.data['role'];
-    console.log("Required Role:", requiredRole);
-  
-    if (user.role !== requiredRole) {
-      alert(`Access denied, You need to be ${requiredRole} to view this page`);
+
+    if (role !== requiredRole) {
+      console.warn(`Access denied. Expected role: ${requiredRole}, but found: ${role}`);
+      this.router.navigate(['/app-layout/home-page']); 
       return false;
     }
-  
+
     return true;
   }
-  
 
+  private getStoredUser(): { email: string, role: string } | null {
+    try {
+      const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+      if (Array.isArray(storedUser) && storedUser.length >= 2) {
+        return { email: storedUser[0], role: storedUser[1] };
+      }
+      return storedUser;
+    } catch (error) {
+      console.error("Error parsing stored user:", error);
+      return null;
+    }
+  }
 }
