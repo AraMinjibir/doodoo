@@ -15,6 +15,8 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../Service/auth.service';
 import { NgIf } from '@angular/common';
+import { SnackBarComponent } from '../../Utility/snack-bar/snack-bar.component';
+import { LoaderComponent } from '../../Utility/loader/loader.component';
 
 
 interface User {
@@ -42,6 +44,8 @@ interface User {
     TuiTitle,
     TuiInputPasswordModule,
     RouterLink,
+    SnackBarComponent,
+    LoaderComponent
    
   ],
 
@@ -52,6 +56,8 @@ interface User {
 export class SignUpPageComponent {
     router: Router = inject(Router);
     authService: AuthService = inject(AuthService);
+    errorMessage: string | null = null; 
+    isLoading: boolean = false;
 
    signForm = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
@@ -86,14 +92,13 @@ export class SignUpPageComponent {
     ]
 
     onFormSubmitting(){
+      this.isLoading = true;
       const email = this.signForm.value.email;
       const password = this.signForm.value.password;
       const role = this.signForm.value.role;
     
       this.authService.signUp(email, password).subscribe({
         next: (res) => {
-          console.log(res);
-
           // Store the user object 
           const user = { email, role }; 
           localStorage.setItem('user', JSON.stringify([email, role]));          
@@ -106,7 +111,13 @@ export class SignUpPageComponent {
             this.router.navigate(['/app-layout/home-page']);  
           }
         },
-        error: (err) => console.log(err),
+        error: (err) => {
+          this.isLoading = false;
+          this.errorMessage = err;
+          setTimeout(() => {
+            this.errorMessage = null;
+          }, 3000);
+        },
         
       });
 

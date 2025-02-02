@@ -35,7 +35,7 @@ export class AuthService {
       data
     ).pipe(
       tap(response => {
-        const user = { email: response.email, role: 'Sender' }; // Adjust role assignment logic if needed
+        const user = { email: response.email, role: 'Sender' }; 
         this.setUser(user);
       }),
       catchError(this.handleErrorMessage)
