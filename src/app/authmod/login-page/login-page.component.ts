@@ -8,6 +8,8 @@ import { TuiTitle } from '@taiga-ui/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../Service/auth.service';
 import { NgIf } from '@angular/common';
+import { SnackBarComponent } from '../../Utility/snack-bar/snack-bar.component';
+import { LoaderComponent } from '../../Utility/loader/loader.component';
 
 @Component({
   selector: 'login-page',
@@ -24,7 +26,8 @@ import { NgIf } from '@angular/common';
     TuiTitle,
     TuiButton,
     RouterLink,
-    NgIf
+    NgIf,SnackBarComponent,
+    LoaderComponent
   ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
@@ -32,6 +35,8 @@ import { NgIf } from '@angular/common';
 export class LoginPageComponent {
   router: Router = inject(Router);
   authService: AuthService = inject(AuthService);
+  errorMessage: string | null = null;
+  isLoading: boolean = false;
 
   protected readonly loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -43,6 +48,7 @@ export class LoginPageComponent {
     if (this.loginForm.invalid) {
       return;
     }
+    this.isLoading = true;
     const { email, password, rememberMe } = this.loginForm.value;
 
     // Save credentials to localStorage if "Remember Me" is checked
@@ -56,7 +62,6 @@ export class LoginPageComponent {
     }
     this.authService.login(email, password).subscribe({
       next: (res) => {
-        console.log("Login Response:", res);
         const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
           
         if (storedUser) {
@@ -67,14 +72,18 @@ export class LoginPageComponent {
             this.redirectBasedOnRole(extractedRole); 
           } else {
             this.router.navigate(['app-layout/home-page']);
-            console.log("User role mismatch");
           }
         } else {
           this.router.navigate(['app-layout/home-page']);
-          console.log("No user found");
         }
       },
-      error: (err) => console.log("Login Error:", err)
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err;
+        setTimeout(() => {
+          this.errorMessage = null;
+        }, 3000);
+      },
     });
   
     this.loginForm.reset();

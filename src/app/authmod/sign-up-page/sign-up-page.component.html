@@ -1,9 +1,12 @@
 <div class="h-screen flex justify-content-center align-items-center bg-gray-300">
-    <form
+  <snack-bar [errorMessage]="errorMessage" *ngIf="errorMessage">{{ errorMessage }}</snack-bar>
+  <loader [isLoading]="isLoading" *ngIf="isLoading"></loader>
+  <form
       [formGroup]="signForm"
       tuiAppearance="floating"
       tuiCardLarge
       class="max-w-30rem bg-info"
+      *ngIf="!isLoading"
       (ngSubmit)="onFormSubmitting()"
     >
       <header tuiHeader class="flex-column align-items-center">

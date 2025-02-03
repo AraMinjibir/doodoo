@@ -15,17 +15,19 @@ export class HeaderComponent {
   authService: AuthService = inject(AuthService);
   isNotHomePage: boolean = false;  
   user: any = null;
+  isLoading: boolean = false;
   constructor(private router: Router) {}
 
   ngOnInit() {
     const storedUser = localStorage.getItem('user');
-    console.log("Stored User in Header:", storedUser);
   
     if (storedUser) {
       const user = JSON.parse(storedUser);
-      console.log("Extracted Role:", Array.isArray(user) ? user[1] : user?.role);
     } else {
-      console.log("No user found in storage");
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 
+    500);
     }
   }
   
@@ -36,10 +38,9 @@ export class HeaderComponent {
   }
 
   navigateIfAuthenticated(role: string, path: string) {
-      
+    this.isLoading = true;
     if (this.user?.role === role) {
       const formattedPath = `/app-layout/${role.toLowerCase().replace(/\s+/g, '-')}`;
-      console.log("Navigating to:", formattedPath);
       this.router.navigate([formattedPath]);
     } else {
       alert(`You must be a ${role} to access this`);
