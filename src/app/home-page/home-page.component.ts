@@ -12,7 +12,6 @@ import { NgIf } from '@angular/common';
 export class HomePageComponent {
 
   activatedRoute: ActivatedRoute = inject(ActivatedRoute);
-  errorMessage: string | null = null;
 
   ngOnInit(){
     this.activatedRoute.fragment.subscribe((data) =>{
