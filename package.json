@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^19.0.3",
     "@angular/platform-browser-dynamic": "^19.0.3",
     "@angular/router": "^19.0.3",
+    "@sendgrid/mail": "^8.1.4",
     "@taiga-ui/addon-charts": "^4.20.0",
     "@taiga-ui/addon-commerce": "^4.20.0",
     "@taiga-ui/addon-doc": "^4.20.0",
