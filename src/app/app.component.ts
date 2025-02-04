@@ -8,7 +8,7 @@ const ICON =
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, TuiRoot, TuiRoot],
+    imports: [RouterOutlet, TuiRoot, TuiRoot, TuiRoot],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
