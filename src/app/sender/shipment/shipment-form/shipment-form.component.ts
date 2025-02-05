@@ -32,6 +32,7 @@ export class ShipmentFormComponent {
   
   protected readonly form = new FormGroup({
         senderName: new FormControl('', Validators.required),
+        senderEm: new FormControl('',Validators.email),
         recipientName: new FormControl('', Validators.required),
         recipientAdd: new FormControl('',Validators.required),
         recipientEm: new FormControl('',Validators.email),
@@ -99,6 +100,7 @@ export class ShipmentFormComponent {
           senderName: this.shipmentDetails.senderName,
           recipientName: this.shipmentDetails.recipientName,
           recipientEm: this.shipmentDetails.recipientEm,
+          senderEm: this.shipmentDetails.senderEm,
           recipientAdd: this.shipmentDetails.recipientAdd,
           recipientPh: this.shipmentDetails.recipientPh,
           pckCont: this.shipmentDetails.pckCont,

@@ -27,6 +27,19 @@
                         type="text"
                     />
         </tui-input>
+        <tui-input
+        formControlName="senderEm"
+        [tuiTextfieldCleaner]="true"
+        class="mt-2"
+        >
+        Provide us with Email Address
+            <input
+                placeholder="Enter your Email Address"
+                tuiTextfieldLegacy
+                type="text"
+               
+            />
+</tui-input>
         <div class="flex justify-content-between my-2">
             <tui-input formControlName="weight">
                  Package weight in kg

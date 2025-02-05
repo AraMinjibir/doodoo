@@ -1,0 +1,51 @@
+[debug] [2025-02-04T05:26:22.777Z] ----------------------------------------------------------------------
+[debug] [2025-02-04T05:26:23.043Z] Command:       /usr/local/node/bin/node /usr/local/node/bin/firebase init hosting
+[debug] [2025-02-04T05:26:23.046Z] CLI Version:   13.29.3
+[debug] [2025-02-04T05:26:23.047Z] Platform:      linux
+[debug] [2025-02-04T05:26:23.047Z] Node Version:  v22.13.0
+[debug] [2025-02-04T05:26:23.049Z] Time:          Tue Feb 04 2025 06:26:23 GMT+0100 (West Africa Standard Time)
+[debug] [2025-02-04T05:26:23.050Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-02-04T05:26:23.497Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-02-04T05:26:23.499Z] > authorizing via signed-in user (abubakar.aramjb@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /home/aramjb/projects/doodoo
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-02-04T05:26:23.506Z] Using project from CLI flag: doodoo-cbfa9
+[debug] [2025-02-04T05:26:23.507Z] Checked if tokens are valid: true, expires at: 1738649638509
+[debug] [2025-02-04T05:26:23.508Z] Checked if tokens are valid: true, expires at: 1738649638509
+[debug] [2025-02-04T05:26:23.509Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/doodoo-cbfa9 [none]
+[debug] [2025-02-04T05:26:24.735Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/doodoo-cbfa9 200
+[debug] [2025-02-04T05:26:24.741Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/doodoo-cbfa9 {"projectId":"doodoo-cbfa9","projectNumber":"343358445958","displayName":"DooDoo","name":"projects/doodoo-cbfa9","resources":{"hostingSite":"doodoo-cbfa9","realtimeDatabaseInstance":"doodoo-cbfa9-default-rtdb"},"state":"ACTIVE","etag":"1_e1235be7-3a1b-46b0-9bd9-5a7cfeb57b30"}
+[info] i  Using project doodoo-cbfa9 (DooDoo) 
+[info] 
+=== Hosting Setup
+[debug] [2025-02-04T05:26:24.844Z] Checked if tokens are valid: true, expires at: 1738649638509
+[debug] [2025-02-04T05:26:24.846Z] Checked if tokens are valid: true, expires at: 1738649638509
+[debug] [2025-02-04T05:26:24.850Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/doodoo-cbfa9 [none]
+[debug] [2025-02-04T05:26:25.356Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/doodoo-cbfa9 200
+[debug] [2025-02-04T05:26:25.357Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/doodoo-cbfa9 {"projectId":"doodoo-cbfa9","projectNumber":"343358445958","displayName":"DooDoo","name":"projects/doodoo-cbfa9","resources":{"hostingSite":"doodoo-cbfa9","realtimeDatabaseInstance":"doodoo-cbfa9-default-rtdb"},"state":"ACTIVE","etag":"1_e1235be7-3a1b-46b0-9bd9-5a7cfeb57b30"}
+[info] 
+[info] Your public directory is the folder (relative to your project directory) that
+[info] will contain Hosting assets to be uploaded with firebase deploy. If you
+[info] have a build process for your assets, use your build's output directory.
+[info] 

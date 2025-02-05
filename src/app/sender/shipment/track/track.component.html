@@ -1,29 +1,40 @@
-<div tuiAppearance="floating" 
-    tuiCardLarge class="max-w-30rem mx-auto"
+<div tuiAppearance="floating" tuiCardLarge class="max-w-30rem mx-auto">
+  <form [formGroup]="form" (ngSubmit)="onSubmitTrckN()">
+    <div class="text-right">
+      <button
+        appearance="flat"
+        tuiAppearanceMode="checked"
+        tuiButton
+        type="button"
+        (click)="onCollapseTrackForm()"
+        class="bg-gray-300 border-circle"
+      >
+        x
+      </button>
+    </div>
+   <div *ngIf="showFormNote">
+    <h3>Track Shipment</h3>
+    <tui-input formControlName="trackId">
+      Enter the Tracking number
+      <input inputmode="numeric" tuiTextfieldLegacy />
+    </tui-input>
+    <button
+      appearance="primary"
+      tuiAppearanceMode="checked"
+      tuiButton
+      type="submit"
+      class="my-3"
     >
-    <form [formGroup]="form" (ngSubmit)="onSubmitId()">
-        <div class="text-right">
-            <button
-                appearance="flat"
-                tuiAppearanceMode = "checked"
-                tuiButton
-                type="button"
-             (click)="onCollapseTrackForm()"
-             class="bg-gray-300 border-circle"   > x
-            </button>
-        </div> 
-        <h3>Track Shipment</h3>
-        <tui-input formControlName="id">
-            Enter the Tracking number
-           <input inputmode="numeric" tuiTextfieldLegacy />
-       </tui-input>
-       <button
-                appearance="primary"
-                tuiAppearanceMode = "checked"
-                tuiButton
-                type="submit"
-                class="my-3"
-                > Track shipment
-            </button>
-    </form>
+      Track shipment
+    </button>
+   </div>
+   <ng-container *ngIf="!shipment">
+    <loader [isLoading]="isLoading" *ngIf="isLoading"></loader>
+   </ng-container>
+  </form>
+  <div *ngIf="shipment">
+      <h3>Updated Shipment Status</h3>
+      <p><strong>Status:</strong> In Transit</p>
+      <p><strong>Estimated Delivery:</strong> {{ shipment.estimatedDeliveryDate || 'Not available' }}</p>
+    </div>
 </div>

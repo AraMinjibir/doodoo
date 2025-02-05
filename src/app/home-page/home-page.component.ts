@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { SnackBarComponent } from '../Utility/snack-bar/snack-bar.component';
-import { NgIf } from '@angular/common';
+
 
 @Component({
   selector: 'home-page',
-  imports: [RouterLink, SnackBarComponent, NgIf],
+  imports: [RouterLink],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'
 })

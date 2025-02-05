@@ -28,5 +28,6 @@ export class ShipmentSummaryComponent {
 
   onConfirmShipment(){
     this.confirmShipment.emit()
+    console.log('summary rose')
   }
 }
