@@ -1,4 +1,5 @@
 <div class="text-center w-full h-screen mb-3">
+    <loader [isLoading]="isLoading" *ngIf="isLoading"></loader>
     <div class="flex justify-content-end mr-8" 
     *ngIf="showWelcomeNote">
         <button appearance="flat" tuiAppearanceMode="checked" tuiButton type="button" class="mx-2"
@@ -24,9 +25,13 @@
     
 >
     </shipment-form>
+    <snack-bar [errorMessage]="errorMessage" *ngIf="errorMessage"> {{ errorMessage }}</snack-bar>
     <app-track *ngIf="showTrackForm"
-     (collapseTrackForm)="handleCollapseTrackForm($event)"
-     class="flex justify-content-center align-items-center"></app-track>
+  (collapseTrackForm)="handleCollapseTrackForm($event)"
+  (submitTrckN)="handleSubmitTrackN($event)"
+  [shipmentSubject]="shipmentSubject"
+  class="flex justify-content-center align-items-center">
+</app-track>
     <summary *ngIf="showSummary" [shipmentDetails]="shipmentDetails"
     (editDetails) = "handleEditDetails($event)" (confirmShipment)="handleConfirmShipment($event)"></summary>
 </div>

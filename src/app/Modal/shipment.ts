@@ -1,13 +1,18 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface Shipment {
     weight: number;
     dimensions: string;
-    contents: string;
+    pckCont: string;
     recipientName: string;
-    recipientAddress: string;
-    sendertEmail: string,
-    recipientEmail: string;
+    recipientAdd: string;
+    senderName: string;
+    sendertEm: string,
+    recipientEm: string;
     recipientPhone: string;
     shippingCost: number;
     trackingNumber: string;
+    estimatedDeliveryDate?: Timestamp;
+    cost: number
   }
   
