@@ -1,7 +1,8 @@
 import { inject, Injectable, NgZone } from '@angular/core';
 import { Firestore, collection, addDoc, getDocs, query, where } from '@angular/fire/firestore';
 import { Shipment } from '../Modal/shipment';
-import { CollectionReference, DocumentData } from 'firebase/firestore';
+import { CollectionReference, doc, DocumentData, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class ShipmentService {
   private getShipmentsCollection(): CollectionReference<DocumentData> {
     return collection(this.firestore, 'shipments');
   }
+  
 
 // Create a new shipment
 async createShipment(shipment: Shipment): Promise<string> {
@@ -80,4 +82,42 @@ await addDoc(this.getShipmentsCollection(), shipmentData);
       });
     });
   }
+// by email
+async getShipmentByRecipientEmail(email: string): Promise<Shipment | null> {
+  try {
+    const shipmentQuery = query(
+      this.getShipmentsCollection(),
+      where('recipientEm', '==', email)  // Ensure this matches your Firestore field name
+    );
+    
+    const querySnapshot = await getDocs(shipmentQuery);
+
+    if (querySnapshot.empty) {
+      console.log("No shipment found for this email!");
+      return null;  // No shipment found
+    } else {
+      const shipmentData = querySnapshot.docs[0].data() as Shipment;
+      const docId = querySnapshot.docs[0].id; // Fetch document ID
+      return { ...shipmentData, docId };  // Include the document ID in the return value
+    }
+  } catch (error) {
+    console.error("Error fetching shipment:", error);
+    throw new Error('Error fetching shipment');
+  }
+}
+
+
+// Update shipment status and set the delivery confirmation date
+async updateShipmentStatus(docId: string, updatedShipmentData: Shipment): Promise<void> {
+  try {
+    const shipmentRef = doc(this.getShipmentsCollection(), docId);
+    await setDoc(shipmentRef, updatedShipmentData, { merge: true });  // Update the document with the new data
+  } catch (error) {
+    console.error("Error updating shipment status:", error);
+    throw new Error('Error updating shipment status');
+  }
+}
+
+
+  
 }

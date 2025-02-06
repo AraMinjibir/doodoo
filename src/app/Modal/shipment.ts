@@ -13,6 +13,8 @@ export interface Shipment {
     shippingCost: number;
     trackingNumber: string;
     estimatedDeliveryDate?: Timestamp;
-    cost: number
+    cost: number,
+    isDelivered: boolean;
+    docId: string;
   }
   

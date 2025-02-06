@@ -1,29 +1,45 @@
-<div class="text-center w-full h-screen my-5 border-2">
-    <div class="flex justify-content-end mr-8 my-2 border-2">
-        <button appearance="flat" 
-            tuiAppearanceMode="checked" 
-            tuiButton type="button" 
-            (click)="onShowPackageForm()"
-            > Receive Package
-        </button>
-        <button appearance="flat" 
-            tuiAppearanceMode="checked" 
-            tuiButton type="button"
-            (click)="onShowConfirmDelivery()" 
-            > Confirm Delivery
-        </button>
-    </div>
-    <div *ngIf="showWelcomeNote">
-        <h2>
-            Welcome to Recipient part
-        </h2>
-        <p>
-            Where you can be able to receive package and 
-            confirm delivery from service provider.
-        </p>
-    </div>
-    <receive-package *ngIf="showReceivePackageForm"
-    (collapseForm)="handleOncollapseForm($event)"></receive-package>
-    <confirm-delivery *ngIf="showConfirmDelivery"
-    (closeForm)="handleOnCloseForm($event)"></confirm-delivery>
-</div>
+<div tuiAppearance="floating" tuiCardLarge class="max-w-30rem mx-auto">
+    <form [formGroup]="emailForm" (ngSubmit)="onReceivePackage()">
+      <div class="form-group">
+        <label for="email">Recipient Email:</label>
+        <tui-input id="email"
+          formControlName="email"
+          type="email"
+          placeholder="Enter email"
+          class="form-control">
+          Enter your Email
+        </tui-input>
+  
+        <div *ngIf="emailForm.controls['email'].invalid && emailForm.controls['email'].touched" class="error">
+          Please enter a valid email address.
+        </div>
+      </div>
+      <button appearance="primary" tuiAppearanceMode="checked" tuiButton type="submit" [disabled]="emailForm.invalid">
+        Receive Package
+      </button>
+    </form>
+  </div>
+  
+  <!-- Tracking Number Form (only shown after email is valid) -->
+  <div *ngIf="showConfirmDelivery" tuiAppearance="floating" tuiCardLarge class="max-w-30rem mx-auto">
+    <form [formGroup]="trackingForm" (ngSubmit)="onConfirmDelivery()">
+      <div class="form-group">
+        <label for="trackingNumber">Tracking Number:</label>
+        <tui-input id="trackingNumber"
+          formControlName="trackingNumber"
+          type="text"
+          placeholder="Enter Tracking Number"
+          class="form-control">
+          Enter Tracking Number
+        </tui-input>
+  
+        <div *ngIf="trackingForm.controls['trackingNumber'].invalid && trackingForm.controls['trackingNumber'].touched" class="error">
+          Please enter a valid tracking number.
+        </div>
+      </div>
+      <button appearance="primary" tuiAppearanceMode="checked" tuiButton type="submit" [disabled]="trackingForm.invalid">
+        Confirm Delivery
+      </button>
+    </form>
+  </div>
+  
