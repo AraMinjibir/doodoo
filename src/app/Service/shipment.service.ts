@@ -27,38 +27,43 @@ async createShipment(shipment: Shipment): Promise<string> {
 
   let deliveryDays = 10; 
 
-if (shipment.recipientAdd) {
-  try {
-    const deliveryQuery = query(
-      collection(this.firestore, 'deliveryTimes'),
-      where('city', '==', shipment.recipientAdd)
-    );
+  if (shipment.recipientAdd) {
+    try {
+      const deliveryQuery = query(
+        collection(this.firestore, 'deliveryTimes'),
+        where('city', '==', shipment.recipientAdd)
+      );
 
-    const deliverySnapshot = await getDocs(deliveryQuery);
+      const deliverySnapshot = await getDocs(deliveryQuery);
 
-    if (!deliverySnapshot.empty) {
-      const deliveryData = deliverySnapshot.docs[0].data();
-      deliveryDays = deliveryData['EstimatedDays'] || 10;
+      if (!deliverySnapshot.empty) {
+        const deliveryData = deliverySnapshot.docs[0].data();
+        deliveryDays = deliveryData['EstimatedDays'] || 10;
+      }
+    } catch (error) {
+      console.error("Error fetching delivery time:", error);
     }
-  } catch (error) {
-    console.error("Error fetching delivery time:", error);
   }
+
+  // Generate an estimated delivery date
+  const orderDate = new Date(); 
+  orderDate.setDate(orderDate.getDate() + deliveryDays);
+  const estimatedDeliveryDate = orderDate.toISOString().split('T')[0];
+
+  // Add default status and tracking details
+  const shipmentData = { 
+    ...shipment, 
+    trackingNumber, 
+    estimatedDeliveryDate,
+    status: "Pending" // <-- Ensure status is added
+  };
+
+  // Store in Firestore
+  const shipmentRef = await addDoc(this.getShipmentsCollection(), shipmentData);
+
+  return trackingNumber; // Return tracking number for reference
 }
 
-// Generate a unique estimated delivery date
-const orderDate = new Date(); 
-orderDate.setDate(orderDate.getDate() + deliveryDays);
-
-// Format as YYYY-MM-DD
-const estimatedDeliveryDate = orderDate.toISOString().split('T')[0];
-const shipmentData = { ...shipment, trackingNumber, estimatedDeliveryDate };
-await addDoc(this.getShipmentsCollection(), shipmentData);
-
-  // Store it in Firestore
-  await addDoc(this.getShipmentsCollection(), shipmentData);
-
-  return trackingNumber; // Return tracking number to be used elsewhere
-}
 
 
 
@@ -108,15 +113,16 @@ async getShipmentByRecipientEmail(email: string): Promise<Shipment | null> {
 
 
 // Update shipment status and set the delivery confirmation date
-async updateShipmentStatus(docId: string, updatedShipmentData: Shipment): Promise<void> {
+async updateShipmentStatus(docId: string, status: string, additionalData: any = {}): Promise<void> {
   try {
     const shipmentRef = doc(this.getShipmentsCollection(), docId);
-    await setDoc(shipmentRef, updatedShipmentData, { merge: true });  // Update the document with the new data
+    await setDoc(shipmentRef, { status, ...additionalData }, { merge: true });  
   } catch (error) {
     console.error("Error updating shipment status:", error);
     throw new Error('Error updating shipment status');
   }
 }
+
 
 
   

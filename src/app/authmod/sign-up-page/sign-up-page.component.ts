@@ -91,25 +91,21 @@ export class SignUpPageComponent {
 
     ]
 
-    onFormSubmitting(){
+    onFormSubmitting() {
       this.isLoading = true;
       const email = this.signForm.value.email;
       const password = this.signForm.value.password;
       const role = this.signForm.value.role;
     
-      this.authService.signUp(email, password).subscribe({
+      this.authService.signUp(email!, password!, role!).subscribe({
         next: (res) => {
-          // Store the user object 
-          const user = { email, role }; 
-          localStorage.setItem('user', JSON.stringify([email, role]));          
-          const formattedRole = role.toLowerCase().replace(/\s+/g, '-');
+          // ✅ Store user data in localStorage
+          localStorage.setItem('user', JSON.stringify(res));
     
-          // Redirect user to the correct role page
-          if (role) {
-            this.router.navigate([`/app-layout/${formattedRole}`]); 
-          } else {
-            this.router.navigate(['/app-layout/home-page']);  
-          }
+          const formattedRole = res.role.toLowerCase().replace(/\s+/g, '-');
+    
+          // ✅ Redirect based on role
+          this.router.navigate([`/app-layout/${formattedRole}`]);
         },
         error: (err) => {
           this.isLoading = false;
@@ -118,11 +114,13 @@ export class SignUpPageComponent {
             this.errorMessage = null;
           }, 3000);
         },
-        
       });
-
-      this.signForm.reset()
+    
+      this.signForm.reset();
     }
+    
+    
+    
     
      
 }

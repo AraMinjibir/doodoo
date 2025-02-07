@@ -23,6 +23,7 @@ export class ReceipientComponent {
   emailForm: FormGroup;
   trackingForm: FormGroup;
   shipmentData: any = null; // To store shipment details
+  
 
   // Inject services
   private readonly shipmentService = inject(ShipmentService);
@@ -62,60 +63,63 @@ export class ReceipientComponent {
         const shipmentData = await this.shipmentService.getShipmentByRecipientEmail(email);
   
         if (shipmentData) {
-          // If shipment found, display additional details
+          // Store shipment data for later use
+          this.shipmentData = shipmentData;
+  
+          // Hide the Receive Package form and show the Confirm Delivery form
+          this.showReceivePackageForm = false;
+          this.showConfirmDelivery = true;
+  
+          // Show confirmation dialog
           const message = `
             Package found for ${shipmentData.recipientName}.
-            <br>Tracking Number: ${shipmentData.trackingNumber}
             <br>Sender: ${shipmentData.senderName}
             <br>Package Contents: ${shipmentData.pckCont}
-            <br>Weight: ${shipmentData.weight}
-            <br>Dimensions: ${shipmentData.dimensions}
           `;
-          this.shipmentData = shipmentData; // Store shipment data for later use
-          this.showConfirmDelivery = true;  // Set flag to show confirm delivery modal
-          this.showDialog(message, 'Package Found');  
+          this.showDialog(message, 'Package Found');
         } else {
-          // If no shipment found, show error dialog
           this.showDialog('No shipment found for this email!', 'Error');
         }
       } catch (error) {
-        // If there is an error fetching shipment, show an error dialog
         this.showDialog('Error fetching shipment details. Please try again later.', 'Error');
       }
     } else {
-      // If the form is invalid, show a warning dialog
       this.showDialog('Please enter a valid email address.', 'Warning');
     }
   }
   
+  
 
   async onConfirmDelivery(): Promise<void> {
     const trackingNumber = this.trackingForm.value.trackingNumber;
-    const docId = this.shipmentData.docId;  // Get the document ID from stored shipment data
+    const docId = this.shipmentData?.docId;
   
-    // Proceed only if tracking number matches
     if (this.trackingForm.valid && trackingNumber === this.shipmentData.trackingNumber) {
       try {
-        // Ensure estimatedDeliveryDate is updated to the current date (or whatever logic you want)
+        // Update shipment status to "Delivered"
         const updatedShipmentData = {
           ...this.shipmentData,
-          isDelivered: true,
-          estimatedDeliveryDate: Timestamp.now(), // Set current timestamp as estimated delivery date
+          status: 'Delivered', // ✅ Updating status instead of isDelivered
+          estimatedDeliveryDate: Timestamp.now(), // Keep the timestamp update if needed
         };
   
-        // Call the service to update the shipment status using docId
         await this.shipmentService.updateShipmentStatus(docId, updatedShipmentData);
   
-        // Show confirmation dialog
+        // Reset the UI to initial state after confirmation
+        this.showConfirmDelivery = false;
+        this.showReceivePackageForm = true;
+        this.emailForm.reset();
+        this.trackingForm.reset();
+  
         this.showDialog('Delivery confirmed! The shipment status has been updated to "Delivered".', 'Success');
       } catch (error) {
-        // If there is an error updating status, show error dialog
         this.showDialog('Error confirming delivery. Please try again later.', 'Error');
       }
     } else {
-      // If tracking number does not match, show error
       this.showDialog('Invalid tracking number. Please try again.', 'Error');
     }
   }
+  
+  
   
 }
