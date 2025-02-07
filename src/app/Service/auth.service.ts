@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AuthResponse } from '../Modal/authResponse';
-import { BehaviorSubject, catchError, throwError, tap } from 'rxjs';
+import { BehaviorSubject, catchError, throwError, tap, switchMap, Observable, from } from 'rxjs';
 import { Router } from '@angular/router';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { Firestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -10,41 +12,72 @@ import { Router } from '@angular/router';
 export class AuthService {
   private userSubject = new BehaviorSubject<{ email: string, role: string } | null>(null);
   user$ = this.userSubject.asObservable(); // Expose observable for tracking user state
+  private firestore = inject(Firestore);
 
-  constructor(private http: HttpClient, private router: Router) {
-    const storedUser = this.getStoredUser();
-    if (storedUser) {
-      this.userSubject.next(storedUser);
-    }
-  }
+  constructor(private http: HttpClient, private router: Router) {}
 
-  signUp(email: string, password: string) {
+  signUp(email: string, password: string, role: string): 
+  Observable<{ email: string; localId: string; role: string }> {
     const data = { email, password, returnSecureToken: true };
-    return this.http.post<AuthResponse>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA_TwU_V8GXFh0mMJBh8D5mmlc8zqQE_1o',
-      data
-    ).pipe(
-      catchError(this.handleErrorMessage)
-    );
+  
+    return this.http
+      .post<AuthResponse>(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA_TwU_V8GXFh0mMJBh8D5mmlc8zqQE_1o',
+        data
+      )
+      .pipe(
+        switchMap((response: AuthResponse) => {
+          if (!response.localId) {
+            throw new Error('Signup failed, no user ID returned.');
+          }
+  
+          // ✅ Store user data in Firestore
+          const userDocRef = doc(this.firestore, 'users', response.localId);
+          return from(setDoc(userDocRef, { email, role })).pipe(
+            switchMap(() => {
+              return from([{ email, localId: response.localId, role }]);
+            })
+          );
+        }),
+        catchError(this.handleErrorMessage)
+      );
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string): 
+  Observable<{ email: string; localId: string; role: string; idToken: string }> {
     const data = { email, password, returnSecureToken: true };
-    return this.http.post<any>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA_TwU_V8GXFh0mMJBh8D5mmlc8zqQE_1o',
-      data
-    ).pipe(
-      tap(response => {
-        const user = { email: response.email, role: 'Sender' }; 
-        this.setUser(user);
-      }),
-      catchError(this.handleErrorMessage)
-    );
+  
+    return this.http
+      .post<AuthResponse>(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA_TwU_V8GXFh0mMJBh8D5mmlc8zqQE_1o',
+        data
+      )
+      .pipe(
+        switchMap((response: AuthResponse) => {
+          if (!response.localId) {
+            return throwError(() => new Error('Login failed, no user ID returned.'));
+          }
+  
+          const userDocRef = doc(this.firestore, 'users', response.localId);
+          return from(getDoc(userDocRef)).pipe(
+            switchMap((userDoc) => {
+              if (!userDoc.exists()) {
+                return throwError(() => new Error('User role not found.'));
+              }
+  
+              const userData = userDoc.data() as { role?: string };
+              const role = userData?.role || 'unknown';
+  
+              return from([{ email, localId: response.localId, role, idToken: response.idToken }]);
+            })
+          );
+        }),
+        catchError(this.handleErrorMessage)
+      );
   }
+  
 
   logout() {
-    localStorage.removeItem('user');
-    this.userSubject.next(null); // Reset user state
     console.log("User logged out, clearing storage.");
     this.router.navigate(['/app-layout/home-page']).then(() => {
       window.location.reload(); 
@@ -67,23 +100,23 @@ export class AuthService {
     ).pipe(catchError(this.handleErrorMessage));
   }
 
-  getStoredUser(): { email: string, role: string } | null {
-    try {
-      const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
-      if (Array.isArray(storedUser) && storedUser.length >= 2) {
-        return { email: storedUser[0], role: storedUser[1] };
-      }
-      return storedUser;
-    } catch (error) {
-      console.error("Error parsing stored user:", error);
-      return null;
-    }
-  }
+  // getStoredUser(): { email: string, role: string } | null {
+  //   try {
+  //     const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+  //     if (Array.isArray(storedUser) && storedUser.length >= 2) {
+  //       return { email: storedUser[0], role: storedUser[1] };
+  //     }
+  //     return storedUser;
+  //   } catch (error) {
+  //     console.error("Error parsing stored user:", error);
+  //     return null;
+  //   }
+  // }
 
-  setUser(user: { email: string, role: string }) {
-    localStorage.setItem('user', JSON.stringify(user));
-    this.userSubject.next(user);
-  }
+  // setUser(user: { email: string, role: string }) {
+  //   localStorage.setItem('user', JSON.stringify(user));
+  //   this.userSubject.next(user);
+  // }
 
   private handleErrorMessage(err: any) {
     let errorMessage = "Something went wrong";

@@ -1,7 +1,8 @@
 import { inject, Injectable, NgZone } from '@angular/core';
 import { Firestore, collection, addDoc, getDocs, query, where } from '@angular/fire/firestore';
 import { Shipment } from '../Modal/shipment';
-import { CollectionReference, DocumentData } from 'firebase/firestore';
+import { CollectionReference, doc, DocumentData, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class ShipmentService {
   private getShipmentsCollection(): CollectionReference<DocumentData> {
     return collection(this.firestore, 'shipments');
   }
+  
 
 // Create a new shipment
 async createShipment(shipment: Shipment): Promise<string> {
@@ -25,38 +27,43 @@ async createShipment(shipment: Shipment): Promise<string> {
 
   let deliveryDays = 10; 
 
-if (shipment.recipientAdd) {
-  try {
-    const deliveryQuery = query(
-      collection(this.firestore, 'deliveryTimes'),
-      where('city', '==', shipment.recipientAdd)
-    );
+  if (shipment.recipientAdd) {
+    try {
+      const deliveryQuery = query(
+        collection(this.firestore, 'deliveryTimes'),
+        where('city', '==', shipment.recipientAdd)
+      );
 
-    const deliverySnapshot = await getDocs(deliveryQuery);
+      const deliverySnapshot = await getDocs(deliveryQuery);
 
-    if (!deliverySnapshot.empty) {
-      const deliveryData = deliverySnapshot.docs[0].data();
-      deliveryDays = deliveryData['EstimatedDays'] || 10;
+      if (!deliverySnapshot.empty) {
+        const deliveryData = deliverySnapshot.docs[0].data();
+        deliveryDays = deliveryData['EstimatedDays'] || 10;
+      }
+    } catch (error) {
+      console.error("Error fetching delivery time:", error);
     }
-  } catch (error) {
-    console.error("Error fetching delivery time:", error);
   }
+
+  // Generate an estimated delivery date
+  const orderDate = new Date(); 
+  orderDate.setDate(orderDate.getDate() + deliveryDays);
+  const estimatedDeliveryDate = orderDate.toISOString().split('T')[0];
+
+  // Add default status and tracking details
+  const shipmentData = { 
+    ...shipment, 
+    trackingNumber, 
+    estimatedDeliveryDate,
+    status: "Pending" // <-- Ensure status is added
+  };
+
+  // Store in Firestore
+  const shipmentRef = await addDoc(this.getShipmentsCollection(), shipmentData);
+
+  return trackingNumber; // Return tracking number for reference
 }
 
-// Generate a unique estimated delivery date
-const orderDate = new Date(); 
-orderDate.setDate(orderDate.getDate() + deliveryDays);
-
-// Format as YYYY-MM-DD
-const estimatedDeliveryDate = orderDate.toISOString().split('T')[0];
-const shipmentData = { ...shipment, trackingNumber, estimatedDeliveryDate };
-await addDoc(this.getShipmentsCollection(), shipmentData);
-
-  // Store it in Firestore
-  await addDoc(this.getShipmentsCollection(), shipmentData);
-
-  return trackingNumber; // Return tracking number to be used elsewhere
-}
 
 
 
@@ -80,4 +87,43 @@ await addDoc(this.getShipmentsCollection(), shipmentData);
       });
     });
   }
+// by email
+async getShipmentByRecipientEmail(email: string): Promise<Shipment | null> {
+  try {
+    const shipmentQuery = query(
+      this.getShipmentsCollection(),
+      where('recipientEm', '==', email)  // Ensure this matches your Firestore field name
+    );
+    
+    const querySnapshot = await getDocs(shipmentQuery);
+
+    if (querySnapshot.empty) {
+      console.log("No shipment found for this email!");
+      return null;  // No shipment found
+    } else {
+      const shipmentData = querySnapshot.docs[0].data() as Shipment;
+      const docId = querySnapshot.docs[0].id; // Fetch document ID
+      return { ...shipmentData, docId };  // Include the document ID in the return value
+    }
+  } catch (error) {
+    console.error("Error fetching shipment:", error);
+    throw new Error('Error fetching shipment');
+  }
+}
+
+
+// Update shipment status and set the delivery confirmation date
+async updateShipmentStatus(docId: string, status: string, additionalData: any = {}): Promise<void> {
+  try {
+    const shipmentRef = doc(this.getShipmentsCollection(), docId);
+    await setDoc(shipmentRef, { status, ...additionalData }, { merge: true });  
+  } catch (error) {
+    console.error("Error updating shipment status:", error);
+    throw new Error('Error updating shipment status');
+  }
+}
+
+
+
+  
 }

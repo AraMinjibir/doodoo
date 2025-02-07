@@ -18,20 +18,7 @@ export class HeaderComponent {
   isLoading: boolean = false;
   constructor(private router: Router) {}
 
-  ngOnInit() {
-    const storedUser = localStorage.getItem('user');
-  
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-    } else {
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 
-    500);
-    }
-  }
-  
-  
+
 
   logout() {
     this.authService.logout();

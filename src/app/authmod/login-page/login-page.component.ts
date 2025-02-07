@@ -45,37 +45,19 @@ export class LoginPageComponent {
   });
 
   onFormSubmitting() {
-    if (this.loginForm.invalid) {
-      return;
-    }
     this.isLoading = true;
-    const { email, password, rememberMe } = this.loginForm.value;
-
-    // Save credentials to localStorage if "Remember Me" is checked
-    if (rememberMe) {
-      localStorage.setItem('rememberedEmail', email || '');
-      localStorage.setItem('rememberedPassword', password || '');
-    } else {
-      // Clear saved credentials if "Remember Me" is unchecked
-      localStorage.removeItem('rememberedEmail');
-      localStorage.removeItem('rememberedPassword');
-    }
-    this.authService.login(email, password).subscribe({
+    const email = this.loginForm.value.email;
+    const password = this.loginForm.value.password;
+  
+    this.authService.login(email!, password!).subscribe({
       next: (res) => {
-        const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
-          
-        if (storedUser) {
-          // Extract role
-          const extractedRole = storedUser?.role || null;
-      
-          if (extractedRole) {
-            this.redirectBasedOnRole(extractedRole); 
-          } else {
-            this.router.navigate(['app-layout/home-page']);
-          }
-        } else {
-          this.router.navigate(['app-layout/home-page']);
-        }
+        // ✅ Store user data in localStorage
+        localStorage.setItem('user', JSON.stringify(res));
+  
+        const formattedRole = res.role.toLowerCase().replace(/\s+/g, '-');
+  
+        // ✅ Redirect based on role
+        this.router.navigate([`/app-layout/${formattedRole}`]);
       },
       error: (err) => {
         this.isLoading = false;
@@ -85,9 +67,8 @@ export class LoginPageComponent {
         }, 3000);
       },
     });
-  
-    this.loginForm.reset();
   }
+  
   
   private redirectBasedOnRole(role: string) {
     switch (role) {
