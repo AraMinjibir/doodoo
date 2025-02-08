@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
   providers: [provideAnimations(), provideZoneChangeDetection({ eventCoalescing: true }),
      provideRouter(routes), NG_EVENT_PLUGINS, NG_EVENT_PLUGINS,
      provideHttpClient(),
-     provideRouter([]), // Define routes if needed
-     provideFirebaseApp(() => initializeApp(environment.firebase)), // Initialize Firebase
+     provideRouter([]), 
+     provideFirebaseApp(() => initializeApp(environment.firebase)), 
      provideFirestore(() => getFirestore()), provideAuth(() => getAuth()), NG_EVENT_PLUGINS]
 };
