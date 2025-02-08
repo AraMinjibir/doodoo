@@ -100,24 +100,6 @@ export class AuthService {
     ).pipe(catchError(this.handleErrorMessage));
   }
 
-  // getStoredUser(): { email: string, role: string } | null {
-  //   try {
-  //     const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
-  //     if (Array.isArray(storedUser) && storedUser.length >= 2) {
-  //       return { email: storedUser[0], role: storedUser[1] };
-  //     }
-  //     return storedUser;
-  //   } catch (error) {
-  //     console.error("Error parsing stored user:", error);
-  //     return null;
-  //   }
-  // }
-
-  // setUser(user: { email: string, role: string }) {
-  //   localStorage.setItem('user', JSON.stringify(user));
-  //   this.userSubject.next(user);
-  // }
-
   private handleErrorMessage(err: any) {
     let errorMessage = "Something went wrong";
     if (!err.error || !err.error.error) return throwError(() => errorMessage);

@@ -5,5 +5,6 @@ export class AuthResponse {
     localId: string;
     registered?:	boolean;
     requestType?: "PASSWORD_RESET";
-    email: string
+    email: string;
+    
 }
