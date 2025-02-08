@@ -34,8 +34,9 @@
   </form>
   <div *ngIf="shipment">
     <h3>Updated Shipment Status</h3>
-    <p><strong>Status:</strong> {{ shipment.status || 'Pending' }}</p>
+    <p><strong>Status:</strong> {{ shipment.status || 'Pending' }}</p> 
     <p><strong>Estimated Delivery:</strong> {{ shipment.estimatedDeliveryDate || 'Not available' }}</p>
   </div>
+  
   
 </div>

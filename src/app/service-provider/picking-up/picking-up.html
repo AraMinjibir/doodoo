@@ -1,50 +1,21 @@
-<div tuiAppearance="floating" 
-    tuiCardLarge 
-    class="max-w-30rem mx-auto"> 
-    <div class="flex justify-content-between" 
-    >
-        <button
-        size="m"
-        tuiButton
-        type="button"
-        (click)="showDialog()"
-    >
-        Receive a Request
-    </button>
-     <button
-        tuiButton
-        tuiHintDirection="top"
-        type="button"
-        (click)="show()"
->
-    Collect a Package
-</button>
-<ng-template
-    let-observer
-    [tuiDialogOptions]="{label: 'Collect Package from Sender', size: 's'}"
-    [(tuiDialog)]="open"
->
-    <form
-        [formGroup]="exampleForm"
-        (ngSubmit)="observer.complete()"
-    >
-        <tui-input
-            formControlName="exampleControl"
-            tuiAutoFocus
-        >
-            Enter Yes to confirm package collection
-        </tui-input>
-        <p>
-            <button
-                tuiButton
-                type="submit"
-            >
-                Update status
-            </button>
-        </p>
-    </form>
-</ng-template>
+<div class="max-w-30rem mx-auto">
+  <h2 class="text-center">Pending Pickup Requests</h2>
 
+<div *ngIf="pickupRequests.length === 0">
+  <p class="text-center">No pending pickup requests.</p>
+</div>
+<div *ngFor="let request of pickupRequests">
+    <div tuiAppearance="floating" 
+    tuiCardLarge class="max-w-30rem mx-auto my-3">
+        <h3>Sender: {{ request.senderName }}</h3>
+        <p>Package: {{ request.pckCont }}</p>
+        <p>Weight: {{ request.weight }}</p>
+        <p>Recipient: {{ request.recipientName }}</p>
+        <p>Recipient Address: {{ request.recipientAdd }}</p>
+        <p>Contact: {{ request.recipientPh}}</p>
+        <p>Status: <strong>{{ request.status }}</strong></p>
 
+        <button tuiButton (click)="pickupPackage(request.id)">Pick Up</button>
     </div>
+</div>
 </div>

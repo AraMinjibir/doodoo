@@ -1,32 +1,10 @@
-<div class="text-center w-full h-screen my-5">
-    <div class="flex justify-content-end mr-8" 
-    *ngIf="showWelcomeNote">
-        <button appearance="flat" 
-        tuiAppearanceMode="checked" 
-        tuiButton type="button"
-        (click)=" onShowPickUpCard()"
-         class="mx-2"
-            >Pick Up a Package
-        </button>
-        <button appearance="flat" 
-        tuiAppearanceMode="checked" 
-        tuiButton type="button"
-        (click)="onShowRequestCard()"
-         class="mx-2"
-            >Deliver a Package
-        </button>
-    </div>
-    <div class="text-center my-5" *ngIf="showWelcomeNote">
-        <h2>
-            Welcome to Service Provider Section
-        </h2>
-        <p>
-            Where you can be able to receive a pick-up requests and deliver the requests.
-        </p>
-    </div>
+<div class="my-5 h-screen">
+    <h1 class="text-center">Package Management</h1>
+    <div class="text-right">
+        <button tuiButton (click)="showPickup()" class="mx-2">Show Pickup Requests</button>
 
-    <picking-up *ngIf="showPickUpCard"
-    (collapseCard)="handleOnCollapseCard($event)">
-</picking-up>
-<request *ngIf="showRequest" (collapseRequestModal)="handleOncollapseRequestModal($event)"></request>
-</div>
+        <button tuiButton (click)="showDelivery()" class="mx-2">Show Delivery Requests</button>
+    </div>
+    <picking-up *ngIf="showPickupComponent"></picking-up>
+    <delivery *ngIf="showDeliveryComponent"></delivery>
+  </div>

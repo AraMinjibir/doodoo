@@ -1,57 +1,49 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TuiAppearance, TuiButton,TuiDialog,TuiDialogService } from '@taiga-ui/core';
+import { Component,inject} from '@angular/core';
+import { TuiAppearance, TuiButton,TuiDialogService } from '@taiga-ui/core';
 import { TuiCardLarge } from '@taiga-ui/layout';
-import {TuiAutoFocus, TuiThemeColorService} from '@taiga-ui/cdk';
-import { TuiInputModule } from '@taiga-ui/legacy';
+import { ShipmentService } from '../../Service/shipment.service';
+import { NgFor, NgIf } from '@angular/common';
+import { Firestore} from '@angular/fire/firestore';
 
 
 @Component({
   selector: 'picking-up',
   imports: [TuiButton, 
-        TuiAppearance, 
-        TuiCardLarge,
-        ReactiveFormsModule,
-        TuiAutoFocus,
-        TuiButton,
-        TuiDialog,
-        TuiInputModule,
+            TuiCardLarge,TuiAppearance,
+            NgFor, NgIf
   ],
   templateUrl: './picking-up.html',
   styleUrl: './picking-up.scss'
 })
 export class PickingUpDeliveryComponent {
-  @Output()
-  collapseCard:EventEmitter<boolean> = new EventEmitter<boolean>();
+    pickupRequests: any[] = [];
+    private firestore: Firestore = inject(Firestore)
 
-  private readonly dialogs = inject(TuiDialogService);
-  private readonly theme = inject(TuiThemeColorService);
-
-  protected showDialog(): void {
-      this.theme.color = '#ffdd2d';
-      this.dialogs
-          .open(
-              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
-              {label: 'Pick Up Request'},
-          )
-          .subscribe({
-              complete: () => {
-                  this.theme.color = '#ff7043';
-              },
-          });
-          this.collapseCard.emit();
-  }
-
-  protected exampleForm = new FormGroup({
-    exampleControl: new FormControl(''),
-});
-
-protected open = false;
-
-protected show(): void {
-    this.open = true
+    constructor(
+      private shipmentService: ShipmentService,
+      private dialogService: TuiDialogService
+    ) {}
   
+    async ngOnInit(): Promise<void> {
+        await this.loadPickupRequests();
+      }
     
-}
-  
+      async loadPickupRequests(): Promise<void> {
+        this.pickupRequests = await this.shipmentService.getPickupRequests();
+        console.log('🚚 UI Updated with Pending Shipments:', this.pickupRequests);
+      }
+    
+      async pickupPackage(shipmentId: string): Promise<void> {
+        await this.shipmentService.pickupPackage(shipmentId);
+        this.showDialog('Package picked up successfully!', 'Pickup Request');
+        
+        await this.loadPickupRequests(); // Refresh the list
+      }
+    
+      private showDialog(message: string, label: string): void {
+        this.dialogService.open(message, { label }).subscribe({
+          complete: () => console.log('✅ Modal closed')
+        });
+      }
+
 }

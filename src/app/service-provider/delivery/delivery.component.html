@@ -1,1 +1,15 @@
-<p>delivery works!</p>
+<div class="max-w-30rem mx-auto">
+    <h2 class="text-center">Pending Delivery Requests</h2>
+
+<div *ngIf="deliveryRequests.length === 0">
+  <p class="text-center">No pending delivery requests.</p>
+</div>
+<div tuiAppearance="floating" 
+tuiCardLarge 
+ *ngFor="let request of deliveryRequests"
+ class="max-w-30rem my-3 mx-auto">
+    <h3>Recipient: {{ request.recipientName }}</h3>
+    <p>Package: {{ request.pckCont }}</p>
+    <button tuiButton (click)="deliverPackage(request.id)">Deliver</button>
+</div>
+</div>

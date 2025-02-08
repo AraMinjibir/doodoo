@@ -89,23 +89,23 @@ export class ReceipientComponent {
   }
   
   
-
   async onConfirmDelivery(): Promise<void> {
     const trackingNumber = this.trackingForm.value.trackingNumber;
     const docId = this.shipmentData?.docId;
   
     if (this.trackingForm.valid && trackingNumber === this.shipmentData.trackingNumber) {
       try {
-        // Update shipment status to "Delivered"
-        const updatedShipmentData = {
-          ...this.shipmentData,
-          status: 'Delivered', // ✅ Updating status instead of isDelivered
-          estimatedDeliveryDate: Timestamp.now(), // Keep the timestamp update if needed
+        // Update only the necessary fields (status, isDelivered, deliveryDate)
+        const updateData = {
+          status: "Delivered",  // ✅ Update status as a string
+          isDelivered: true,    // ✅ Update isDelivered
+          deliveryDate: Timestamp.now(),  // ✅ Update deliveryDate
         };
   
-        await this.shipmentService.updateShipmentStatus(docId, updatedShipmentData);
+        // Perform a partial update instead of overwriting the entire document
+        await this.shipmentService.updateShipmentStatus(docId, updateData);
   
-        // Reset the UI to initial state after confirmation
+        // Reset UI state
         this.showConfirmDelivery = false;
         this.showReceivePackageForm = true;
         this.emailForm.reset();
@@ -119,6 +119,9 @@ export class ReceipientComponent {
       this.showDialog('Invalid tracking number. Please try again.', 'Error');
     }
   }
+  
+  
+  
   
   
   

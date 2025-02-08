@@ -2,6 +2,8 @@ import { inject, Injectable, NgZone } from '@angular/core';
 import { Firestore, collection, addDoc, getDocs, query, where } from '@angular/fire/firestore';
 import { Shipment } from '../Modal/shipment';
 import { CollectionReference, doc, DocumentData, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
+import { Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 
 @Injectable({
@@ -113,16 +115,56 @@ async getShipmentByRecipientEmail(email: string): Promise<Shipment | null> {
 
 
 // Update shipment status and set the delivery confirmation date
-async updateShipmentStatus(docId: string, status: string, additionalData: any = {}): Promise<void> {
+async updateShipmentStatus(docId: string, updateData: Partial<Shipment>): Promise<void> {
   try {
     const shipmentRef = doc(this.getShipmentsCollection(), docId);
-    await setDoc(shipmentRef, { status, ...additionalData }, { merge: true });  
+
+    // Use merge: true to update only specific fields instead of overwriting the whole document
+    await setDoc(shipmentRef, updateData, { merge: true });  
+
+    console.log("Shipment status updated successfully.");
   } catch (error) {
     console.error("Error updating shipment status:", error);
     throw new Error('Error updating shipment status');
   }
 }
 
+// Fetch all pickup requests (status = 'pending')
+async getPickupRequests(): Promise<any[]> {
+  try {
+    const shipmentsRef = collection(this.firestore, 'shipments');
+    const q = query(shipmentsRef, where('status', '==', 'Pending')); // Fetch only pending shipments
+
+    const querySnapshot = await getDocs(q);
+    const requests = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    console.log('📦 Fetched Pending Shipments:', requests);
+    return requests;
+  } catch (error) {
+    console.error('❌ Error fetching pickup requests:', error);
+    return [];
+  }
+}
+
+// Fetch all delivery requests (status = 'picked up')
+async getDeliveryRequests(): Promise<any[]> {
+  const shipmentsRef = collection(this.firestore, 'shipments');
+  const q = query(shipmentsRef, where('status', '==', 'picked up'));
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+}
+
+// Update shipment status to 'picked up'
+async pickupPackage(shipmentId: string): Promise<void> {
+  const shipmentRef = doc(this.firestore, 'shipments', shipmentId);
+  await updateDoc(shipmentRef, { status: 'picked up' });
+}
+
+// Update shipment status to 'delivered'
+async deliverPackage(shipmentId: string): Promise<void> {
+  const shipmentRef = doc(this.firestore, 'shipments', shipmentId);
+  await updateDoc(shipmentRef, { status: 'delivered' });
+}
 
 
   
