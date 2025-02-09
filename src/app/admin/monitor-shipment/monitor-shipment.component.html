@@ -1,38 +1,32 @@
 <div tuiAppearance="floating" 
     tuiCardLarge 
     class="max-w-30rem mx-auto my-4">
-<h1>Manage Users</h1>
-<div class="flex justify-content-between">
-   <tui-input class="w-10">
-        filter
-   </tui-input> 
-   <button appearance="primary" 
-    tuiAppearanceMode="checked" 
-    tuiButton type="button" 
-    class="mx-1"    
-    > Update Filter
-    </button>
-</div>
-<table 
-    tuiTable
-    class="tables"
-    [columns]="columns">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users">
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.role }}</td>
-        <td>{{ user.status }}</td>
-      </tr>
-    </tbody>
-  </table>
-
+    <h1>Manage Users</h1>
+    <div class="flex justify-content-between">
+        <tui-input class="w-10" [formControl]="filterControl">
+            filter
+        </tui-input> 
+        <button appearance="primary" 
+            tuiAppearanceMode="checked" 
+            tuiButton type="button" 
+            class="mx-1"> 
+            Update Filter
+        </button>
+    </div>
+    <table tuiTable class="tables" [columns]="columns">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of filteredUsers$ | async">
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+                <td>{{ user.status }}</td>
+            </tr>            
+        </tbody>
+    </table>
 </div>

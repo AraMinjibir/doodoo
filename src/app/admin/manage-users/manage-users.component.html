@@ -1,15 +1,9 @@
-<div tuiAppearance="floating" 
-    tuiCardLarge 
-    class="max-w-30rem mx-auto my-4">
-<h1>Manage Users</h1>
-<button tuiButton (click)="addUser()">Add User</button>
-<table 
-    tuiTable
-    class="tables"
-    [columns]="columns">
+<div *ngIf="!isAddingOrEditing">
+  <button tuiButton (click)="showAddUserForm()">Add User</button>
+
+  <table tuiTable class="tables mt-4" [columns]="columns">
     <thead>
       <tr>
-        <th>Name</th>
         <th>Email</th>
         <th>Role</th>
         <th>Status</th>
@@ -17,8 +11,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users">
-        <td>{{ user.name }}</td>
+      <tr *ngFor="let user of (users$ | async) ? getPaginatedUsers(users$ | async) : []">
         <td>{{ user.email }}</td>
         <td>{{ user.role }}</td>
         <td>{{ user.status }}</td>
@@ -30,4 +23,11 @@
     </tbody>
   </table>
 
+  <!-- Pagination -->
+  <tui-pagination
+    class="mt-4"
+    [length]="totalPages"
+    [(index)]="currentPage"
+    (indexChange)="onPageChange($event)"
+  ></tui-pagination>
 </div>

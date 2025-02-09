@@ -17,5 +17,6 @@ export interface Shipment {
     isDelivered: boolean;
     docId: string;
     status?: string;
+    id: string;
   }
   
