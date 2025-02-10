@@ -1,9 +1,8 @@
 import { inject, Injectable, NgZone } from '@angular/core';
 import { Firestore, collection, addDoc, getDocs, query, where } from '@angular/fire/firestore';
 import { Shipment } from '../Modal/shipment';
-import { CollectionReference, doc, DocumentData, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
-import { Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { CollectionReference, doc, DocumentData,  setDoc, updateDoc } from 'firebase/firestore';
+
 
 
 @Injectable({
@@ -71,11 +70,7 @@ async createShipment(shipment: Shipment): Promise<string> {
 
 getShipmentByTrackingNumber(trackingNumber: string): Promise<Shipment | null> {
   console.log('Querying Firestore for tracking number:', `'${trackingNumber}'`);
-
-  // Reference the 'shipments' collection
   const shipmentsRef = collection(this.firestore, 'shipments');
-
-  // Create a query to match the tracking number
   const q = query(shipmentsRef, where('trackingNumber', '==', trackingNumber));
 
   return getDocs(q)
@@ -84,7 +79,6 @@ getShipmentByTrackingNumber(trackingNumber: string): Promise<Shipment | null> {
         console.log('No matching shipment found for:', trackingNumber);
         return null;
       }
-
       // Assuming only one shipment per tracking number
       const shipment = snapshot.docs[0].data() as Shipment;
       console.log('Shipment found:', shipment);
