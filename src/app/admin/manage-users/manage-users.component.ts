@@ -3,10 +3,10 @@ import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { TuiTable } from '@taiga-ui/addon-table';
 import { TuiAppearance, TuiButton, TuiDropdown } from '@taiga-ui/core';
 import { User } from '../../Modal/user';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, startWith } from 'rxjs';
 import { AdminService } from '../../Service/admin.service';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {  TuiPagination } from '@taiga-ui/kit';
+import {  TuiFilterByInputPipe, TuiPagination } from '@taiga-ui/kit';
 import {
     TuiComboBoxModule,
     TuiInputModule,
@@ -14,6 +14,8 @@ import {
     TuiSelectModule,
     TuiTextfieldControllerModule,
 } from '@taiga-ui/legacy';
+import { LoaderComponent } from '../../Utility/loader/loader.component';
+import { TuiCardLarge } from '@taiga-ui/layout';
 
 @Component({
   selector: 'manage-users',
@@ -23,9 +25,9 @@ import {
     ReactiveFormsModule,TuiDropdown,NgIf,
     TuiComboBoxModule,
     TuiMultiSelectModule,
-    TuiSelectModule,
+    TuiSelectModule,TuiCardLarge,TuiAppearance,
     TuiTextfieldControllerModule, 
-    TuiInputModule,TuiPagination
+    TuiInputModule,TuiPagination,TuiFilterByInputPipe
   ],
   templateUrl: './manage-users.component.html',
   styleUrl: './manage-users.component.scss'
@@ -36,6 +38,7 @@ export class ManageUsersComponent {
   userForm: FormGroup;
   isAddingOrEditing = false;
   editingUserId: string | null = null;
+  
 
   roles = ['Administrator', 'Customer', "Sender", 'Recipient', 'Service Provider']; 
   statuses = ['active', 'inactive'];
@@ -47,28 +50,50 @@ export class ManageUsersComponent {
    currentPage = 1; // Current page
    itemsPerPage = 50; // Number of items per page
    totalItems = 0; // Total number of items
+  
+   filteredUsers$: Observable<User[]> | null = null;
+   isLoading: boolean = true;
+   filterControl = new BehaviorSubject<string>('');
 
-  constructor(private adminService: AdminService, private fb: FormBuilder) {
-    this.users$ = this.adminService.getAllUsers();
-    this.users$.subscribe(users => {
-      this.totalItems = users.length; // ✅ Ensure totalItems is correctly set
+   constructor(private adminService: AdminService, private fb: FormBuilder) {
+    this.userForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      role: ['', Validators.required],
+      status: ['', Validators.required]
     });
-    this.userForm = new FormGroup({
-      email: new FormControl ('',  [Validators.required, Validators.email]),
-      role: new FormControl ('',  [Validators.required]),
-      status:new FormControl ('',  Validators.required),
-    });
+  
+    this.users$ = this.adminService.getAllUsers(); // Initialize immediately
+    this.filteredUsers$ = combineLatest([
+      this.users$,
+      this.filterControl.pipe(startWith(''))
+    ]).pipe(
+      map(([users, filter]) => 
+        users.filter(user => 
+          user.email.toLowerCase().includes(filter.toLowerCase()) ||
+          user.role.toLowerCase().includes(filter.toLowerCase()) ||
+          user.status.toLowerCase().includes(filter.toLowerCase())
+        )
+      )
+    );
+  
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 2000);
   }
+  
+
 
   showAddUserForm() {
     this.isAddingOrEditing = true;
     this.editingUserId = null;
+    this.isLoading = false; // Ensure the loading state is false
     this.userForm.reset();
   }
-
+  
   editUser(user: User) {
     this.isAddingOrEditing = true;
     this.editingUserId = user.id;
+    this.isLoading = false; // Ensure the loading state is false
     this.userForm.patchValue(user);
   }
 
@@ -102,13 +127,7 @@ export class ManageUsersComponent {
   deleteUser(user: User) {
     this.adminService.deleteUser(user.id);
   }
-  toggleRoleDropdown() {
-    this.roleOpen = !this.roleOpen;
-  }
-
-  toggleStatusDropdown() {
-    this.statusOpen = !this.statusOpen;
-  }
+ 
 
    // Get paginated users
    getPaginatedUsers(users: User[] | null): User[] {

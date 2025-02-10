@@ -11,7 +11,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of (users$ | async) ? getPaginatedUsers(users$ | async) : []">
+      <tr *ngFor="let user of users$ | async">
         <td>{{ user.email }}</td>
         <td>{{ user.role }}</td>
         <td>{{ user.status }}</td>
@@ -22,12 +22,55 @@
       </tr>
     </tbody>
   </table>
-
-  <!-- Pagination -->
-  <tui-pagination
-    class="mt-4"
-    [length]="totalPages"
-    [(index)]="currentPage"
-    (indexChange)="onPageChange($event)"
-  ></tui-pagination>
 </div>
+
+<!-- FORM -->
+<div *ngIf="isAddingOrEditing" tuiAppearance="floating" tuiCardLarge class="max-w-30rem mx-auto my-4">
+  <h1>{{ editingUserId ? 'Edit User' : 'Add User' }}</h1>
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <!-- Email Input -->
+    <tui-input formControlName="email" [tuiTextfieldCleaner]="true">
+      Enter your Email address
+      <input placeholder="mail@mail.ru" tuiTextfieldLegacy type="email" />
+    </tui-input>
+
+    <!-- Role Dropdown -->
+    <tui-combo-box
+        tuiDropdownMobile
+        [tuiTextfieldCleaner]="true"
+        formControlName="role"
+        class="my-3"
+      >
+        Select Role
+        <tui-data-list-wrapper *tuiDataList [items]="roles | tuiFilterByInput" />
+    </tui-combo-box>
+
+    <!-- Status Dropdown -->
+    <tui-combo-box
+      tuiDropdownMobile
+      [tuiTextfieldCleaner]="true"
+      formControlName="status"
+    >
+      Select Status
+      <tui-data-list-wrapper *tuiDataList [items]="statuses | tuiFilterByInput" />
+    </tui-combo-box>
+
+    <button tuiButton type="submit" appearance="primary" class="mt-2 w-full">
+      {{ editingUserId ? 'Update User' : 'Add User' }}
+    </button>
+
+    <button tuiButton type="button" appearance="secondary" class="mt-2 w-full" (click)="cancelForm()">
+      Cancel
+    </button>
+  </form>
+</div>
+
+<!-- Pagination -->
+<tui-pagination
+  class="mt-4"
+  [length]="totalPages"
+  [(index)]="currentPage"
+  (indexChange)="onPageChange($event)"
+></tui-pagination>
+
