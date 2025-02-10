@@ -1,9 +1,8 @@
 import { inject, Injectable, NgZone } from '@angular/core';
 import { Firestore, collection, addDoc, getDocs, query, where } from '@angular/fire/firestore';
 import { Shipment } from '../Modal/shipment';
-import { CollectionReference, doc, DocumentData, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
-import { Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { CollectionReference, doc, DocumentData,  setDoc, updateDoc } from 'firebase/firestore';
+
 
 
 @Injectable({
@@ -69,26 +68,29 @@ async createShipment(shipment: Shipment): Promise<string> {
 
 
 
-  // Get a shipment by tracking number
-  async getShipmentByTrackingNumber(trackingNumber: string): Promise<Shipment | null> {
-    return new Promise<Shipment | null>((resolve, reject) => {
-      this.ngZone.run(async () => {
-        try {
-          const shipmentQuery = query(this.getShipmentsCollection(), where('trackingNumber', '==', trackingNumber));
-          const querySnapshot = await getDocs(shipmentQuery);
-  
-          if (querySnapshot.empty) {
-            resolve(null); // No shipment found
-          } else {
-            const shipmentData = querySnapshot.docs[0].data() as Shipment;
-            resolve(shipmentData);
-          }
-        } catch (error) {
-          reject(error);
-        }
-      });
+getShipmentByTrackingNumber(trackingNumber: string): Promise<Shipment | null> {
+  console.log('Querying Firestore for tracking number:', `'${trackingNumber}'`);
+  const shipmentsRef = collection(this.firestore, 'shipments');
+  const q = query(shipmentsRef, where('trackingNumber', '==', trackingNumber));
+
+  return getDocs(q)
+    .then(snapshot => {
+      if (snapshot.empty) {
+        console.log('No matching shipment found for:', trackingNumber);
+        return null;
+      }
+      // Assuming only one shipment per tracking number
+      const shipment = snapshot.docs[0].data() as Shipment;
+      console.log('Shipment found:', shipment);
+      return shipment;
+    })
+    .catch(error => {
+      console.error('Firestore query error:', error);
+      return null;
     });
-  }
+}
+
+
 // by email
 async getShipmentByRecipientEmail(email: string): Promise<Shipment | null> {
   try {
