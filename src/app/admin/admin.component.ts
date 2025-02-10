@@ -17,9 +17,11 @@ export class AdminComponent {
 
   onShowManageUsers(){
     this.showManagerUsers = true;
+    this.showMonitorShipment = false
   }
 
   onShowMonitorShipment(){
     this.showMonitorShipment = true;
+    this.showManagerUsers = false;
   }
 }
