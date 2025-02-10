@@ -1,34 +1,88 @@
-<div class="contact-form-container">
-    <h2 class="text-center">Contact Us</h2>
-  
+<div tuiAppearance="floating" tuiCardLarge class="max-w-30rem mx-auto">
+  <h2 class="text-center">Contact Us</h2>
+
+  <!-- Tabs -->
+  <div class="flex justify-content-center gap-3 my-3">
+    <button tuiButton appearance="primary" (click)="switchTab('send')"
+      [class.active]="selectedTab === 'send'">Send Complaint</button>
+    <button tuiButton appearance="secondary" (click)="switchTab('check')"
+      [class.active]="selectedTab === 'check'">Check Response</button>
+  </div>
+
+  <!-- Send Complaint Section -->
+  <div *ngIf="selectedTab === 'send'">
     <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <tui-input formControlName="name" id="name" placeholder="Enter your name"></tui-input>
-        <div *ngIf="contactForm.get('name').invalid && contactForm.get('name').touched">
-          <small class="text-danger">Name is required.</small>
-        </div>
+      <tui-input formControlName="name" placeholder="Enter your name">
+        Provide us with your Name
+      </tui-input>
+      <div *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+        <small class="text-red-800">*Name field Mustn't be empty.</small>
       </div>
-  
-      <div class="form-group">
-        <label for="email">Email</label>
-        <tui-input formControlName="email" id="email" placeholder="Enter your email"></tui-input>
-        <div *ngIf="contactForm.get('email').invalid && contactForm.get('email').touched">
-          <small class="text-danger">Please enter a valid email.</small>
-        </div>
+      <tui-input formControlName="email" placeholder="Enter your email" class="my-3">
+        Provide us with your Email Address
+      </tui-input>
+      <div *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+        <small class="text-red-800">*Please Enter a valid email.</small>
       </div>
-  
-      <div class="form-group">
-        <label for="message">Message</label>
-        <tui-textarea formControlName="message" id="message" placeholder="Enter your message"></tui-textarea>
-        <div *ngIf="contactForm.get('message').invalid && contactForm.get('message').touched">
-          <small class="text-danger">Message is required.</small>
-        </div>
+      <tui-input formControlName="subject" placeholder="Enter Subject" class="my-3">
+        Provide a Subject for your Inquiry
+      </tui-input>
+      <div *ngIf="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched">
+        <small class="text-red-800">*Subject field Mustn't be empty.</small>
       </div>
-  
-      <div class="form-group text-center">
-        <button type="submit">Send Message</button>
+      <tui-textarea formControlName="message" placeholder="Write your message">
+        Write your Message here.
+      </tui-textarea>
+      <div *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
+        <small class="text-red-800">*Message field Mustn't be empty.</small>
+      </div>
+      <div class="text-center my-3">
+        <button tuiButton type="submit" appearance="primary"
+        [disabled]="contactForm.invalid">Send Message</button>
       </div>
     </form>
   </div>
+
+  <!-- Check Response Section -->
+  <div *ngIf="selectedTab === 'check'">
+    <form [formGroup]="checkResponseForm">
+      <tui-input formControlName="emailForCheck" placeholder="Enter your email">
+        Provide your Email to Check Response
+      </tui-input>
+      <div *ngIf="checkResponseForm.get('emailForCheck')?.invalid && checkResponseForm.get('emailForCheck')?.touched">
+        <small class="text-red-800">Please enter a valid email.</small>
+      </div>
   
+      <button tuiButton type="button" appearance="primary"
+        (click)="fetchUserInquiries()"
+        [disabled]="checkResponseForm.invalid"
+        class="my-3">
+        Check Response
+      </button>
+    </form>
+  
+    <!-- Show "No Record Found" Message -->
+    <div *ngIf="emailChecked && inquiries$ === null">
+      <p class="text-danger">No record found with the given email address.</p>
+    </div>
+  
+    <!-- Display Inquiries -->
+    <div *ngIf="inquiries$ | async as inquiries">
+      <div *ngFor="let inquiry of inquiries">
+        <h4>Subject: {{ inquiry.subject }}</h4>
+        <p><strong>Message:</strong> {{ inquiry.message }}</p>
+        <p><strong>Sent:</strong> {{ inquiry.timestamp?.toDate() | date:'short' }}</p>
+  
+        <div *ngIf="inquiry.response">
+          <p><strong>Support Response:</strong> {{ inquiry.response }}</p>
+          <p><strong>Responded At:</strong> {{ inquiry.respondedAt?.toDate() | date:'short' }}</p>
+          <p><strong>Status:</strong> {{ inquiry.status }}</p>
+        </div>
+  
+        <div *ngIf="!inquiry.response">
+          <p class="text-warning">Awaiting response from support...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

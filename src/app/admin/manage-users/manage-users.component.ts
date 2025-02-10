@@ -40,7 +40,7 @@ export class ManageUsersComponent {
   editingUserId: string | null = null;
   
 
-  roles = ['Administrator', 'Customer', "Sender", 'Recipient', 'Service Provider']; 
+  roles = ['Administrator', 'Customer Support Agent', "Sender", 'Recipient', 'Service Provider']; 
   statuses = ['active', 'inactive'];
   
   roleOpen = false;

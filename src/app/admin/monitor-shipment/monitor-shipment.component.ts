@@ -45,23 +45,5 @@ export class MonitorShipmentComponent {
         );
     }
 
-    async addUser() {
-        const newUser: User = {
-            id: '',
-            name: 'New User',
-            email: 'newuser@example.com',
-            role: 'customer',
-            status: 'active',
-            createdAt: new Date().toISOString()
-        };
-        await this.adminService.createUser(newUser);
-    }
-
-    async editUser(user: User) {
-        await this.adminService.updateUser(user.id, { status: 'active' });
-    }
-
-    async deleteUser(user: User) {
-        await this.adminService.deleteUser(user.id);
-    }
+   
 }

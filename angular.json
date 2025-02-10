@@ -69,10 +69,12 @@
               }
             ],
             "styles": [
+              "node_modules/primeflex/primeflex.scss",
               "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
               "node_modules/@taiga-ui/core/styles/taiga-ui-fonts.less",
               "src/styles.scss"
-            ],
+                ],
+
             "scripts": []
           },
           "configurations": {
