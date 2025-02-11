@@ -38,11 +38,8 @@ export class ManageUsersComponent {
   userForm: FormGroup;
   isAddingOrEditing = false;
   editingUserId: string | null = null;
-  
-
   roles = ['Administrator', 'Customer Support Agent', "Sender", 'Recipient', 'Service Provider']; 
   statuses = ['active', 'inactive'];
-  
   roleOpen = false;
   statusOpen = false;
 
@@ -54,7 +51,6 @@ export class ManageUsersComponent {
    filteredUsers$: Observable<User[]> | null = null;
    isLoading: boolean = true;
    filterControl = new BehaviorSubject<string>('');
-
    constructor(private adminService: AdminService, private fb: FormBuilder) {
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],

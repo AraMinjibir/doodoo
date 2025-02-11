@@ -9,6 +9,7 @@ import { Shipment } from '../../Modal/shipment';
 import { Subject } from 'rxjs';
 import { SnackBarComponent } from '../../Utility/snack-bar/snack-bar.component';
 import { LoaderComponent } from '../../Utility/loader/loader.component';
+import { DialogService } from '../../Service/dialog.service';
 
 @Component({
   selector: 'shipment',
@@ -33,6 +34,8 @@ export class ShipmentComponent {
   errorMessage: string = '';
   changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef)
   shipmentSubject: Subject<Shipment> = new Subject();
+  constructor(private dialogService: DialogService) {}
+
 
   onShowShipmentForm(value?: any){
     this.showShipmentForm = true;
@@ -65,21 +68,54 @@ export class ShipmentComponent {
       return;
     }
   
-    if (confirm('Are you sure you want to send the shipment order?')) {
+    this.dialogService
+    .showDialog(
+      'Are you sure you want to send the shipment order?',
+      'Confirm Shipment',
+      'Yes', // Custom confirm button text
+      'No' // Custom cancel button text
+    )
+    .subscribe((confirmed) => {
+      if (confirmed) {
+        // User confirmed the action
+        this.showSummary = false;
+        this.isLoading = true;
 
-      this.showSummary = false;
-      this.isLoading = true;
-      this.shipmentService.createShipment(this.shipmentDetails)
-        .then((trackingNumber) => {
-          alert(`Shipment created with tracking number: ${trackingNumber}`);
-          this.isLoading = false;
-          // Update shipmentDetails with tracking number
-          this.shipmentDetails.trackingNumber = trackingNumber;
-        })
-        .catch(error => {
-          console.error("Error creating shipment:", error);
-        });
-    }
+        // Call the shipment service
+        this.shipmentService.createShipment(this.shipmentDetails)
+          .then((trackingNumber) => {
+            // Show success message using the custom dialog
+            this.dialogService
+              .showDialog(
+                `Shipment created with tracking number: ${trackingNumber}`,
+                'Success',
+                'OK'
+              )
+              .subscribe(() => {
+                // Update shipmentDetails with tracking number
+                this.shipmentDetails.trackingNumber = trackingNumber;
+                this.isLoading = false;
+                this.showWelcomeNote = true;
+              });
+          })
+          .catch((error) => {
+            console.error('Error creating shipment:', error);
+            this.isLoading = false;
+
+            // Show error message using the custom dialog
+            this.dialogService
+              .showDialog(
+                'An error occurred while creating the shipment. Please try again.',
+                'Error',
+                'OK'
+              )
+              .subscribe();
+          });
+      } else {
+        // User canceled the action
+        console.log('Shipment creation canceled');
+      }
+    });
   }
   
   

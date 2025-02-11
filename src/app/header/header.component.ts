@@ -1,24 +1,26 @@
 import { Component, inject } from '@angular/core';
-import { Router,NavigationEnd} from '@angular/router';
-import { TuiLink } from '@taiga-ui/core';
-import { AuthmodRoutingModule } from '../authmod/authmod-routing.module';
+import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../Service/auth.service';
+import { DialogService } from '../Service/dialog.service';
+
 
 @Component({
   selector: 'header',
-  imports: [TuiLink, AuthmodRoutingModule, NgIf],
+  standalone: true,
+  imports: [NgIf],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  authService: AuthService = inject(AuthService);
-  isNotHomePage: boolean = false;  
+  authService = inject(AuthService);
+  private dialogService = inject(DialogService);
+  private theme = { color: '#ff7043' };
+  isNotHomePage = false;  
   user: any = null;
-  isLoading: boolean = false;
+  isLoading = false;
+
   constructor(private router: Router) {}
-
-
 
   logout() {
     this.authService.logout();
@@ -26,16 +28,19 @@ export class HeaderComponent {
 
   navigateIfAuthenticated(role: string, path: string) {
     this.isLoading = true;
+
     if (this.user?.role === role) {
       const formattedPath = `/app-layout/${role.toLowerCase().replace(/\s+/g, '-')}`;
       this.router.navigate([formattedPath]);
     } else {
-      alert(`You must be a ${role} to access this`);
-      this.router.navigate(['auth/sign-up']); // Redirect to sign-in page
+      this.dialogService
+        .showDialog(`You must be a ${role} to access this`, 'Access Denied')
+        .subscribe((confirmed) => {
+          if (confirmed) {
+            this.router.navigate(['auth/sign-up']); 
+          }
+          this.isLoading = false; 
+        });
     }
   }
-  
-  
-  
-
 }

@@ -1,6 +1,6 @@
 import { AsyncPipe, DatePipe, NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
-import { TuiAppearance, TuiButton } from '@taiga-ui/core';
+import { Component, inject } from '@angular/core';
+import { TuiAppearance, TuiButton, TuiDialogService } from '@taiga-ui/core';
 import { TuiCardLarge } from '@taiga-ui/layout';
 import {FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TuiInputModule, TuiTextareaModule} from '@taiga-ui/legacy';
@@ -20,10 +20,21 @@ export class CustomerSupportComponent {
   selectedInquiry: any = null;
   userDetails: any = null;
   responseMessage: string = '';
+  private readonly dialogs = inject(TuiDialogService);
+    private theme = { color: '#ff7043' }; 
   constructor(private firestore: Firestore) {
     const inquiriesRef = collection(this.firestore, 'contact_inquiries');
     this.inquiries$ = collectionData(inquiriesRef, { idField: 'id' });
   }
+  protected showDialog(message: string, title: string): void {
+    this.theme.color = '#ffdd2d'; 
+    this.dialogs.open(message, { label: title }).subscribe({
+      complete: () => {
+        this.theme.color = '#ff7043'; // ✅ Reset color after closing
+      },
+    });
+  }
+
 
   async viewDetails(inquiry: any) {
     this.selectedInquiry = inquiry;
@@ -49,7 +60,7 @@ export class CustomerSupportComponent {
           respondedAt: serverTimestamp(),
           status: 'Resolved'
         });
-        alert('Response sent successfully!');
+        this.showDialog('Response sent Successfully', 'Success');
         this.responseMessage = '';
       } catch (error) {
         console.error('Error sending response:', error);
