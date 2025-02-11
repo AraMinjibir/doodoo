@@ -20,13 +20,13 @@ showPickup(): void {
   console.log('📦 Show Pickup clicked');
   this.showPickupComponent = true;
   this.showDeliveryComponent = false;
-  this.cdr.detectChanges(); // Force UI update
+  this.cdr.detectChanges(); 
 }
 
 showDelivery(): void {
   console.log('🚚 Show Delivery clicked');
   this.showDeliveryComponent = true;
   this.showPickupComponent = false;
-  this.cdr.detectChanges(); // Force UI update
+  this.cdr.detectChanges(); 
 }
 }

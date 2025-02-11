@@ -44,7 +44,7 @@ export class TrackComponent implements OnDestroy {
     if (this.shipmentSubject) {
       this.shipmentSubscription = this.shipmentSubject.subscribe((shipment: Shipment) => {
         this.shipment = shipment;
-        this.showTrack = true; // Ensure the track details are shown
+        this.showTrack = true; 
       });
     }
   }

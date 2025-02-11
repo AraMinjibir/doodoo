@@ -23,19 +23,14 @@
     </tbody>
   </table>
 </div>
-
-<!-- FORM -->
 <div *ngIf="isAddingOrEditing" tuiAppearance="floating" tuiCardLarge class="max-w-30rem mx-auto my-4">
   <h1>{{ editingUserId ? 'Edit User' : 'Add User' }}</h1>
 
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-    <!-- Email Input -->
     <tui-input formControlName="email" [tuiTextfieldCleaner]="true">
       Enter your Email address
       <input placeholder="mail@mail.ru" tuiTextfieldLegacy type="email" />
     </tui-input>
-
-    <!-- Role Dropdown -->
     <tui-combo-box
         tuiDropdownMobile
         [tuiTextfieldCleaner]="true"
@@ -45,8 +40,6 @@
         Select Role
         <tui-data-list-wrapper *tuiDataList [items]="roles | tuiFilterByInput" />
     </tui-combo-box>
-
-    <!-- Status Dropdown -->
     <tui-combo-box
       tuiDropdownMobile
       [tuiTextfieldCleaner]="true"
@@ -66,7 +59,6 @@
   </form>
 </div>
 
-<!-- Pagination -->
 <tui-pagination
   class="mt-4"
   [length]="totalPages"

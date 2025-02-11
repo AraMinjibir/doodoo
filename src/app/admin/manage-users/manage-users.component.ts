@@ -14,7 +14,6 @@ import {
     TuiSelectModule,
     TuiTextfieldControllerModule,
 } from '@taiga-ui/legacy';
-import { LoaderComponent } from '../../Utility/loader/loader.component';
 import { TuiCardLarge } from '@taiga-ui/layout';
 
 @Component({
@@ -38,31 +37,24 @@ export class ManageUsersComponent {
   userForm: FormGroup;
   isAddingOrEditing = false;
   editingUserId: string | null = null;
-  
-
   roles = ['Administrator', 'Customer Support Agent', "Sender", 'Recipient', 'Service Provider']; 
   statuses = ['active', 'inactive'];
-  
   roleOpen = false;
   statusOpen = false;
+  currentPage = 1; 
+  itemsPerPage = 50; 
+  totalItems = 0; 
+  filteredUsers$: Observable<User[]> | null = null;
+  filterControl = new BehaviorSubject<string>('');
 
-   // Pagination variables
-   currentPage = 1; // Current page
-   itemsPerPage = 50; // Number of items per page
-   totalItems = 0; // Total number of items
-  
-   filteredUsers$: Observable<User[]> | null = null;
-   isLoading: boolean = true;
-   filterControl = new BehaviorSubject<string>('');
-
-   constructor(private adminService: AdminService, private fb: FormBuilder) {
-    this.userForm = this.fb.group({
+  constructor(private adminService: AdminService, private fb: FormBuilder) {
+  this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       role: ['', Validators.required],
       status: ['', Validators.required]
     });
   
-    this.users$ = this.adminService.getAllUsers(); // Initialize immediately
+    this.users$ = this.adminService.getAllUsers(); 
     this.filteredUsers$ = combineLatest([
       this.users$,
       this.filterControl.pipe(startWith(''))
@@ -75,10 +67,6 @@ export class ManageUsersComponent {
         )
       )
     );
-  
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 2000);
   }
   
 
@@ -86,14 +74,12 @@ export class ManageUsersComponent {
   showAddUserForm() {
     this.isAddingOrEditing = true;
     this.editingUserId = null;
-    this.isLoading = false; // Ensure the loading state is false
     this.userForm.reset();
   }
   
   editUser(user: User) {
     this.isAddingOrEditing = true;
     this.editingUserId = user.id;
-    this.isLoading = false; // Ensure the loading state is false
     this.userForm.patchValue(user);
   }
 
@@ -132,7 +118,7 @@ export class ManageUsersComponent {
    // Get paginated users
    getPaginatedUsers(users: User[] | null): User[] {
     if (!users) {
-      return []; // Return an empty array if users is null or undefined
+      return [];
     }
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;

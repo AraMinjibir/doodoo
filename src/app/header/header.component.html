@@ -3,7 +3,7 @@
     <div class="p2">
       <div class="text-center">
         <a tuiLink
-           routerLink="home-page"
+           routerLink="app-layout/home-page"
            class="mx-2"
            *ngIf="isNotHomePage">Home</a> 
         <a tuiLink routerLink="" class="mx-2" fragment="about">About</a>
@@ -17,9 +17,9 @@
         (click)="navigateIfAuthenticated('Recipient', 'recipient')">Recipient</a>
         <a tuiLink routerLink="service-provider" class="mx-2"
         (click)="navigateIfAuthenticated('Service Provider', 'service-provider')">Service Provider</a>
-        <a tuiLink routerLink="admin" class="mx-2"
+        <a tuiLink routerLink="administrator" class="mx-2"
         (click)="navigateIfAuthenticated('Administrator', 'admin')">Administrator</a>
-        <a tuiLink routerLink="customer" class="mx-2"
+        <a tuiLink routerLink="customer-support-agent" class="mx-2"
         (click)="navigateIfAuthenticated('Customer Support Agent', 'customer')"
         >Customer Support Agent</a>
       </div>

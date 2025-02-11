@@ -30,7 +30,7 @@ export class DeliveryComponent {
   async deliverPackage(shipmentId: string): Promise<void> {
     await this.shipmentService.deliverPackage(shipmentId);
     this.showDialog('Package delivered successfully!', 'Delivery Request');
-    this.deliveryRequests = await this.shipmentService.getDeliveryRequests(); // Refresh the list
+    this.deliveryRequests = await this.shipmentService.getDeliveryRequests(); 
   }
 
   // Show modal with custom message and label

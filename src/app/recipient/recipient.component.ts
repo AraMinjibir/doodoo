@@ -22,16 +22,14 @@ export class ReceipientComponent {
   showConfirmDelivery: boolean = false;
   emailForm: FormGroup;
   trackingForm: FormGroup;
-  shipmentData: any = null; // To store shipment details
+  shipmentData: any = null; // store shipment details
   
-
-  // Inject services
   private readonly shipmentService = inject(ShipmentService);
   private readonly dialogs = inject(TuiDialogService);
-  private theme = { color: '#ff7043' }; // Just an example color theme
+  private theme = { color: '#ff7043' }; 
 
   constructor(private fb: FormBuilder, private ngZone: NgZone) {
-    // Initialize forms with validation
+   
     this.emailForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
     });
@@ -42,12 +40,12 @@ export class ReceipientComponent {
 
   // Method to show dialog with dynamic content
   protected showDialog(message: string, title: string): void {
-    this.theme.color = '#ffdd2d'; // You can change color based on status or message
+    this.theme.color = '#ffdd2d'; 
     this.dialogs
       .open(message, { label: title })
       .subscribe({
         complete: () => {
-          this.theme.color = '#ff7043'; // Reset color after the dialog closes
+          this.theme.color = '#ff7043'; 
         },
       });
   }
@@ -77,6 +75,7 @@ export class ReceipientComponent {
             <br>Package Contents: ${shipmentData.pckCont}
           `;
           this.showDialog(message, 'Package Found');
+          this.showReceivePackageForm = true;
         } else {
           this.showDialog('No shipment found for this email!', 'Error');
         }
@@ -95,17 +94,14 @@ export class ReceipientComponent {
   
     if (this.trackingForm.valid && trackingNumber === this.shipmentData.trackingNumber) {
       try {
-        // Update only the necessary fields (status, isDelivered, deliveryDate)
+        
         const updateData = {
-          status: "Delivered",  // ✅ Update status as a string
-          isDelivered: true,    // ✅ Update isDelivered
-          deliveryDate: Timestamp.now(),  // ✅ Update deliveryDate
+          status: "Delivered", 
+          isDelivered: true,   
+          deliveryDate: Timestamp.now(), 
         };
-  
-        // Perform a partial update instead of overwriting the entire document
         await this.shipmentService.updateShipmentStatus(docId, updateData);
   
-        // Reset UI state
         this.showConfirmDelivery = false;
         this.showReceivePackageForm = true;
         this.emailForm.reset();
