@@ -34,12 +34,12 @@ export class AdminService {
   }
   
 
-   // ✅ Get all users
+   // Get all users
    getAllUsers(): Observable<User[]> {
     return collectionData(this.usersCollection, { idField: 'id' }) as Observable<User[]>;
   }
 
-  // ✅ Create a new user
+  //  Create a new user
   async createUser(userData: Partial<User>): Promise<string | void> {
     try {
       const { email, role, status } = userData;
@@ -77,7 +77,7 @@ export class AdminService {
     return Math.random().toString(36).slice(-8); // Generates an 8-character password
   }
 
-  // ✅ Update a user
+  //  Update a user
   async updateUser(userId: string, userData: Partial<User>): Promise<void> {
     if (!userId) throw new Error('User ID is required to update');
     const userDocRef = doc(this.firestore, `users/${userId}`);
@@ -85,7 +85,7 @@ export class AdminService {
     this.showDialog( 'details is updated successfully', 'Success');
   }
 
-  // ✅ Delete a user
+  // Delete a user
   async deleteUser(userId: string): Promise<void> {
     if (!userId) throw new Error('User ID is required to delete');
     const userDocRef = doc(this.firestore, `users/${userId}`);

@@ -37,12 +37,12 @@ export class PickingUpDeliveryComponent {
         await this.shipmentService.pickupPackage(shipmentId);
         this.showDialog('Package picked up successfully!', 'Pickup Request');
         
-        await this.loadPickupRequests(); // Refresh the list
+        await this.loadPickupRequests(); 
       }
     
       private showDialog(message: string, label: string): void {
         this.dialogService.open(message, { label }).subscribe({
-          complete: () => console.log('✅ Modal closed')
+          complete: () => console.log(' Modal closed')
         });
       }
 

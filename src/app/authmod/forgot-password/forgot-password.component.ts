@@ -38,7 +38,7 @@ export class ForgotPasswordComponent {
       error: ((err) => console.log(err))
     })
     this.forgotForm.reset();
-    // this.router.navigate(['auth/reset-password']);
+   
     
   }
 }

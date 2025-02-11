@@ -1,15 +1,11 @@
 <div tuiAppearance="floating" tuiCardLarge class="max-w-30rem mx-auto">
   <h2 class="text-center">Contact Us</h2>
-
-  <!-- Tabs -->
   <div class="flex justify-content-center gap-3 my-3">
     <button tuiButton appearance="primary" (click)="switchTab('send')"
       [class.active]="selectedTab === 'send'">Send Complaint</button>
     <button tuiButton appearance="secondary" (click)="switchTab('check')"
       [class.active]="selectedTab === 'check'">Check Response</button>
   </div>
-
-  <!-- Send Complaint Section -->
   <div *ngIf="selectedTab === 'send'">
     <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
       <tui-input formControlName="name" placeholder="Enter your name">
@@ -43,7 +39,6 @@
     </form>
   </div>
 
-  <!-- Check Response Section -->
   <div *ngIf="selectedTab === 'check'">
     <form [formGroup]="checkResponseForm">
       <tui-input formControlName="emailForCheck" placeholder="Enter your email">

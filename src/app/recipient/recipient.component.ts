@@ -22,16 +22,14 @@ export class ReceipientComponent {
   showConfirmDelivery: boolean = false;
   emailForm: FormGroup;
   trackingForm: FormGroup;
-  shipmentData: any = null; // To store shipment details
+  shipmentData: any = null; // store shipment details
   
-
-  // Inject services
   private readonly shipmentService = inject(ShipmentService);
   private readonly dialogs = inject(TuiDialogService);
   private theme = { color: '#ff7043' }; 
 
   constructor(private fb: FormBuilder, private ngZone: NgZone) {
-    // Initialize forms with validation
+   
     this.emailForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
     });
@@ -96,17 +94,14 @@ export class ReceipientComponent {
   
     if (this.trackingForm.valid && trackingNumber === this.shipmentData.trackingNumber) {
       try {
-        // Update only the necessary fields (status, isDelivered, deliveryDate)
+        
         const updateData = {
-          status: "Delivered",  // ✅ Update status as a string
-          isDelivered: true,    // ✅ Update isDelivered
-          deliveryDate: Timestamp.now(),  // ✅ Update deliveryDate
+          status: "Delivered", 
+          isDelivered: true,   
+          deliveryDate: Timestamp.now(), 
         };
-  
-        // Perform a partial update instead of overwriting the entire document
         await this.shipmentService.updateShipmentStatus(docId, updateData);
   
-        // Reset UI state
         this.showConfirmDelivery = false;
         this.showReceivePackageForm = true;
         this.emailForm.reset();

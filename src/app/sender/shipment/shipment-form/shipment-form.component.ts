@@ -46,11 +46,11 @@ export class ShipmentFormComponent {
     showShipmentForm: boolean = false;
     shippingCost: number | null = null;
 
-    // event emission to show shipment form to parent
+    // event emission to show shipment form to parent coomp
     @Output()
     showShipmentFormToHome: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    // event emision to show form summary to parent
+    // event emision to show form summary to parent comp
     @Output() 
     showSummary: EventEmitter<any> = new EventEmitter<any>();
 

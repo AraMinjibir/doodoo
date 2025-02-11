@@ -1,8 +1,8 @@
 import { AsyncPipe, DatePipe, NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Firestore, addDoc, collection, collectionData, query, where } from '@angular/fire/firestore';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { TuiAppearance, TuiButton } from '@taiga-ui/core';
+import { TuiAppearance, TuiButton, TuiDialogService } from '@taiga-ui/core';
 import { TuiCardLarge } from '@taiga-ui/layout';
 import { TuiInputModule, TuiTextareaModule } from '@taiga-ui/legacy';
 import { Observable } from 'rxjs';
@@ -33,7 +33,9 @@ export class ContactFormComponent {
   inquiries$: Observable<SupportInquiry[]> | null = null;
   emailChecked = false;
   selectedTab: 'send' | 'check' = 'send';
-
+  private readonly dialogs = inject(TuiDialogService);
+  private theme = { color: '#ff7043' }; 
+  constructor(private firestore: Firestore) {}
   contactForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     name: new FormControl('', Validators.required),
@@ -44,9 +46,14 @@ export class ContactFormComponent {
   checkResponseForm = new FormGroup({
     emailForCheck: new FormControl('', [Validators.required, Validators.email])
   });
-
-  constructor(private firestore: Firestore) {}
-
+ protected showDialog(message: string, title: string): void {
+    this.theme.color = '#ffdd2d'; 
+    this.dialogs.open(message, { label: title }).subscribe({
+      complete: () => {
+        this.theme.color = '#ff7043'; 
+      },
+    });
+  }
   switchTab(tab: 'send' | 'check') {
     this.selectedTab = tab;
     this.emailChecked = false; 
@@ -82,7 +89,7 @@ export class ContactFormComponent {
           status: 'Pending',
           timestamp: new Date()
         });
-        alert('Inquiry submitted successfully!');
+        this.showDialog('Inquiry submitted successfully!', 'Success');
         this.contactForm.reset();
       } catch (error) {
         console.error('Error submitting inquiry:', error);

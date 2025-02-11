@@ -29,8 +29,6 @@ export class MonitorShipmentComponent {
 
     constructor(private adminService: AdminService) {
         this.users$ = from(this.adminService.getAllUsers());
-
-        // Apply filtering logic
         this.filteredUsers$ = combineLatest([
             this.users$,
             this.filterControl.valueChanges.pipe(startWith(''))

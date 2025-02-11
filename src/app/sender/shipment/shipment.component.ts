@@ -72,19 +72,15 @@ export class ShipmentComponent {
     .showDialog(
       'Are you sure you want to send the shipment order?',
       'Confirm Shipment',
-      'Yes', // Custom confirm button text
-      'No' // Custom cancel button text
+      'Yes', 
+      'No' 
     )
     .subscribe((confirmed) => {
       if (confirmed) {
-        // User confirmed the action
         this.showSummary = false;
         this.isLoading = true;
-
-        // Call the shipment service
         this.shipmentService.createShipment(this.shipmentDetails)
           .then((trackingNumber) => {
-            // Show success message using the custom dialog
             this.dialogService
               .showDialog(
                 `Shipment created with tracking number: ${trackingNumber}`,
@@ -92,7 +88,6 @@ export class ShipmentComponent {
                 'OK'
               )
               .subscribe(() => {
-                // Update shipmentDetails with tracking number
                 this.shipmentDetails.trackingNumber = trackingNumber;
                 this.isLoading = false;
                 this.showWelcomeNote = true;

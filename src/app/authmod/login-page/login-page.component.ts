@@ -70,28 +70,7 @@ export class LoginPageComponent {
   }
   
   
-  private redirectBasedOnRole(role: string) {
-    switch (role) {
-      case 'Administrator':
-        this.router.navigate(['app-layout/administrator']);
-        break;
-      case 'Customer Support Agent':
-        this.router.navigate(['app-layout/customer-support-agent']);
-        break;
-      case 'Recipient':
-        this.router.navigate(['app-layout/recipient']);
-        break;
-      case 'Sender':
-        this.router.navigate(['app-layout/sender']);
-        break;
-      case 'Service Provider':
-        this.router.navigate(['app-layout/service-provider']);
-        break;
-      default:
-        this.router.navigate(['app-layout/home-page']); // Redirect to home if the role is invalid
-        break;
-    }
-  }
+
   
 
 }

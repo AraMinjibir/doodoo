@@ -12,14 +12,14 @@ import { DialogData } from '../../Modal/dialog-data';
 export class ConfirmDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData // Use the interface here
+    @Inject(MAT_DIALOG_DATA) public data: DialogData 
   ) {}
 
   onConfirm(): void {
-    this.dialogRef.close(true); // Return `true` for confirmation
+    this.dialogRef.close(true); 
   }
 
   onCancel(): void {
-    this.dialogRef.close(false); // Return `false` for cancellation
+    this.dialogRef.close(false);
   }
 }
