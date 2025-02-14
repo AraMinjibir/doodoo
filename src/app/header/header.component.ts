@@ -37,14 +37,15 @@ export class HeaderComponent {
  
   navigateIfAuthenticated(role: string, path: string) {
     this.isLoading = true;
+
+    // If the user is not logged in or their role doesn't match
     if (!this.user || this.user.role !== role) {
       console.log('User role does not match or user is not logged in, showing dialog');
       this.dialogService
         .showDialog(
-          `You must be logged in as a ${role} to access this`,
+          `You must logged in as a ${role} to access this`,
           'Access Denied'
         )
-        .pipe(take(1)) 
         .subscribe((confirmed) => {
           if (confirmed) {
             this.router.navigate(['auth/sign-up']);
@@ -53,7 +54,7 @@ export class HeaderComponent {
         });
       return;
     }
-  
+
     // If the user's role matches, navigate to the desired route
     const formattedPath = `/app-layout/${role.toLowerCase().replace(/\s+/g, '-')}`;
     this.router.navigate([formattedPath]);
