@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../Utility/dialog/dialog.component'; 
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { DialogData } from '../Modal/dialog-data'; 
 
 @Injectable({
@@ -22,4 +22,6 @@ export class DialogService {
 
     return dialogRef.afterClosed(); 
   }
+
+  
 }

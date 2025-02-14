@@ -4,17 +4,19 @@ import { TuiLink } from '@taiga-ui/core';
 import { AuthmodRoutingModule } from '../authmod/authmod-routing.module';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../Service/auth.service';
-import { DialogService } from '../Service/dialog.service'; // 👈 Import DialogService
+import { DialogService } from '../Service/dialog.service'; 
+import { take } from 'rxjs';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'header',
-  imports: [TuiLink, AuthmodRoutingModule, NgIf],
+  imports: [TuiLink, AuthmodRoutingModule, NgIf, MatDialogModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
   authService: AuthService = inject(AuthService);
-  private dialogService: DialogService = inject(DialogService); // 👈 Inject DialogService
+  private dialogService: DialogService = inject(DialogService); 
   isNotHomePage: boolean = false;
   user: any = null;
   isLoading: boolean = false;
@@ -31,28 +33,30 @@ export class HeaderComponent {
     this.authService.logout();
   }
 
+ 
   navigateIfAuthenticated(role: string, path: string) {
     this.isLoading = true;
-  
-    if (!this.user) { // 👈 Ensure user is required
-      this.router.navigate(['auth/sign-up']);
-      this.isLoading = false;
-      return;
-    }
-  
-    if (this.user.role === role) {
-      const formattedPath = `/app-layout/${role.toLowerCase().replace(/\s+/g, '-')}`;
-      this.router.navigate([formattedPath]);
-    } else {
+    if (!this.user || this.user.role !== role) {
+      console.log('User role does not match or user is not logged in, showing dialog');
       this.dialogService
-        .showDialog(`You must be a ${role} to access this`, 'Access Denied')
+        .showDialog(
+          `You must be logged in as a ${role} to access this`,
+          'Access Denied'
+        )
+        .pipe(take(1)) 
         .subscribe((confirmed) => {
           if (confirmed) {
             this.router.navigate(['auth/sign-up']);
           }
           this.isLoading = false;
         });
+      return;
     }
-  }
   
+    // If the user's role matches, navigate to the desired route
+    const formattedPath = `/app-layout/${role.toLowerCase().replace(/\s+/g, '-')}`;
+    this.router.navigate([formattedPath]);
+    this.isLoading = false;
+  }
+
 }
