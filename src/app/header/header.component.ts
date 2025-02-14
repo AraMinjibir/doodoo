@@ -24,8 +24,9 @@ export class HeaderComponent {
   constructor(private router: Router) {}
 
   ngOnInit() {
-    this.authService.user$.subscribe(user => {
-      this.user = user;
+    this.authService.user$.subscribe((user) => {
+      console.log('User updated in HeaderComponent:', user); // Debug log
+      this.user = user; // Update the user state
     });
   }
   

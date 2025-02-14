@@ -79,10 +79,16 @@ export class AuthService {
 
   logout() {
     console.log("User logged out, clearing storage.");
+  
+    // Clear user data
+    this.userSubject.next(null);
+  
+    // Navigate and refresh
     this.router.navigate(['/app-layout/home-page']).then(() => {
       window.location.reload(); 
     });
   }
+  
 
   forgotPassword(email: string, requestType: string) {
     const data = { requestType: "PASSWORD_RESET", email };
