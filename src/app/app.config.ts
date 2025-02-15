@@ -17,6 +17,6 @@ export const appConfig: ApplicationConfig = {
      provideRouter(routes), NG_EVENT_PLUGINS, NG_EVENT_PLUGINS,
      provideHttpClient(),
      provideRouter([]), 
-     provideFirebaseApp(() => initializeApp(environment.firebase)), 
+     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)), 
      provideFirestore(() => getFirestore()), provideAuth(() => getAuth()), NG_EVENT_PLUGINS]
 };

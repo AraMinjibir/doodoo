@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AuthResponse } from '../Modal/authResponse';
-import { BehaviorSubject, catchError, throwError, tap, switchMap, Observable, from } from 'rxjs';
+import { BehaviorSubject, catchError, throwError, switchMap, Observable, from } from 'rxjs';
 import { Router } from '@angular/router';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Firestore } from '@angular/fire/firestore';
@@ -78,11 +78,14 @@ export class AuthService {
   
 
   logout() {
-    console.log("User logged out, clearing storage.");
+    this.userSubject.next(null);
+    localStorage.removeItem('user');
+    // Navigate and refresh
     this.router.navigate(['/app-layout/home-page']).then(() => {
       window.location.reload(); 
     });
   }
+  
 
   forgotPassword(email: string, requestType: string) {
     const data = { requestType: "PASSWORD_RESET", email };
@@ -116,4 +119,6 @@ export class AuthService {
 
     return throwError(() => errorMessage);
   }
+
+  
 }
