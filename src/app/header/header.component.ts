@@ -4,8 +4,6 @@ import { TuiLink } from '@taiga-ui/core';
 import { AuthmodRoutingModule } from '../authmod/authmod-routing.module';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../Service/auth.service';
-import { DialogService } from '../Service/dialog.service'; 
-import { take } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
@@ -15,8 +13,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  authService: AuthService = inject(AuthService);
-  private dialogService: DialogService = inject(DialogService); 
+  authService: AuthService = inject(AuthService); 
   isNotHomePage: boolean = false;
   user: any = null;
   isLoading: boolean = false;
@@ -25,7 +22,7 @@ export class HeaderComponent {
 
   ngOnInit() {
     this.authService.user$.subscribe((user) => {
-      console.log('User updated in HeaderComponent:', user); // Debug log
+      console.log('User updated in HeaderComponent:', user); 
       this.user = user; // Update the user state
     });
   }
@@ -37,26 +34,19 @@ export class HeaderComponent {
  
   navigateIfAuthenticated(role: string, path: string) {
     this.isLoading = true;
-    if (!this.user || this.user.role !== role) {
-      console.log('User role does not match or user is not logged in, showing dialog');
-      this.dialogService
-        .showDialog(
-          `You must logged in as a ${role} to access this`,
-          'Access Denied'
-        )
-        .subscribe((confirmed) => {
-          if (confirmed) {
-            this.router.navigate(['auth/sign-up']);
-          }
-          this.isLoading = false;
-        });
+  
+    if (!this.user) {
+      this.isLoading = false;
       return;
     }
-
-    // If the user's role matches, navigate to the route
+   
     const formattedPath = `/app-layout/${role.toLowerCase().replace(/\s+/g, '-')}`;
     this.router.navigate([formattedPath]);
     this.isLoading = false;
   }
+  
+  
+  
+  
 
 }
