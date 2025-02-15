@@ -37,8 +37,6 @@ export class HeaderComponent {
  
   navigateIfAuthenticated(role: string, path: string) {
     this.isLoading = true;
-
-    // If the user is not logged in or their role doesn't match
     if (!this.user || this.user.role !== role) {
       console.log('User role does not match or user is not logged in, showing dialog');
       this.dialogService
@@ -55,7 +53,7 @@ export class HeaderComponent {
       return;
     }
 
-    // If the user's role matches, navigate to the desired route
+    // If the user's role matches, navigate to the route
     const formattedPath = `/app-layout/${role.toLowerCase().replace(/\s+/g, '-')}`;
     this.router.navigate([formattedPath]);
     this.isLoading = false;
