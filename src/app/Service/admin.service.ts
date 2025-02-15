@@ -4,7 +4,6 @@ import { Shipment } from '../Modal/shipment';
 import { User } from '../Modal/user';
 import { Observable } from 'rxjs';
 import { Auth, createUserWithEmailAndPassword, sendPasswordResetEmail, fetchSignInMethodsForEmail } from '@angular/fire/auth';
-import { DialogService } from './dialog.service';
 import { TuiDialogService } from '@taiga-ui/core';
 
 @Injectable({
@@ -22,7 +21,7 @@ export class AdminService {
         this.theme.color = '#ffdd2d'; 
         this.dialogs.open(message, { label: title }).subscribe({
           complete: () => {
-            this.theme.color = '#ff7043'; // ✅ Reset color after closing
+            this.theme.color = '#ff7043'; 
           },
         });
       }
@@ -64,7 +63,7 @@ export class AdminService {
       await setDoc(doc(this.firestore, `users/${uid}`), { uid, email, role, status });
       await sendPasswordResetEmail(this.auth, email);
 
-      this.showDialog(`User added successfully! Password reset email sent to ${email}`, 'Success');
+      this.showDialog(`User is added successfully! Password reset email sent to ${email}`, 'Success');
       return tempPassword;  
     } catch (error) {
       this.showDialog(`Error adding user: ${error.message}`, 'Error');
@@ -82,7 +81,7 @@ export class AdminService {
     if (!userId) throw new Error('User ID is required to update');
     const userDocRef = doc(this.firestore, `users/${userId}`);
     await updateDoc(userDocRef, userData);
-    this.showDialog( 'details is updated successfully', 'Success');
+    this.showDialog( 'user is updated successfully', 'Success');
   }
 
   // Delete a user
@@ -90,6 +89,6 @@ export class AdminService {
     if (!userId) throw new Error('User ID is required to delete');
     const userDocRef = doc(this.firestore, `users/${userId}`);
     await deleteDoc(userDocRef);
-    this.showDialog( 'details is deleted successfully', 'Success');
+    this.showDialog( 'user is deleted successfully', 'Success');
   }
 }

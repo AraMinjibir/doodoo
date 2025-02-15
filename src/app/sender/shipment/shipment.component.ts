@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
-import { TuiButton } from '@taiga-ui/core';
+import { TuiButton, TuiDialogService } from '@taiga-ui/core';
 import { ShipmentFormComponent } from './shipment-form/shipment-form.component';
 import { NgIf } from '@angular/common';
 import { ShipmentSummaryComponent } from './shipment-summary/shipment-summary.component';
@@ -35,7 +35,20 @@ export class ShipmentComponent {
   changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef)
   shipmentSubject: Subject<Shipment> = new Subject();
   constructor(private dialogService: DialogService) {}
+  private readonly dialogs = inject(TuiDialogService);
+  private theme = { color: '#ff7043' }; 
 
+
+    protected showDialog(message: string, title: string): void {
+      this.theme.color = '#ffdd2d'; 
+      this.dialogs
+        .open(message, { label: title })
+        .subscribe({
+          complete: () => {
+            this.theme.color = '#ff7043'; 
+          },
+        });
+    }
 
   onShowShipmentForm(value?: any){
     this.showShipmentForm = true;
@@ -80,37 +93,27 @@ export class ShipmentComponent {
         this.showSummary = false;
         this.isLoading = true;
         this.shipmentService.createShipment(this.shipmentDetails)
-          .then((trackingNumber) => {
-            this.dialogService
-              .showDialog(
-                `Shipment created with tracking number: ${trackingNumber}`,
-                'Success',
-                'OK'
-              )
-              .subscribe(() => {
-                this.shipmentDetails.trackingNumber = trackingNumber;
-                this.isLoading = false;
-                this.showWelcomeNote = true;
-              });
-          })
-          .catch((error) => {
-            console.error('Error creating shipment:', error);
-            this.isLoading = false;
-
-            // Show error message using the custom dialog
-            this.dialogService
-              .showDialog(
-                'An error occurred while creating the shipment. Please try again.',
-                'Error',
-                'OK'
-              )
-              .subscribe();
-          });
+        .then((trackingNumber) => {
+          this.showDialog(`Shipment created susccessfully with tracking number: ${trackingNumber}, keep it safely.
+            It would be use to track the shipment and confirm delivery by the Recipient`, 'Success');
+        
+          this.shipmentDetails.trackingNumber = trackingNumber;
+          this.isLoading = false;
+          this.showWelcomeNote = true;
+        })
+        .catch((error) => {
+          console.error('Error creating shipment:', error);
+          this.isLoading = false;
+        
+          this.showDialog('An error occurred while creating the shipment. Please try again.', 'Error');
+        });
+        
       } else {
         // User canceled the action
         console.log('Shipment creation canceled');
       }
     });
+
   }
   
   

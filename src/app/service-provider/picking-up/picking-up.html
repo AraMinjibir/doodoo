@@ -6,7 +6,7 @@
 </div>
 <div *ngFor="let request of pickupRequests">
     <div tuiAppearance="floating" 
-    tuiCardLarge class="max-w-30rem mx-auto my-3">
+    tuiCardLarge class="max-w-30rem mx-auto my-3 flex justify-content-center">
         <h3>Sender: {{ request.senderName }}</h3>
         <p>Package: {{ request.pckCont }}</p>
         <p>Weight: {{ request.weight }}</p>
