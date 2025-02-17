@@ -1,7 +1,7 @@
-<div class="header flex justify-content-between border-2 p-4 bg-gray-800">
-    <h1 class="">DooDoo</h1>
-    <div class="p2">
-      <div class="text-center">
+<div class="md:flex align-items-center lg:flex justify-content-between border-2 p-4 bg-gray-800">
+    <h1 class="border-2">DooDoo</h1>
+    <div class="border-2 w-full">
+      <div class="text-right">
         <a tuiLink
            routerLink="app-layout/home-page"
            class="mx-2"
@@ -10,18 +10,21 @@
         <a tuiLink routerLink="" class="mx-2" fragment="contact">Contact Us</a>
         <a tuiLink class="mx-2" (click)="logout()">Logout</a>
       </div>
-      <div class="mt-3">
-        <a tuiLink routerLink="sender" class="mx-2"
+      <div class=" mt-3 max-w-30rem flex justify-content-center lg:w-12 mx-auto p-0 border-2">
+        <a tuiLink routerLink="sender" class="mx-1 md:mx-2"
         (click)="navigateIfAuthenticated('Sender', 'sender')">Sender</a>
-        <a tuiLink routerLink="recipient" class="mx-2"
+        <a tuiLink routerLink="recipient" class="mx-1 md:mx-2"
         (click)="navigateIfAuthenticated('Recipient', 'recipient')">Recipient</a>
-        <a tuiLink routerLink="service-provider" class="mx-2"
-        (click)="navigateIfAuthenticated('Service Provider', 'service-provider')">Service Provider</a>
-        <a tuiLink routerLink="administrator" class="mx-2"
-        (click)="navigateIfAuthenticated('Administrator', 'admin')">Administrator</a>
-        <a tuiLink routerLink="customer-support-agent" class="mx-2"
+        <a tuiLink routerLink="administrator" class="mx-1 md:mx-2"
+        (click)="navigateIfAuthenticated('Administrator', 'admin')">Administrator
+      </a>
+        <a tuiLink routerLink="service-provider" class="mx-1 md:mx-2"
+        (click)="navigateIfAuthenticated('Service Provider', 'service-provider')">
+        Service Provider</a>
+        <a tuiLink routerLink="customer-support-agent" class="md:mx-2"
         (click)="navigateIfAuthenticated('Customer Support Agent', 'customer')"
-        >Customer Support Agent</a>
+        >
+        Customer Support Agent</a>      
       </div>
     </div>
   </div>
