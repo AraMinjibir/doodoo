@@ -1,0 +1,57 @@
+$imagePath: "/img/pexels-ranjith-ar-6835-40642.jpg";
+
+.bagr{
+    background-image: url($imagePath);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;     
+}
+
+.hero-section {
+    text-align: center;
+    padding: 3rem;
+    // background: linear-gradient(to right, #023a42, #34588b);
+    color: #023a42;
+
+
+    ul, ol {
+        padding-left: 20px;
+      }
+      
+      .tabs {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      
+      .tab-button {
+        font-family: "Philosopher", serif;
+        font-weight: 800;
+        font-style: italic;
+        cursor: pointer;
+        color: #01222c74;
+      }
+      
+      .tab-button.active {
+        background-color: #09c6ff74;
+        color: white;
+      }
+      
+      .tabs-container {
+        margin-top: 20px;
+      }
+
+      .text-xl{
+        color: #100200;
+        font-family: "Philosopher", serif;
+      }  
+      p{
+        color: #a73663;
+        font-family: "Philosopher", serif;
+        font-weight: bold;
+        font-size: 14px;
+      }    
+  }
+  
+  
+  
