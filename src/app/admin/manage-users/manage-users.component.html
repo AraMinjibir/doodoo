@@ -1,6 +1,5 @@
 <div *ngIf="!isAddingOrEditing">
   <button tuiButton (click)="showAddUserForm()" class="btn">Add User</button>
-
   <p-table #dt [value]="users$ | async" [paginator]="true" [rows]="itemsPerPage"
    [rowsPerPageOptions]="[5, 10, 20]"
     responsiveLayout="scroll">
@@ -24,7 +23,6 @@
     </tr>
   </ng-template>
 </p-table>
-
 </div>
 <div *ngIf="isAddingOrEditing" tuiAppearance="floating" tuiCardLarge class="max-w-30rem mx-auto my-4">
   <h1 class="text-xl">{{ editingUserId ? 'Edit User' : 'Add User' }}</h1>
