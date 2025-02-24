@@ -1,0 +1,19 @@
+$backgroundColor: linear-gradient(to bottom, #41bde2,  #044356);
+
+@mixin bgColor{
+   background: $backgroundColor;
+}
+
+@mixin primaryFont {
+    font-family: "Playwrite PE", serif;
+}
+
+@mixin secondaryFont{
+    font-family: "Philosopher", serif;
+    font-weight: 400;
+    font-style: italic;
+}
+
+@mixin tertialyFont{
+    font-family: "Philosopher", serif;
+}

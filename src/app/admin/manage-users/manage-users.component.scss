@@ -1,14 +1,52 @@
-.tables {
-    width: 70%;
-    margin: auto;
-    border-collapse: collapse;
-  }
+$backgroundColor: #1a97bd;
+
+.btn{
+   background: $backgroundColor;
+   margin: 0 3px;
+   border: none;
+   color: #ddd;
+   font-family: "Playwrite PE", serif;
+}
+.btn-del, .btn-c{
+  background-color: #e81511;
+  border: none;
+  color: #ddd;
+  font-family: "Playwrite PE", serif;
+}
+::ng-deep .p-datatable {
+  width: 70%;
+  margin: auto;
+  border-collapse: collapse;
+  margin-top: 15px !important;
+}
+::ng-deep .p-datatable th{
+  font-family: "Philosopher", serif;
+  font-weight: 800 !important;
+  color: #023a42 !important;
+} 
+::ng-deep .p-datatable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  background-color: #ddd !important;
+  font-family: "Philosopher", serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #023a42 !important;
+}
+
+::ng-deep .p-datatable th {
+  background: $backgroundColor !important;
+  font-family: "Philosopher", serif;
+  font-weight: 800 !important;
   
-  .tables th, .tables td {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
+ 
+}
+
+::ng-deep .p-paginator {
+  background: $backgroundColor !important; 
+  color: white !important; 
+  border-radius: 0; 
+}
+
   
-  .tables th {
-    background-color: #f4f4f4;
-  }
+  

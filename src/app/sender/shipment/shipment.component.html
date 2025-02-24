@@ -1,23 +1,24 @@
-<div class="text-center w-full h-screen mb-3">
-    <loader [isLoading]="isLoading" *ngIf="isLoading"></loader>
-    <div class="flex justify-content-end mr-8" 
+<div class="text-center w-full h-screen  mb-3">
+    <div class="md:flex md:justify-content-end md:mr-8" 
     *ngIf="showWelcomeNote">
-        <button appearance="flat" tuiAppearanceMode="checked" tuiButton type="button" class="mx-2"
+        <button appearance="flat" tuiAppearanceMode="checked" tuiButton type="button"
+         class="mx-2 text-white hover:text-red-500 font-bold text-lg"
             (click)="onShowShipmentForm()">Create Shipment
         </button>
         <button appearance="flat" tuiAppearanceMode="checked"
-         tuiButton type="button" class="mx-2"
+         tuiButton type="button" class="mx-2 text-white hover:text-red-500 font-bold text-lg"
         (click)="onShowTrackForm()" >Track Shipment
         </button>
     </div>
     <div class="text-center my-5" *ngIf="showWelcomeNote">
-        <h2>
-            Welcome to Shipment App
+        <h2 class="text-4xl">
+            Welcome to Shipment Creation Page
         </h2>
-        <p>
-            Easily manage and track your shipments.
+        <p class="text-lg">
+            Where you can easily create and track your shipments.
         </p>
     </div>
+    <loader [isLoading]="isLoading" *ngIf="isLoading"></loader>
     <shipment-form *ngIf=" showShipmentForm" 
     (showShipmentFormToHome)="onShowFormToHome($event)"
     (showSummary) = "handleShowSummary($event)"
@@ -25,13 +26,13 @@
     
 >
     </shipment-form>
-    <snack-bar [errorMessage]="errorMessage" *ngIf="errorMessage"> {{ errorMessage }}</snack-bar>
+    <snack-bar [errorMessage]="errorMessage" *ngIf="errorMessage"> {{ errorMessage }}</snack-bar> 
     <app-track *ngIf="showTrackForm"
   (collapseTrackForm)="handleCollapseTrackForm($event)"
   (submitTrckN)="handleSubmitTrackN($event)"
   [shipmentSubject]="shipmentSubject"
   class="flex justify-content-center align-items-center">
 </app-track>
-    <summary *ngIf="showSummary" [shipmentDetails]="shipmentDetails"
+    <summary  *ngIf="showSummary" [shipmentDetails]="shipmentDetails"
     (editDetails) = "handleEditDetails($event)" (confirmShipment)="handleConfirmShipment($event)"></summary>
 </div>

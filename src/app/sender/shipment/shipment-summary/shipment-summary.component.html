@@ -1,7 +1,8 @@
-<div tuiAppearance="floating" 
+<div class="py-8">
+  <div tuiAppearance="floating" 
     tuiCardLarge
-    class="max-w-30rem mx-auto border-2">
-    <h3>Shipment Details</h3>
+    class="max-w-30rem mx-auto">
+    <h3 class="font-bold text-xl">Shipment Details</h3>
     <div>
       <p><strong>Sender Name:</strong> {{ shipmentDetails.senderName }} </p>
       <p><strong>Recipient Name:</strong> {{ shipmentDetails.recipientName }} </p>
@@ -9,13 +10,15 @@
       <p><strong>Email:</strong> {{ shipmentDetails.recipientEm }}</p>
       <p><strong>Phone:</strong> {{ shipmentDetails.recipientPh }}</p>
       <p><strong>Package Contents:</strong> {{ shipmentDetails.pckCont }}</p>
-      <p><strong>Weight:</strong> {{ shipmentDetails.weight }} kg</p>
+      <p><strong>Weight:</strong> {{ shipmentDetails.weight }}</p>
       <p><strong>Dimensions:</strong> {{ shipmentDetails.dimensions }}</p>
       <p><strong>Estimated Cost:</strong> ${{ shipmentDetails.cost }}</p>
     </div>
     <div class="flex justify-content-between mt-4">
-      <button appearance="secondary" (click)="onEditDetails()" tuiButton>Edit</button>
-      <button appearance="primary" tuiButton (click)="onConfirmShipment()">Confirm</button>
+      <button appearance="flat" class="btn-edit" (click)="onEditDetails()" tuiButton>Edit</button>
+      <button appearance="flat" class="btn-cnfrm" tuiButton (click)="onConfirmShipment()">Confirm</button>
     </div>
 </div>
+</div>
+
   

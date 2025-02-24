@@ -1,3 +1,9 @@
+$backgroundColor: #1a97bd;
+
+.btn{
+   background: $backgroundColor;
+  font-family: "Playwrite PE", serif;
+}
 .tables {
     width: 70%;
     margin: auto;
@@ -12,3 +18,21 @@
   .tables th {
     background-color: #f4f4f4;
   }
+
+  .text-xl{
+    font-family: "Philosopher", serif;
+    font-weight: 800;
+    font-style: italic;
+    color: #023a42;
+}
+.data{
+  font-family: "Philosopher", serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #023a42;
+}
+.text-lg{
+  font-family: "Philosopher", serif;
+  font-weight: 600;
+  color: #023a42;
+}

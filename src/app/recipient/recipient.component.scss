@@ -1,0 +1,33 @@
+@import "config";
+
+.grid{
+    background-image: url("/img/recipient-bgI.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color:hsla(196, 94%, 13%, 0.5) ;
+   
+}
+
+
+.text-xl{
+    
+    @include primaryFont;
+}
+
+.text-lg{
+    @include primaryColor;
+    @include secondaryFont;
+}
+.btn{
+    @include btn;
+}
+p{
+    @include secondaryColor;
+    @include tertiaryFont;
+}
+
+
+  
+  
+  

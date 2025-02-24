@@ -11,7 +11,7 @@
     >
       <header tuiHeader class="flex-column align-items-center">
         <div class="w-10rem h-9rem border-circle border-3 mb-3"></div>
-        <h2 tuiTitle>Create an Account</h2>
+        <h2  class="text-xl">Create an Account</h2>
       </header>
   
       <!-- Email Field -->
@@ -20,8 +20,8 @@
         <input placeholder="mail@mail.ru" tuiTextfieldLegacy type="email" />
       </tui-input>
       <div *ngIf="signForm.get('email')?.invalid && signForm.get('email')?.touched">
-        <span *ngIf="signForm.get('email')?.errors?.['required']">Email field Mustn't be empty.</span>
-        <span *ngIf="signForm.get('email')?.errors?.['email']">Please enter a valid email.</span>
+        <span *ngIf="signForm.get('email')?.errors?.['required']" class="text-lg">Email field Mustn't be empty.</span>
+        <span *ngIf="signForm.get('email')?.errors?.['email']" class="text-lg">Please enter a valid email.</span>
       </div>
   
       <!-- Password Field -->
@@ -29,8 +29,8 @@
         Enter your password here
       </tui-input-password>
       <div *ngIf="signForm.get('password')?.invalid && signForm.get('password')?.touched">
-        <span *ngIf="signForm.get('password')?.errors?.['required']">Password field Mustn't be empty.</span>
-        <span *ngIf="signForm.get('password')?.errors?.['minlength']">
+        <span *ngIf="signForm.get('password')?.errors?.['required']" class="text-lg">Password field Mustn't be empty.</span>
+        <span *ngIf="signForm.get('password')?.errors?.['minlength']" class="text-lg">
           Password must be at least 6 characters long.
         </span>
       </div>
@@ -40,10 +40,10 @@
         Confirm your password here
       </tui-input-password>
       <div *ngIf="signForm.get('cpassword')?.invalid && signForm.get('cpassword')?.touched">
-        <span *ngIf="signForm.get('cpassword')?.errors?.['required']">
+        <span *ngIf="signForm.get('cpassword')?.errors?.['required']" class="text-lg">
           Confirm Password is required.
         </span>
-        <span *ngIf="signForm.get('cpassword')?.errors?.['mismatch']">
+        <span *ngIf="signForm.get('cpassword')?.errors?.['mismatch']" class="text-lg">
           Passwords do not match.
         </span>
       </div>
@@ -58,23 +58,24 @@
         <tui-data-list-wrapper *tuiDataList [items]="roles | tuiFilterByInput" />
       </tui-combo-box>
       <div *ngIf="signForm.get('role')?.invalid && signForm.get('role')?.touched">
-        <span *ngIf="signForm.get('role')?.errors?.['required']">Role is required.</span>
+        <span *ngIf="signForm.get('role')?.errors?.['required']" class="text-lg">Role is required.</span>
       </div>
   
       <!-- Submit Button -->
       <button
-        appearance="outline"
-        tuiAppearanceMode="checked"
-        tuiButton
-        type="submit"
+      appearance="primary"
+      tuiAppearanceMode = "checked"
+      tuiButton
+      type="submit"
+        class="btn"
         [disabled]="signForm.invalid"
       >
         Submit
       </button>
   
       <span
-        >Already have an Account?
-        <a routerLink="/auth/login-page" class="no-underline">Login</a></span
+      class="log">Already have an Account?
+        <a routerLink="/auth/login-page" class="no-underline" class="log">Login</a></span
       >
     </form>
   </div>

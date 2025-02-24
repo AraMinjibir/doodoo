@@ -1,0 +1,30 @@
+
+@mixin primaryFont {
+    font-family: "Philosopher", serif;
+    font-weight: 800;
+    font-style: italic;
+}
+
+@mixin secondaryFont{
+    font-family: "Philosopher", serif;
+    font-weight: 400;
+    font-style: italic;
+}
+
+@mixin btn{
+    background-color: #1a97bd !important;
+    font-family: "Philosopher", serif;
+    color: white;
+}
+
+@mixin tertiaryFont {
+    font-family: "Philosopher", serif;
+    font-weight: bold;
+    font-size: 14px;
+}
+@mixin primaryColor{
+    color: #044356;
+}
+@mixin secondaryColor {
+    color: #41bde2;
+}

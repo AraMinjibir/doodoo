@@ -1,23 +1,26 @@
+@import "config";
+
 @media(width < 400px){
     .p-4{
        padding: 0 !important;
     }
 }
 .p-4{
-    background: linear-gradient(to bottom, #41bde2,  #044356);
+    
+    @include bgColor;
 
     .logo{
-        font-family: "Playwrite PE", serif;
+        @include primaryFont;
     }
 
     .mx-2{
-        font-family: "Philosopher", serif;
-        font-weight: 400;
-        font-style: italic;
+
+        @include secondaryFont;
     }
 
     .mx-1{
-        font-family: "Philosopher", serif;
+       
+        @include tertialyFont;
        
     }
 }

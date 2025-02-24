@@ -1,0 +1,35 @@
+@mixin primaryState{
+    font-family: "Philosopher", serif;
+    font-weight: 800;
+    font-style: italic;
+    color: #044356
+}
+
+@mixin secondaryState{
+    font-family: "Philosopher", serif;
+    font-weight: 400;
+    font-style: italic;
+    color: #41bde2;
+}
+
+@mixin tertiaryState{
+    font-family: "Philosopher", serif;
+    font-weight: bold;
+    font-size: 14px;
+    color: #3aa8b5;
+}
+
+@mixin btns{
+    background-color: #044356;
+    color: white;
+    font-family: "Philosopher", serif;
+    font-weight: 400;
+    font-style: italic;
+}
+
+@mixin btnc{
+    background-color: #3aa8b5;
+    font-family: "Philosopher", serif;
+    font-weight: 400;
+    color: white;
+}

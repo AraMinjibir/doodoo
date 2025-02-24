@@ -1,71 +1,82 @@
 <div class="bagr w-full h-screen my-8">
- <!-- Hero section with Learn More button -->
-<div class="hero-section">
-    <h1>Welcome to DooDoo – Your Trusted Shipping Partner</h1>
+  <div class="hero-section">
+    <h1>Welcome to DooDoo - Your Trusted Shipping Partner</h1>
     <p>Seamless shipping from Nigeria to Canada with real-time tracking, affordable pricing, and dedicated support.</p>
     <button
-        appearance="flat" 
-        tuiAppearanceMode="checked" 
-        tuiButton type="button" 
-      class="p-mt-2"
+      appearance="flat"
+      tuiButton
+      type="button"
+      class="cat"
       (click)="showTabs = true"
     >
       Learn More
     </button>
-     <!-- Tabs container, only displayed after clicking Learn More -->
-  <div *ngIf="showTabs" class="tabs-container">
-    <div class="tabs">
+
+    <div *ngIf="showTabs" class="tabs-container">
+      <!-- Hide tab buttons when a tab is active -->
+      <div *ngIf="activeTab === null" class="tabs sm:flex-column align-items-center md:flex-row justify-content-center flex-column align-items-center">
+        <button
+          appearance="flat"
+          tuiButton
+          type="button"
+          class="tab-button"
+          (click)="activeTab = 0"
+        >
+          Contact Support
+        </button>
+        <button
+          appearance="flat"
+          tuiButton
+          type="button"
+          class="tab-button"
+          (click)="activeTab = 1"
+        >
+          Shipping Details
+        </button>
+        <button
+          appearance="flat"
+          tuiButton
+          type="button"
+          class="tab-button"
+          (click)="activeTab = 2"
+        >
+          Pricing
+        </button>
+      </div>
+
+      <!-- Tab content based on selected tab -->
+      <div *ngIf="activeTab === 0">
+        <h3 class="font-bold text-xl text-center">Contact Support</h3>
+        <p>Have questions or need assistance? We're here to help!</p>
+        <p>📞 Phone: +234 XXX-XXX-XXXX (Nigeria) | +1 XXX-XXX-XXXX (Canada)</p>
+        <p>📧 Email: support&#64;doodoo.com</p>
+        <p>💬 Live Chat: Available 24/7 through our website or mobile app.</p>
+        <p>Or fill out our Contact <a tuiLink routerLink="/app-layout/contact-form" class="font-bold text-lg">Form</a>, and we'll get back to you promptly.</p>
+        <h4 class="text-lg">At DooDoo, your satisfaction is our priority. Let us know how we can assist you!</h4>
+      </div>
+
+      <div *ngIf="activeTab === 1">
+        <h3 class="font-bold text-xl">Shipping Details</h3>
+        <p>Here are the shipping guidelines...</p>
+      </div>
+
+      <div *ngIf="activeTab === 2">
+        <h3 class="font-bold text-xl">Pricing</h3>
+        <p>Check out our affordable rates!</p>
+      </div>
+
+      <!-- Add a back button to reset the active tab -->
       <button
-      appearance="flat"
-      tuiButton
-      type="button"
-      class="tab-button"
-    [class.active]="activeTab === 0"
-    (click)="activeTab = 0"
-  >
-        Contact Support
-    </button>
-    <button
-  appearance="flat"
-  tuiButton
-  type="button"
-  class="tab-button"
-[class.active]="activeTab === 1"
-(click)="activeTab = 1"
->
-    Shipping Details
-    </button>
-    <button
-    appearance="flat"
-    tuiButton
-    type="button"
-    class="tab-button"
-  [class.active]="activeTab === 2"
-  (click)="activeTab = 2"
->
-     Pricing
-    </button>
-</div>
-  
-    <!-- Tab content based on selected tab -->
-    <div *ngIf="activeTab === 0">
-      <h3 class="font-bold text-lg">Contact Support</h3>
-      <p>📞 Phone: +234 XXX-XXX-XXXX (Nigeria) | +1 XXX-XXX-XXXX (Canada)</p>
-      <p>
-        Have questions to ask, reach out to our customer support service <a href="app-layout/contact-form">Form</a>
-      </p>
-    </div>
-  
-    <div *ngIf="activeTab === 1">
-      <h3 class="font-bold text-xl">Shipping Details</h3>
-      <p>Here are the shipping guidelines...</p>
-    </div>
-  
-    <div *ngIf="activeTab === 2">
-      <h3 class="font-bold text-xl">Pricing</h3>
-      <p>Check out our affordable rates!</p>
+        *ngIf="activeTab !== null"
+        appearance="flat"
+        tuiButton
+        type="button"
+        class="back-button"
+        (click)="activeTab = null"
+      >
+       <i class="pi pi-arrow-left"></i> Back to Tabs
+        
+      </button>
     </div>
   </div>
-  </div>
-            
 </div>

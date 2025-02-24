@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TuiLink } from '@taiga-ui/core';
 import { AuthmodRoutingModule } from '../authmod/authmod-routing.module';
 import { NgIf } from '@angular/common';
@@ -8,15 +8,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'header',
-  imports: [TuiLink, AuthmodRoutingModule, NgIf, MatDialogModule],
+  imports: [TuiLink, AuthmodRoutingModule, NgIf, MatDialogModule,RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
   authService: AuthService = inject(AuthService); 
-  isNotHomePage: boolean = false;
   user: any = null;
   isLoading: boolean = false;
+  
 
   constructor(private router: Router) {}
 

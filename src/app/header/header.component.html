@@ -3,28 +3,28 @@
     <div class="w-full">
       <div class="text-right">
         <a tuiLink
-           routerLink="app-layout/home-page"
+           routerLink="home-page"
            class="mx-2 text-white hover:text-red-500 font-bold text-lg"
-           *ngIf="isNotHomePage">Home</a> 
-        <a tuiLink routerLink="" class="mx-2 text-white hover:text-red-500 font-bold text-lg" fragment="about">About</a>
-        <a tuiLink routerLink="" class="mx-2 text-white hover:text-red-500 font-bold text-lg" fragment="contact">Contact Us</a>
-        <a tuiLink class="mx-2 text-white hover:text-red-500 font-bold text-lg" (click)="logout()">Logout</a>
+           *ngIf="user">Home</a> 
+           <a tuiLink routerLink="administrator" class="mx-1 md:mx-2 text-white hover:text-red-500 font-bold text-base"
+           (click)="navigateIfAuthenticated('Administrator', 'admin')">Administrator
+         </a>
+           <a tuiLink routerLink="service-provider" class="mx-1 md:mx-2 text-white hover:text-red-500 font-bold text-base"
+           (click)="navigateIfAuthenticated('Service Provider', 'service-provider')">
+           Service Provider</a>
+           <a tuiLink routerLink="customer-support-agent" class="mx-1 md:mx-2 text-white hover:text-red-500 font-bold text-base"
+           (click)="navigateIfAuthenticated('Customer Support Agent', 'customer')"
+           >
+           Customer Support Agent</a>   
       </div>
       <div class=" mt-3 max-w-30rem flex justify-content-center lg:w-12 mx-auto p-0">
         <a tuiLink routerLink="sender" class="mx-1 md:mx-2 text-white hover:text-red-500 font-bold text-base"
-        (click)="navigateIfAuthenticated('Sender', 'sender')">Sender</a>
+        (click)="navigateIfAuthenticated('Sender', 'sender')" *ngIf="!user">Sender</a>
         <a tuiLink routerLink="recipient" class="mx-1 md:mx-2 text-white hover:text-red-500 font-bold text-base"
-        (click)="navigateIfAuthenticated('Recipient', 'recipient')">Recipient</a>
-        <a tuiLink routerLink="administrator" class="mx-1 md:mx-2 text-white hover:text-red-500 font-bold text-base"
-        (click)="navigateIfAuthenticated('Administrator', 'admin')">Administrator
-      </a>
-        <a tuiLink routerLink="service-provider" class="mx-1 md:mx-2 text-white hover:text-red-500 font-bold text-base"
-        (click)="navigateIfAuthenticated('Service Provider', 'service-provider')">
-        Service Provider</a>
-        <a tuiLink routerLink="customer-support-agent" class="mx-1 md:mx-2 text-white hover:text-red-500 font-bold text-base"
-        (click)="navigateIfAuthenticated('Customer Support Agent', 'customer')"
-        >
-        Customer Support Agent</a>      
+        (click)="navigateIfAuthenticated('Recipient', 'recipient')" *ngIf="!user">Recipient</a>
+        <a tuiLink routerLink ="/app-layout/contact-form" class="mx-2 text-white hover:text-red-500 font-bold text-lg"> Complain </a>
+        <a tuiLink class="mx-2 text-white hover:text-red-500 font-bold text-lg" 
+        (click)="logout()" *ngIf="user">Logout</a>
       </div>
     </div>
   </div>

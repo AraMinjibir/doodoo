@@ -14,8 +14,14 @@ export class AuthService {
   user$ = this.userSubject.asObservable(); // Expose observable for tracking user state
   private firestore = inject(Firestore);
 
-  constructor(private http: HttpClient, private router: Router) {}
-
+  constructor(private http: HttpClient, private router: Router) {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      this.userSubject.next(JSON.parse(storedUser));
+    }
+  
+  }
+  
   signUp(email: string, password: string, role: string): 
   Observable<{ email: string; localId: string; role: string }> {
     const data = { email, password, returnSecureToken: true };
@@ -33,10 +39,17 @@ export class AuthService {
   
           // ✅ Store user data in Firestore
           const userDocRef = doc(this.firestore, 'users', response.localId);
-          return from(setDoc(userDocRef, { email, role })).pipe(
-            switchMap(() => {
-              return from([{ email, localId: response.localId, role }]);
-            })
+          const user = { email, localId: response.localId, role };
+
+        return from(setDoc(userDocRef, user)).pipe(
+          switchMap(() => {
+            // ✅ Store user in localStorage and update the state
+            localStorage.setItem('user', JSON.stringify(user));
+            this.userSubject.next(user); // Update the user state
+
+            return from([user]);
+          })
+            
           );
         }),
         catchError(this.handleErrorMessage)
@@ -68,7 +81,13 @@ export class AuthService {
               const userData = userDoc.data() as { role?: string };
               const role = userData?.role || 'unknown';
   
-              return from([{ email, localId: response.localId, role, idToken: response.idToken }]);
+              const user = { email, localId: response.localId, role, idToken: response.idToken };
+              
+              // ✅ Save user in localStorage and update the state
+              localStorage.setItem('user', JSON.stringify(user));
+              this.userSubject.next(user);
+
+              return from([user]);
             })
           );
         }),

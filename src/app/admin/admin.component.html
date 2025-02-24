@@ -1,23 +1,23 @@
-<div class="text-center w-full  my-5">
-    <div class="flex justify-content-end mr-8">
-        <button appearance="flat" 
-    tuiAppearanceMode="checked" 
-    tuiButton type="button" 
+<div class="text-center w-full  my-8">
+    <div class="md:flex justify-content-end md:mr-8">
+        <button   
+    tuiButton type="button"
+    class="btn md:mb-0 mb-2" 
     (click)="onShowManageUsers()"
     > Manage Users
     </button>
-    <button appearance="flat" 
-    tuiAppearanceMode="checked" 
+    <button  
     tuiButton type="button" 
+    class="btn" 
     (click)="onShowMonitorShipment()"
     > Monitor Shipment
     </button>
     </div>
-    <h2>
+    <h2 class="text-xl">
         Welcome to Service Provider Section
     </h2>
     <p>
-        Where you can be able to manage users efficiently.
+        Where you can be able to manage users and monitor shipments efficiently.
     </p>
     <manage-users *ngIf="showManagerUsers"></manage-users>
     <monitor-shipment *ngIf="showMonitorShipment"></monitor-shipment>

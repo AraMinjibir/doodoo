@@ -1,9 +1,9 @@
-<div class="my-5">
-    <h1 class="text-center">Package Management</h1>
-    <div class="text-right">
-        <button tuiButton (click)="showPickup()" class="mx-2">Show Pickup Requests</button>
+<div class="cont my-3 py-5">
+    <h1 class="text-center text-xl">Package Management</h1>
+    <div class="md:text-right text-center">
+        <button tuiButton (click)="showPickup()" class="md:mb-0 mb-2 mx-2 btn">Show Pickup Requests</button>
 
-        <button tuiButton (click)="showDelivery()" class="mx-2">Show Delivery Requests</button>
+        <button tuiButton (click)="showDelivery()" class="mx-2 btn">Show Delivery Requests</button>
     </div>
     <picking-up *ngIf="showPickupComponent"></picking-up>
     <delivery *ngIf="showDeliveryComponent"></delivery>

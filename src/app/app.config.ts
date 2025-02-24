@@ -11,6 +11,9 @@ import { getFirestore } from "firebase/firestore";
 import { provideFirestore } from "@angular/fire/firestore";
 import { provideAuth } from "@angular/fire/auth";
 import { getAuth } from "firebase/auth";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideAnimations(), provideZoneChangeDetection({ eventCoalescing: true }),
@@ -18,5 +21,11 @@ export const appConfig: ApplicationConfig = {
      provideHttpClient(),
      provideRouter([]), 
      provideFirebaseApp(() => initializeApp(environment.firebaseConfig)), 
-     provideFirestore(() => getFirestore()), provideAuth(() => getAuth()), NG_EVENT_PLUGINS]
+     provideFirestore(() => getFirestore()), provideAuth(() => getAuth()), NG_EVENT_PLUGINS,
+     provideAnimationsAsync(),
+        providePrimeNG({
+            theme: {
+                preset: Aura
+            }
+        })]
 };

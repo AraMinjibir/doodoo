@@ -17,14 +17,14 @@ export class ServiceProviderComponent {
   constructor(private cdr: ChangeDetectorRef) {}
 
 showPickup(): void {
-  console.log('📦 Show Pickup clicked');
+  console.log('Show Pickup clicked');
   this.showPickupComponent = true;
   this.showDeliveryComponent = false;
   this.cdr.detectChanges(); 
 }
 
 showDelivery(): void {
-  console.log('🚚 Show Delivery clicked');
+  console.log('Show Delivery clicked');
   this.showDeliveryComponent = true;
   this.showPickupComponent = false;
   this.cdr.detectChanges(); 

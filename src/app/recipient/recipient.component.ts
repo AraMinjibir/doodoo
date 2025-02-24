@@ -42,7 +42,7 @@ export class ReceipientComponent {
   protected showDialog(message: string, title: string): void {
     this.theme.color = '#ffdd2d'; 
     this.dialogs
-      .open(message, { label: title })
+      .open(message, { label: title, data: { customClass: 'custom-dialog' } })
       .subscribe({
         complete: () => {
           this.theme.color = '#ff7043'; 

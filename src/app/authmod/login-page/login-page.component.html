@@ -9,7 +9,7 @@
         >
         <header tuiHeader class="flex-column align-items-center">
             <div class="w-10rem h-9rem border-circle border-3 mb-3"></div>
-            <h2 tuiTitle>Login</h2>
+            <h2 class="text-xl">Login</h2>
         </header>
         <tui-input
             formControlName="email"
@@ -25,8 +25,8 @@
                 />
         </tui-input>
         <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-            <span *ngIf="loginForm.get('email')?.errors?.['required']">Email field Mustn't be empty.</span>
-            <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email.</span>
+            <span *ngIf="loginForm.get('email')?.errors?.['required']" class="text-lg">Email field Mustn't be empty.</span>
+            <span *ngIf="loginForm.get('email')?.errors?.['email']"  class="text-lg">Please enter a valid email.</span>
         </div>
         <tui-input-password
             formControlName="password"
@@ -36,8 +36,8 @@
                 Enter your password here
         </tui-input-password>
         <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-            <span *ngIf="loginForm.get('password')?.errors?.['required']">Password field Mustn't be empty.</span>
-            <span *ngIf="loginForm.get('password')?.errors?.['minlength']">
+            <span *ngIf="loginForm.get('password')?.errors?.['required']"  class="text-lg">Password field Mustn't be empty.</span>
+            <span *ngIf="loginForm.get('password')?.errors?.['minlength']"  class="text-lg">
               Password must be at least 6 characters long.
             </span>
           </div>
@@ -48,17 +48,17 @@
                     id="rememberMe"
                     formControlName="rememberMe"
                 />
-                <label for="rememberMe" class="ml-2">Remember Me</label>
+                <label for="rememberMe" class="ml-2 text-lg">Remember Me</label>
             </div>
-            <a routerLink="/auth/forgot-password" class="no-underline ml-3">Forgot Password?</a>
+            <a routerLink="/auth/forgot-password" class="no-underline ml-3 text-lg">Forgot Password?</a>
         </div>
          <button
-                appearance = "outline"
+                appearance="primary"
                 tuiAppearanceMode = "checked"
                 tuiButton
                 type="submit"
                 [disabled]="loginForm.invalid"
-                class="w-full my-3"
+                class="btn w-full my-3"
            >Login
         </button>
     </form>

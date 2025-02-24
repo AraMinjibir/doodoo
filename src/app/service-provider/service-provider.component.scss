@@ -1,0 +1,20 @@
+$backgroundColor: #1a97bd;
+.btn{
+    background: $backgroundColor;
+   font-family: "Playwrite PE", serif;
+ }
+
+ .text-xl{
+    font-family: "Philosopher", serif;
+    font-weight: 800;
+    font-style: italic;
+    color: #023a42;
+}
+
+.cont{
+  background-image:url("/img/recipient-bg.png") ;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+}

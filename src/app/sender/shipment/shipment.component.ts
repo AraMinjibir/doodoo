@@ -53,6 +53,7 @@ export class ShipmentComponent {
   onShowShipmentForm(value?: any){
     this.showShipmentForm = true;
     this.showWelcomeNote = false;
+    this.showTrackForm = false;
   }
   
   onShowFormToHome(value: any){

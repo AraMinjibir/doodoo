@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, CommonModule, NgIf } from '@angular/common';
 import { TuiTable } from '@taiga-ui/addon-table';
 import { TuiAppearance, TuiButton, TuiDropdown } from '@taiga-ui/core';
 import { User } from '../../Modal/user';
 import { BehaviorSubject, combineLatest, map, Observable, startWith } from 'rxjs';
 import { AdminService } from '../../Service/admin.service';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {  TuiFilterByInputPipe, TuiPagination } from '@taiga-ui/kit';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {  TuiFilterByInputPipe } from '@taiga-ui/kit';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
 import {
     TuiComboBoxModule,
     TuiInputModule,
@@ -20,13 +22,15 @@ import { TuiCardLarge } from '@taiga-ui/layout';
   selector: 'manage-users',
   standalone: true,
   imports: [
-    NgForOf, TuiTable,TuiAppearance, TuiButton, AsyncPipe,
+    TuiTable,TuiAppearance, TuiButton, AsyncPipe,
     ReactiveFormsModule,TuiDropdown,NgIf,
     TuiComboBoxModule,
     TuiMultiSelectModule,
     TuiSelectModule,TuiCardLarge,TuiAppearance,
     TuiTextfieldControllerModule, 
-    TuiInputModule,TuiPagination,TuiFilterByInputPipe
+    TuiInputModule,TuiFilterByInputPipe,
+    TableModule,CommonModule,
+    ButtonModule
   ],
   templateUrl: './manage-users.component.html',
   styleUrl: './manage-users.component.scss'
@@ -41,12 +45,9 @@ export class ManageUsersComponent {
   statuses = ['active', 'inactive'];
   roleOpen = false;
   statusOpen = false;
-  currentPage = 1; 
-  itemsPerPage = 50; 
-  totalItems = 0; 
   filteredUsers$: Observable<User[]> | null = null;
   filterControl = new BehaviorSubject<string>('');
-
+  itemsPerPage = 50;
   constructor(private adminService: AdminService, private fb: FormBuilder) {
   this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -59,17 +60,18 @@ export class ManageUsersComponent {
       this.users$,
       this.filterControl.pipe(startWith(''))
     ]).pipe(
-      map(([users, filter]) => 
-        users.filter(user => 
+      map(([users, filter]) => {
+        const filteredUsers = users.filter(user => 
           user.email.toLowerCase().includes(filter.toLowerCase()) ||
           user.role.toLowerCase().includes(filter.toLowerCase()) ||
           user.status.toLowerCase().includes(filter.toLowerCase())
-        )
-      )
+        );
+        return filteredUsers.length ? filteredUsers : []; // Ensure it never returns null
+      })
     );
-  }
-  
-
+    
+    
+  }  
 
   showAddUserForm() {
     this.isAddingOrEditing = true;
@@ -112,26 +114,6 @@ export class ManageUsersComponent {
 
   deleteUser(user: User) {
     this.adminService.deleteUser(user.id);
-  }
- 
-
-   // Get paginated users
-   getPaginatedUsers(users: User[] | null): User[] {
-    if (!users) {
-      return [];
-    }
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    return users.slice(startIndex, endIndex);
-  }
-  
-
-  // Handle page change
-  onPageChange(page: number): void {
-    this.currentPage = page;
-  }
-  get totalPages(): number {
-    return Math.ceil((this.totalItems || 1) / this.itemsPerPage);
   }
   
 }

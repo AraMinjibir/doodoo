@@ -2,29 +2,28 @@ import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TuiButton } from '@taiga-ui/core';
-import { TuiTab, TuiTabs } from '@taiga-ui/kit';
+
 
 
 @Component({
   selector: 'home-page',
-  imports: [RouterLink, TuiTabs, TuiButton, NgIf, TuiTab],
+  imports: [RouterLink, TuiButton, NgIf],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'
 })
 export class HomePageComponent {
 
-  activatedRoute: ActivatedRoute = inject(ActivatedRoute);
-  activeTab = null; 
-  showTabs = false;
+  activeTab: number | null = null; 
+  showTabs = false; 
 
-
-  ngOnInit(){
-    this.activatedRoute.fragment.subscribe((data) =>{
-      this.jumpToView(data);
-    })
+  // Method to select a tab
+  selectTab(index: number): void {
+    this.activeTab = index; 
   }
-  jumpToView(section:any){
-    document.getElementById(section)?.scrollIntoView({behavior:'smooth'})
+
+  // Method to reset the tabs
+  resetTabs(): void {
+    this.activeTab = null; 
   }
 
  

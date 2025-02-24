@@ -1,28 +1,27 @@
 <div tuiAppearance="floating" 
     tuiCardLarge 
     class="max-w-30rem mx-auto my-4">
-    <h1>Manage Users</h1>
-    <div class="flex justify-content-between">
-        <tui-input class="w-10" [formControl]="filterControl">
+    <h1 class="text-xl">Monitor Shipment</h1>
+    <div class="flex justify-content-between px-5">
+        <tui-input class="w-6" [formControl]="filterControl">
             filter
         </tui-input> 
-        <button appearance="primary" 
-            tuiAppearanceMode="checked" 
+        <button  
             tuiButton type="button" 
-            class="mx-1"> 
+            class="mx-1 btn"> 
             Update Filter
         </button>
     </div>
     <table tuiTable class="tables" [columns]="columns">
         <thead>
-            <tr>
+            <tr class="text-lg">
                 <th>Email</th>
                 <th>Role</th>
                 <th>Status</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of filteredUsers$ | async">
+            <tr *ngFor="let user of filteredUsers$ | async" class="data">
                 <td>{{ user.email }}</td>
                 <td>{{ user.role }}</td>
                 <td>{{ user.status }}</td>

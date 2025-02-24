@@ -1,0 +1,27 @@
+@import "config";
+
+$imagePath: "/img/create-shipment.png";
+.w-full{
+    background-image: url($imagePath);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;  
+
+
+    .text-lg{
+       @include tertiaryColor;
+       @include secondaryFont;
+    }
+
+    h2{
+        @include PrimaryColor;
+        @include primaryFont;
+    }
+    p{
+        @include tertiaryColor;
+       @include tertiaryFont;
+      }  
+}
+
+
+  

@@ -23,7 +23,6 @@ import { LoaderComponent } from '../../Utility/loader/loader.component';
     TuiTextfield,
     TuiTextfieldControllerModule,
     TuiInputPasswordModule,
-    TuiTitle,
     TuiButton,
     RouterLink,
     NgIf,SnackBarComponent,

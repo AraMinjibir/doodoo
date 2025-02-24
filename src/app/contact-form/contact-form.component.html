@@ -1,10 +1,10 @@
 <div tuiAppearance="floating" tuiCardLarge class="max-w-30rem mx-auto">
-  <h2 class="text-center">Contact Us</h2>
+  <h2 class="text-center text-xl font-bold">Contact Us</h2>
   <div class="flex justify-content-center gap-3 my-3">
     <button tuiButton appearance="primary" (click)="switchTab('send')"
-      [class.active]="selectedTab === 'send'">Send Complaint</button>
+      [class.active]="selectedTab === 'send'" class="btn-send">Send Complaint</button>
     <button tuiButton appearance="secondary" (click)="switchTab('check')"
-      [class.active]="selectedTab === 'check'">Check Response</button>
+      [class.active]="selectedTab === 'check'" class="btn-check">Check Response</button>
   </div>
   <div *ngIf="selectedTab === 'send'">
     <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
@@ -32,15 +32,16 @@
       <div *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
         <small class="text-red-800">*Message field Mustn't be empty.</small>
       </div>
-      <div class="text-center my-3">
+      <div class="my-3">
         <button tuiButton type="submit" appearance="primary"
+        class="btn w-full"
         [disabled]="contactForm.invalid">Send Message</button>
       </div>
     </form>
   </div>
 
   <div *ngIf="selectedTab === 'check'">
-    <form [formGroup]="checkResponseForm">
+    <form [formGroup]="checkResponseForm" class="my-8">
       <tui-input formControlName="emailForCheck" placeholder="Enter your email">
         Provide your Email to Check Response
       </tui-input>
@@ -48,10 +49,10 @@
         <small class="text-red-800">Please enter a valid email.</small>
       </div>
   
-      <button tuiButton type="button" appearance="primary"
+      <button tuiButton type="button" appearance="flat"
         (click)="fetchUserInquiries()"
         [disabled]="checkResponseForm.invalid"
-        class="my-3">
+        class="btn w-full my-3">
         Check Response
       </button>
     </form>
@@ -64,7 +65,7 @@
     <!-- Display Inquiries -->
     <div *ngIf="inquiries$ | async as inquiries">
       <div *ngFor="let inquiry of inquiries">
-        <h4>Subject: {{ inquiry.subject }}</h4>
+        <h4 class="font-bold text-lg">Subject: {{ inquiry.subject }}</h4>
         <p><strong>Message:</strong> {{ inquiry.message }}</p>
         <p><strong>Sent:</strong> {{ inquiry.timestamp?.toDate() | date:'short' }}</p>
   

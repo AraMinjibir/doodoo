@@ -1,0 +1,20 @@
+@import "config";
+
+.text-xl{
+    @include PrimaryColor;
+    @include secondaryFont
+}
+
+.text-lg{
+    @include tertiaryColor;
+    @include primaryFont;
+}
+.btn{
+    background-color: #1a97bd !important;
+    @include primaryFont
+}
+
+.cancel{
+    color:#1a97bd !important;
+    @include primaryFont
+}

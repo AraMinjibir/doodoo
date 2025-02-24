@@ -1,29 +1,29 @@
 <div tuiAppearance="floating" 
 tuiCardLarge 
 class="max-w-30rem mx-auto">
-<h2>Customer Inquiries</h2>
+<h2 class="text-xl">Customer Inquiries</h2>
 <ul>
-  <li *ngFor="let inquiry of inquiries$ | async">
+  <li *ngFor="let inquiry of inquiries$ | async" class="data">
     <strong>{{ inquiry.subject }}</strong> - <em>{{ inquiry.status }}</em>
     <p>{{ inquiry.message }}</p>
-    <button tuiButton type="submit" appearance="primary" (click)="viewDetails(inquiry)">View Details</button>
+    <button tuiButton type="submit" class="btn" (click)="viewDetails(inquiry)">View Details</button>
   </li>
 </ul>
 
-<div *ngIf="selectedInquiry">
-    <h3>Inquiry Details</h3>
+<div *ngIf="selectedInquiry" class="data">
+    <h3 class="text-lg">Inquiry Details</h3>
     <p><strong>Subject:</strong> {{ selectedInquiry.subject }}</p>
     <p><strong>Message:</strong> {{ selectedInquiry.message }}</p>
     <p><strong>Sent:</strong> {{ selectedInquiry.timestamp?.toDate() | date:'short' }}</p>
   
-    <div *ngIf="selectedInquiry.response">
+    <div *ngIf="selectedInquiry.response" class="data">
       <p><strong>Support Response:</strong> {{ selectedInquiry.response }}</p>
       <p><strong>Responded:</strong> {{ selectedInquiry.respondedAt?.toDate() | date:'short' }}</p>
     </div>
   
     <div *ngIf="!selectedInquiry.response" class="flex justify-content-between">
       <textarea [(ngModel)]="responseMessage" placeholder="Type response..."></textarea>
-      <button tuiButton type="submit" appearance="primary" (click)="sendResponse()">Send Response</button>
+      <button tuiButton type="submit" class="btn" (click)="sendResponse()">Send Response</button>
     </div>
   </div>
   

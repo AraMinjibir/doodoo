@@ -1,0 +1,41 @@
+$backgroundColor: hsla(189, 94%, 7%, 0.5);
+
+@mixin bgColor{
+   background: $backgroundColor;
+}
+
+@mixin primaryFont {
+    font-family: "Playwrite PE", serif;
+}
+
+@mixin secondaryFont{
+    font-family: "Philosopher", serif;
+    font-weight: 800;
+    font-style: italic;
+    // font-size: 14px;
+}
+
+@mixin tertialyFont{
+    font-family: "Philosopher", serif;
+    font-weight: 600;
+    font-style: italic;
+    
+}
+
+
+@mixin PrimaryColor{
+    color: #023a42;
+}
+
+@mixin secondaryColor{
+    color: #01222c74;
+}
+@mixin tertiaryColor{
+    color: #0dcae7;
+}
+
+@mixin active{
+    background-color: #09c6ff74;
+    color: white;
+    
+}

@@ -1,30 +1,33 @@
 <div *ngIf="!isAddingOrEditing">
-  <button tuiButton (click)="showAddUserForm()">Add User</button>
+  <button tuiButton (click)="showAddUserForm()" class="btn">Add User</button>
 
-  <table tuiTable class="tables mt-4" [columns]="columns">
-    <thead>
-      <tr>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users$ | async">
-        <td>{{ user.email }}</td>
-        <td>{{ user.role }}</td>
-        <td>{{ user.status }}</td>
-        <td class="flex justify-content-between">
-          <button tuiButton class="mx-1" (click)="editUser(user)">Edit</button>
-          <button tuiButton class="mx-1" (click)="deleteUser(user)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <p-table #dt [value]="users$ | async" [paginator]="true" [rows]="itemsPerPage"
+   [rowsPerPageOptions]="[5, 10, 20]"
+    responsiveLayout="scroll">
+  <ng-template pTemplate="header" >
+    <tr>
+      <th pSortableColumn="email"><h2>Email</h2> <p-sortIcon field="email"></p-sortIcon></th>
+      <th pSortableColumn="role"><h2>Role</h2> <p-sortIcon field="role"></p-sortIcon></th>
+      <th pSortableColumn="status"><h2>Status</h2>            
+      <th><h2 class="ml-8">Actions</h2></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-user>
+    <tr>
+      <td>{{ user.email }}</td>
+      <td>{{ user.role }}</td>
+      <td>{{ user.status }}</td>
+      <td class="flex justify-content-between">
+        <button pButton type="button" class="btn mx-1" (click)="editUser(user)">Edit</button>
+        <button pButton type="button" class="btn-del mx-1" (click)="deleteUser(user)">Delete</button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
 </div>
 <div *ngIf="isAddingOrEditing" tuiAppearance="floating" tuiCardLarge class="max-w-30rem mx-auto my-4">
-  <h1>{{ editingUserId ? 'Edit User' : 'Add User' }}</h1>
+  <h1 class="text-xl">{{ editingUserId ? 'Edit User' : 'Add User' }}</h1>
 
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <tui-input formControlName="email" [tuiTextfieldCleaner]="true">
@@ -49,20 +52,15 @@
       <tui-data-list-wrapper *tuiDataList [items]="statuses | tuiFilterByInput" />
     </tui-combo-box>
 
-    <button tuiButton type="submit" appearance="primary" class="mt-2 w-full">
+    <button tuiButton type="submit"  class="btn mt-2 w-full">
       {{ editingUserId ? 'Update User' : 'Add User' }}
     </button>
 
-    <button tuiButton type="button" appearance="secondary" class="mt-2 w-full" (click)="cancelForm()">
+    <button tuiButton type="button"  class="btn-c mt-2 w-full" (click)="cancelForm()">
       Cancel
     </button>
   </form>
 </div>
 
-<tui-pagination
-  class="mt-4"
-  [length]="totalPages"
-  [(index)]="currentPage"
-  (indexChange)="onPageChange($event)"
-></tui-pagination>
+
 

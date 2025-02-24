@@ -1,3 +1,5 @@
+@import "config";
+
 $imagePath: "/img/pexels-ranjith-ar-6835-40642.jpg";
 
 .bagr{
@@ -8,15 +10,11 @@ $imagePath: "/img/pexels-ranjith-ar-6835-40642.jpg";
 }
 
 .hero-section {
+     @include bgColor;
     text-align: center;
     padding: 3rem;
-    // background: linear-gradient(to right, #023a42, #34588b);
-    color: #023a42;
-
-
-    ul, ol {
-        padding-left: 20px;
-      }
+    @include PrimaryColor;
+    @include secondaryFont;
       
       .tabs {
         display: flex;
@@ -25,16 +23,13 @@ $imagePath: "/img/pexels-ranjith-ar-6835-40642.jpg";
       }
       
       .tab-button {
-        font-family: "Philosopher", serif;
-        font-weight: 800;
-        font-style: italic;
+        @include secondaryFont;
         cursor: pointer;
-        color: #01222c74;
+        @include PrimaryColor;
       }
       
       .tab-button.active {
-        background-color: #09c6ff74;
-        color: white;
+        @include active;
       }
       
       .tabs-container {
@@ -42,16 +37,29 @@ $imagePath: "/img/pexels-ranjith-ar-6835-40642.jpg";
       }
 
       .text-xl{
-        color: #100200;
-        font-family: "Philosopher", serif;
+        @include tertiaryColor;
+        @include tertialyFont
       }  
       p{
-        color: #a73663;
-        font-family: "Philosopher", serif;
-        font-weight: bold;
-        font-size: 14px;
-      }    
+        @include tertiaryColor;
+        @include secondaryFont;
+      }  
+      h4{
+        @include tertiaryColor;
+        @include secondaryFont;
+
+      }  
+      .cat{
+        @include tertiaryColor;
+        @include tertialyFont
+      }
   }
   
+  .back-button {
+    margin-top: 1rem;
+    @include primaryFont;
+    @include tertiaryColor
+  }
+
   
   

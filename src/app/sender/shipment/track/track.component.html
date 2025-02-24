@@ -7,13 +7,13 @@
         tuiButton
         type="button"
         (click)="onCollapseTrackForm()"
-        class="bg-gray-300 border-circle"
+        class="cancel"
       >
         x
       </button>
     </div>
    <div *ngIf="showFormNote">
-    <h3>Track Shipment</h3>
+    <h3 class="font-bold text-lg">Track Shipment</h3>
     <tui-input formControlName="trackId">
       Enter the Tracking number
       <input inputmode="numeric" tuiTextfieldLegacy />
@@ -23,7 +23,7 @@
       tuiAppearanceMode="checked"
       tuiButton
       type="submit"
-      class="my-3"
+      class="btn my-3 w-full"
     >
       Track shipment
     </button>
@@ -33,9 +33,9 @@
    </ng-container>
   </form>
   <div *ngIf="shipment">
-    <h3>Updated Shipment Status</h3>
-    <p><strong>Status:</strong> {{ shipment.status || 'Pending' }}</p> 
-    <p><strong>Estimated Delivery:</strong> {{ shipment.estimatedDeliveryDate || 'Not available' }}</p>
+    <h3 class="font-bold text-xl">Updated Shipment Status</h3>
+    <p>Status: {{ shipment.status || 'Pending' }}</p> 
+    <p>Estimated Delivery: {{ shipment.estimatedDeliveryDate || 'Not available' }}</p>
   </div>
   
   
