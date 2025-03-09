@@ -1,4 +1,4 @@
-image: node:18 
+image: node:18  
 
 stages:
   - build
@@ -6,7 +6,7 @@ stages:
 
 cache:
   paths:
-    - node_modules/  
+    - node_modules/  # Cache dependencies to speed up builds
 
 build:
   stage: build
